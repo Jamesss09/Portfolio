@@ -1,4 +1,5 @@
-import { Home, User, Code, FolderOpen, BookOpen, Mail, Github, Linkedin } from 'lucide-react';
+import { Home, User, Code, FolderOpen, BookOpen, Mail } from 'lucide-react';
+import { GithubIcon, LinkedinIcon } from './SocialIcons';
 
 const Sidebar = () => {
   const navItems = [
@@ -34,20 +35,22 @@ const Sidebar = () => {
         </nav>
         <div className="flex gap-4 mt-6 justify-center">
           <a
-            href="https://github.com"
+            href="https://github.com/Jamesss09"
             target="_blank"
             rel="noopener noreferrer"
             className="text-text-secondary hover:text-primary-light transition-colors"
+            aria-label="GitHub"
           >
-            <Github size={24} />
+            <GithubIcon width={24} height={24} />
           </a>
           <a
             href="https://linkedin.com"
             target="_blank"
             rel="noopener noreferrer"
             className="text-text-secondary hover:text-primary-light transition-colors"
+            aria-label="LinkedIn"
           >
-            <Linkedin size={24} />
+            <LinkedinIcon width={24} height={24} />
           </a>
         </div>
       </div>

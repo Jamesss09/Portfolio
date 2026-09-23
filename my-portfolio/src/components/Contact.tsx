@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Mail, Github, Linkedin } from 'lucide-react';
+import { Mail } from 'lucide-react';
+import { GithubIcon, LinkedinIcon } from './SocialIcons';
 
 const Contact = () => {
   return (
@@ -28,12 +29,12 @@ const Contact = () => {
           </a>
           <div className="flex items-center justify-center gap-8">
             <a
-              href="https://github.com"
+              href="https://github.com/Jamesss09"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-text-secondary hover:text-primary-light transition-colors"
             >
-              <Github size={24} />
+              <GithubIcon width={24} height={24} />
               GitHub
             </a>
             <a
@@ -42,7 +43,7 @@ const Contact = () => {
               rel="noopener noreferrer"
               className="flex items-center gap-2 text-text-secondary hover:text-primary-light transition-colors"
             >
-              <Linkedin size={24} />
+              <LinkedinIcon width={24} height={24} />
               LinkedIn
             </a>
             <a

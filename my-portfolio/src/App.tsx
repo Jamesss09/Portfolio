@@ -9,17 +9,19 @@ import './App.css';
 
 function App() {
   return (
-    <div className="flex min-h-screen bg-bg-primary">
-      <Sidebar />
-      <main className="flex-1 ml-0 md:ml-64 overflow-x-hidden">
-        <Hero />
-        <About />
-        <Skills />
-        <Projects />
-        <Learning />
-        <Contact />
-      </main>
-    </div>
+    <>
+      <div className="flex min-h-screen bg-bg-primary">
+        <Sidebar />
+        <main className="flex-1 ml-0 md:ml-64 overflow-x-hidden">
+          <Hero />
+          <About />
+          <Skills />
+          <Projects />
+          <Learning />
+          <Contact />
+        </main>
+      </div>
+    </>
   );
 }
 
