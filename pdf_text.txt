@@ -1,0 +1,104 @@
+James Carl Enquig
+Portfolio Layout — Royal Purple × Dark Plum
+A modern, futuristic, developer-focused single-page portfolio concept with a fixed navigation sidebar, spacious
+content sections, subtle glow, glass-like cards, and a consistent Royal Purple / Dark Plum visual identity.
+01 — Navigation Sidebar
+A fixed vertical sidebar sits on the left. It creates a developer-dashboard feel instead of using a conventional top
+navigation. On mobile, it can become a hamburger menu or compact bottom navigation.
+JC
+James Carl Enquig
+I Home
+I About
+I Skills
+</> Projects
+I Learning
+v Contact
+GitHub · LinkedIn
+02 — Hero / Introduction
+The hero is the first visual statement. The left side introduces James, while the right side contains a floating code
+window that reinforces the developer identity.
+WELCOME TO MY PORTFOLIO
+Hi, I'm
+JAMES CARL ENQUIG
+4th Year IT Student · Aspiring Web Developer
+[ Explore My Journey ] [ Contact Me ]
+The code window can display a small JavaScript object describing the developer, for example name, role, focus,
+and learning areas.
+03 — About Me
+Use a three-column composition: personal introduction on the left, key information in the center, and a professional
+photo or decorative visual on the right.
+Key information: Name — James Carl Enquig · Age — 22 · Education — 4th Year IT Student · Focus
+— Web Development & UI/UX Design
+04 — Tech Stack
+Present technologies as categorized cards instead of one long list. Each card can receive a subtle Royal Purple
+glow on hover.
+Category
+Technologies
+Frontend
+React.js · JavaScript · TypeScript
+Mobile
+React Native
+Category
+Technologies
+Backend
+PHP · Laravel
+Database
+MySQL · PostgreSQL
+Server / Environment
+Apache · Docker
+Version Control
+Git · GitHub
+Design
+Figma
+AI / ML
+Basic knowledge of AI and model development
+05 — Projects
+Because there are currently no completed projects, the first version should intentionally show a 'Currently Building'
+state instead of inventing work. When projects are completed, this area can become a project-card grid without
+changing the overall design.
+CURRENTLY BUILDING
+PROJECTS COMING SOON
+Ideas → Code → Projects → Growth
+[ Coming Soon ]
+Future project cards can include a project image, title, short description, technology tags, and a View Project
+button.
+06 — Learning Journey
+Make this section personal by showing areas of active learning rather than presenting unverifiable skill
+percentages. A simple progress-style visual can communicate growth.
+Web Development GGGGG
+Backend Development GGGGI
+UI/UX Design GGGII
+AI / Models GGIII
+07 — Contact
+Finish with a visually stronger contact section using a large Royal Purple glow behind the content. Keep the
+call-to-action simple and provide GitHub, LinkedIn, and email links.
+LET'S BUILD SOMETHING
+TOGETHER
+I'm always open to learning, collaborating and connecting.
+[ Get In Touch ]
+GitHub · LinkedIn · Email
+Color System
+Element
+Hex
+Main Background
+#100718
+Dark Plum
+#1A0B24
+Card Background
+#21102E
+Royal Purple
+#6D28D9
+Bright Purple
+#8B5CF6
+Soft Purple
+#A78BFA
+Main Text
+#F5F3FF
+Secondary Text
+#A9A1B5
+Border
+#3B2050
+Recommended Implementation
+React + TypeScript + Tailwind CSS for the interface, with Framer Motion for subtle transitions and animations. The
+portfolio can remain frontend-only initially; a backend can be added later if features such as a contact form, blog,
+dashboard, or project management are needed.
