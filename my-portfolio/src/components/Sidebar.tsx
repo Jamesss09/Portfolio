@@ -1,5 +1,4 @@
 import { Home, User, Code, FolderOpen, BookOpen, Mail, ChevronsLeft, ChevronsRight } from 'lucide-react';
-import { GithubIcon, LinkedinIcon } from './SocialIcons';
 import { cn } from '@/lib/utils';
 
 interface SidebarProps {
@@ -62,27 +61,6 @@ const Sidebar = ({ collapsed, onToggle }: SidebarProps) => {
             );
           })}
         </nav>
-
-        <div className={cn('flex gap-4 mt-6', collapsed ? 'flex-col items-center gap-4' : 'justify-center')}>
-          <a
-            href="https://github.com/Jamesss09"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="GitHub"
-            className="text-text-secondary hover:text-primary-light transition-colors"
-          >
-            <GithubIcon width={24} height={24} />
-          </a>
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="LinkedIn"
-            className="text-text-secondary hover:text-primary-light transition-colors"
-          >
-            <LinkedinIcon width={24} height={24} />
-          </a>
-        </div>
       </div>
     </aside>
   );

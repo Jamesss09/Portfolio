@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Code, ChevronLeft, ChevronRight, BrainCircuit } from 'lucide-react';
+import { useEffect } from 'react';
+import { motion, useAnimationControls, useReducedMotion } from 'framer-motion';
+import { Code, BrainCircuit } from 'lucide-react';
 import {
   siReact,
   siJavascript,
@@ -16,7 +16,6 @@ import {
   siFigma,
 } from 'simple-icons';
 import TechLogo, { type IconSource } from './TechLogo';
-import { cn } from '@/lib/utils';
 
 type Skill = {
   name: string;
@@ -76,7 +75,7 @@ const skillCategories: { title: string; skills: Skill[] }[] = [
 
 function CategoryCard({ category }: { category: (typeof skillCategories)[number] }) {
   return (
-    <div className="w-full h-full bg-bg-card border border-border rounded-xl p-6 shadow-lg hover:shadow-primary/20 transition-shadow group">
+    <div className="w-80 shrink-0 bg-bg-card border border-border rounded-xl p-6 shadow-lg hover:shadow-primary/20 transition-shadow group">
       <h3 className="text-xl font-semibold text-primary-light mb-4 group-hover:text-primary-soft transition-colors">
         {category.title}
       </h3>
@@ -96,94 +95,63 @@ function CategoryCard({ category }: { category: (typeof skillCategories)[number]
 }
 
 const Skills = () => {
-  const [active, setActive] = useState(0);
-  const total = skillCategories.length;
+  const controls = useAnimationControls();
+  const prefersReducedMotion = useReducedMotion();
 
-  const prev = () => setActive((a) => Math.max(0, a - 1));
-  const next = () => setActive((a) => Math.min(total - 1, a + 1));
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    controls.start({
+      x: ['0%', '-50%'],
+      transition: { duration: 36, ease: 'linear', repeat: Infinity },
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [controls, prefersReducedMotion]);
 
   return (
-    <section id="skills" className="py-20 bg-bg-dark px-6 overflow-hidden">
-      <div className="max-w-4xl mx-auto">
+    <section id="skills" className="py-20 bg-bg-dark">
+      <div className="max-w-6xl mx-auto px-6 mb-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center"
         >
           <h2 className="text-4xl font-bold text-text-primary mb-4 flex items-center justify-center gap-3">
             <Code className="text-primary-light" />
             Tech Stack
           </h2>
         </motion.div>
-
-        <div className="flex items-center justify-center gap-4 sm:gap-8">
-          {/* Prev */}
-          <button
-            onClick={prev}
-            disabled={active === 0}
-            aria-label="Previous category"
-            className="grid place-items-center size-11 shrink-0 rounded-full border border-primary/30 text-primary-light hover:bg-primary/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-          >
-            <ChevronLeft size={22} />
-          </button>
-
-          {/* Stacked cards */}
-          <div className="relative h-[320px] w-[280px] sm:w-[340px]">
-            {skillCategories.map((category, i) => {
-              const offset = i - active;
-              const isVisible = Math.abs(offset) <= 1;
-
-              return (
-                <motion.div
-                  key={category.title}
-                  className="absolute inset-0"
-                  style={{ zIndex: 30 - Math.abs(offset), pointerEvents: isVisible ? 'auto' : 'none' }}
-                  animate={{
-                    x: offset * 28,
-                    scale: offset === 0 ? 1 : 0.9,
-                    rotate: offset === -1 ? -4 : offset === 1 ? 4 : 0,
-                    opacity: isVisible ? (offset === 0 ? 1 : 0.55) : 0,
-                  }}
-                  transition={{ type: 'spring', stiffness: 220, damping: 26 }}
-                  onClick={() => {
-                    if (offset === 1) next();
-                    if (offset === -1) prev();
-                  }}
-                >
-                  <CategoryCard category={category} />
-                </motion.div>
-              );
-            })}
-          </div>
-
-          {/* Next */}
-          <button
-            onClick={next}
-            disabled={active === total - 1}
-            aria-label="Next category"
-            className="grid place-items-center size-11 shrink-0 rounded-full border border-primary/30 text-primary-light hover:bg-primary/10 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-          >
-            <ChevronRight size={22} />
-          </button>
-        </div>
-
-        {/* Pagination dots */}
-        <div className="flex justify-center gap-2 mt-8">
-          {skillCategories.map((category, i) => (
-            <button
-              key={category.title}
-              onClick={() => setActive(i)}
-              aria-label={`Go to ${category.title}`}
-              className={cn(
-                'h-2 rounded-full transition-all',
-                i === active ? 'w-6 bg-primary-light' : 'w-2 bg-border hover:bg-primary/50'
-              )}
-            />
-          ))}
-        </div>
       </div>
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+        className="relative"
+      >
+        {/* Edge fades so cards appear/disappear smoothly */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-bg-dark to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-bg-dark to-transparent" />
+
+        <motion.div
+          animate={controls}
+          className="flex w-max"
+          style={{ willChange: 'transform' }}
+        >
+          <div className="flex gap-6 pr-6">
+            {skillCategories.map((category) => (
+              <CategoryCard key={category.title} category={category} />
+            ))}
+          </div>
+          <div className="flex gap-6 pr-6" aria-hidden="true">
+            {skillCategories.map((category) => (
+              <CategoryCard key={category.title} category={category} />
+            ))}
+          </div>
+        </motion.div>
+      </motion.div>
     </section>
   );
 };

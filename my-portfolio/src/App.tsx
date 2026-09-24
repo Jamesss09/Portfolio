@@ -5,6 +5,7 @@ import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
 import Learning from './components/Learning';
+import GitHubContributions from './components/GitHubContributions';
 import Contact from './components/Contact';
 import { cn } from '@/lib/utils';
 import './App.css';
@@ -36,6 +37,7 @@ function App() {
           <Skills />
           <Projects />
           <Learning />
+          <GitHubContributions />
           <Contact />
         </main>
       </div>
