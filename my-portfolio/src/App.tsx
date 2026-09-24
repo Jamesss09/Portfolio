@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Sidebar from './components/Sidebar';
-import Hero from './components/ui/animated-shader-hero';
+import { Hero } from './components/ui/hero-1';
 import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
@@ -27,25 +27,11 @@ function App() {
           )}
         >
           <Hero
-            trustBadge={{ text: 'Open to learning & collaborating', icons: ['✨'] }}
-            headline={{ line1: 'JAMES CARL', line2: 'ENQUIG' }}
-            subtitle="4th Year IT Student · Aspiring Web Developer — crafting clean, responsive experiences with React, TypeScript, and a love for UI/UX."
-            buttons={{
-              primary: {
-                text: 'Explore My Journey',
-                onClick: () =>
-                  document
-                    .getElementById('about')
-                    ?.scrollIntoView({ behavior: 'smooth' }),
-              },
-              secondary: {
-                text: 'Get In Touch',
-                onClick: () =>
-                  document
-                    .getElementById('contact')
-                    ?.scrollIntoView({ behavior: 'smooth' }),
-              },
-            }}
+            eyebrow="Welcome to my portfolio"
+            title="JAMES CARL ENQUIG"
+            subtitle="4th Year IT Student · Aspiring Web Developer"
+            ctaLabel="Get In Touch"
+            ctaHref="#contact"
           />
           <About />
           <Skills />
