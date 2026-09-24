@@ -24,7 +24,7 @@ export function Hero({
       className="relative mx-auto w-full pt-40 px-6 text-center md:px-8
       min-h-[calc(100vh-40px)] overflow-hidden
       bg-[linear-gradient(to_bottom,#fff,#ffffff_50%,#e8e8e8_88%)]
-      dark:bg-[linear-gradient(to_bottom,#100718,#1A0B24_60%,#21102E)]
+      dark:bg-[linear-gradient(to_bottom,rgba(16,7,24,0.55),rgba(26,11,36,0.6)_60%,rgba(33,16,46,0.7)]
       rounded-b-xl"
     >
       {/* Grid BG */}
@@ -98,7 +98,7 @@ export function Hero({
       <div
         className="animate-fade-up relative mt-32 opacity-0 [perspective:2000px]
         after:absolute after:inset-0 after:z-50
-        after:[background:linear-gradient(to_top,hsl(var(--background))_10%,transparent)]"
+        after:[background:linear-gradient(to_top,rgba(16,7,24,0.6)_10%,transparent)]"
       />
     </section>
   );

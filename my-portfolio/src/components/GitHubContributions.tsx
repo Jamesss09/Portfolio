@@ -6,7 +6,7 @@ const GITHUB_USERNAME = 'Jamesss09';
 
 const GitHubContributions = () => {
   return (
-    <section id="github" className="py-20 px-6 bg-bg-primary">
+    <section id="github" className="py-20 px-6 bg-bg-primary/75">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

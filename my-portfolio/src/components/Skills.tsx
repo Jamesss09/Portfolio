@@ -108,7 +108,7 @@ const Skills = () => {
   }, [controls, prefersReducedMotion]);
 
   return (
-    <section id="skills" className="py-20 bg-bg-dark">
+    <section id="skills" className="py-20 bg-bg-dark/75">
       <div className="max-w-6xl mx-auto px-6 mb-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

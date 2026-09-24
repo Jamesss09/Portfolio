@@ -26,7 +26,7 @@ interface HeroProps {
 }
 
 // Reusable Shader Background Hook
-const useShaderBackground = () => {
+export const useShaderBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | undefined>(undefined);
   const rendererRef = useRef<WebGLRenderer | null>(null);

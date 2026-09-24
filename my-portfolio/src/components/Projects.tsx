@@ -3,7 +3,7 @@ import { FolderOpen, Construction } from 'lucide-react';
 
 const Projects = () => {
   return (
-    <section id="projects" className="py-20 px-6 bg-bg-primary">
+    <section id="projects" className="py-20 px-6 bg-bg-primary/75">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

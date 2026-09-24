@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Sidebar from './components/Sidebar';
+import ShaderBackground from './components/ShaderBackground';
 import { Hero } from './components/ui/hero-1';
 import About from './components/About';
 import Skills from './components/Skills';
@@ -15,14 +16,15 @@ function App() {
 
   return (
     <>
-      <div className="flex min-h-screen bg-bg-primary">
+      <div className="relative flex min-h-screen">
+        <ShaderBackground />
         <Sidebar
           collapsed={sidebarCollapsed}
           onToggle={() => setSidebarCollapsed((c) => !c)}
         />
         <main
           className={cn(
-            'flex-1 overflow-x-hidden transition-all duration-300',
+            'flex-1 overflow-x-hidden transition-all duration-300 relative z-10',
             sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
           )}
         >
