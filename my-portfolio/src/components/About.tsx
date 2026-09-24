@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { User } from 'lucide-react';
-import profilePic from '../assets/Profile.png';
+import profilePic from '../assets/Profile.webp';
 
 const About = () => {
   return (
