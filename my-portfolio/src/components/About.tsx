@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { User } from 'lucide-react';
+import profilePic from '../assets/Profile.png';
 
 const About = () => {
   return (
@@ -63,8 +64,13 @@ const About = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="bg-bg-card border border-border rounded-xl p-8 shadow-lg flex items-center justify-center"
           >
-            <div className="w-48 h-48 bg-gradient-to-br from-primary to-primary-light rounded-full flex items-center justify-center shadow-lg shadow-primary/30">
-              <User size={80} className="text-white" />
+            <div className="relative">
+              <div className="absolute -inset-3 bg-primary/30 rounded-full blur-2xl" aria-hidden="true" />
+              <img
+                src={profilePic}
+                alt="James Carl Enquig"
+                className="relative w-52 h-52 object-cover rounded-full border-4 border-primary-light shadow-lg shadow-primary/30"
+              />
             </div>
           </motion.div>
         </div>
