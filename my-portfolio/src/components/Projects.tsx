@@ -7,7 +7,7 @@ const projects = [
   {
     name: 'Code Nexus — Capstone',
     description:
-      'My ongoing capstone project — a web application built with Laravel and PHP. This is where I practice real backend development: Blade templates, routing, and containerizing the app with Docker.',
+      'My ongoing capstone project — a web application built with Laravel and PHP, where I work on Blade templates, routing, and Docker containerization.',
     tech: ['Laravel', 'PHP', 'Blade', 'JavaScript', 'Docker'],
     repo: 'https://github.com/Jamesss09/Capstone',
     status: 'Ongoing',
