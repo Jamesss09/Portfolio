@@ -86,10 +86,8 @@ const About = () => {
           <div className="space-y-6">
             <motion.p variants={item} className="text-text-secondary leading-relaxed">
               I'm James Carl, a 4th-year IT student who enjoys building clean, responsive web
-              apps. I started with frontend development in React and TypeScript, and I'm now
-              learning the backend side with PHP and Laravel so I can build complete products.
-              I use AI tools to speed up how I build, and I'm exploring how AI fits into the
-              products themselves.
+              apps. I work across the frontend (React, TypeScript) and backend (PHP, Laravel)
+              — with a focus on AI Assisted Development.
             </motion.p>
 
             {/* Quick facts */}
