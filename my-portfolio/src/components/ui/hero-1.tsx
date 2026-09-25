@@ -1,6 +1,5 @@
 "use client";
 
-import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface HeroProps {
@@ -42,7 +41,6 @@ export function Hero({
             backdrop-blur-sm"
           >
             {eyebrow}
-            <ChevronRight className="inline w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
           </span>
         </a>
       )}

@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { BookOpen } from 'lucide-react';
 
 const learningItems = [
   { name: 'Web Development', level: 5 },
@@ -19,8 +18,7 @@ const Learning = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-text-primary mb-4 flex items-center justify-center gap-3">
-            <BookOpen className="text-primary-light" />
+          <h2 className="text-4xl font-bold text-text-primary mb-4">
             Learning Journey
           </h2>
         </motion.div>

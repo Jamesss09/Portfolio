@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { motion, useAnimationControls, useReducedMotion } from 'framer-motion';
-import { Code, BrainCircuit } from 'lucide-react';
+import { BrainCircuit } from 'lucide-react';
 import {
   siReact,
   siJavascript,
@@ -117,10 +117,7 @@ const Skills = () => {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h2 className="text-4xl font-bold text-text-primary mb-4 flex items-center justify-center gap-3">
-            <Code className="text-primary-light" />
-            Tech Stack
-          </h2>
+          <h2 className="text-4xl font-bold text-text-primary mb-4">Tech Stack</h2>
         </motion.div>
       </div>
 

@@ -1,28 +1,18 @@
 import { motion } from 'framer-motion';
-import {
-  User,
-  MapPin,
-  GraduationCap,
-  Rocket,
-  Briefcase,
-  ArrowRight,
-  Code2,
-  FolderOpen,
-} from 'lucide-react';
 import profilePic from '../assets/Profile.webp';
 
 // Quick facts shown in the About grid — edit freely
 const quickFacts = [
-  { label: 'Location', value: 'Philippines', icon: MapPin },
-  { label: 'Education', value: '4th Year IT Student', icon: GraduationCap },
-  { label: 'Currently', value: 'Building this portfolio', icon: Rocket },
-  { label: 'Open to', value: 'Internships & collabs', icon: Briefcase },
+  { label: 'Location', value: 'Philippines' },
+  { label: 'Education', value: '4th Year IT Student' },
+  { label: 'Currently', value: 'Building this portfolio' },
+  { label: 'Open to', value: 'Internships & collabs' },
 ];
 
 const stats = [
-  { value: '13+', label: 'Technologies in my stack', icon: Code2 },
-  { value: '1', label: 'Live project built', icon: FolderOpen },
-  { value: '4 yrs', label: 'Into IT & counting', icon: GraduationCap },
+  { value: '13+', label: 'Technologies in my stack' },
+  { value: '1', label: 'Live project built' },
+  { value: '4 yrs', label: 'Into IT & counting' },
 ];
 
 const container = {
@@ -47,10 +37,7 @@ const About = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-text-primary mb-4 inline-flex items-center justify-center gap-3">
-            <User className="text-primary-light" />
-            About Me
-          </h2>
+          <h2 className="text-4xl font-bold text-text-primary mb-4">About Me</h2>
           {/* Animated gradient underline */}
           <motion.div
             animate={{ backgroundPositionX: ['0%', '200%'] }}
@@ -106,45 +93,36 @@ const About = () => {
               pretty frontends.
             </motion.p>
 
-            {/* Quick facts with icons */}
+            {/* Quick facts */}
             <motion.div variants={container} className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {quickFacts.map((fact) => {
-                const Icon = fact.icon;
-                return (
-                  <motion.div
-                    key={fact.label}
-                    variants={item}
-                    whileHover={{ y: -4 }}
-                    className="flex items-start gap-3 rounded-xl border border-border bg-bg-card/80 p-4 backdrop-blur-sm transition-colors hover:border-primary/50"
-                  >
-                    <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary-light">
-                      <Icon size={18} />
-                    </span>
-                    <span>
-                      <span className="block text-xs uppercase tracking-wide text-text-secondary">
-                        {fact.label}
-                      </span>
-                      <span className="block text-sm font-medium text-text-primary">
-                        {fact.value}
-                      </span>
-                    </span>
-                  </motion.div>
-                );
-              })}
+              {quickFacts.map((fact) => (
+                <motion.div
+                  key={fact.label}
+                  variants={item}
+                  whileHover={{ y: -4 }}
+                  className="rounded-xl border border-border bg-bg-card/80 p-4 backdrop-blur-sm transition-colors hover:border-primary/50"
+                >
+                  <span className="block text-xs uppercase tracking-wide text-text-secondary">
+                    {fact.label}
+                  </span>
+                  <span className="block text-sm font-medium text-text-primary mt-0.5">
+                    {fact.value}
+                  </span>
+                </motion.div>
+              ))}
             </motion.div>
 
             {/* CTA buttons */}
             <motion.div variants={item} className="flex flex-wrap gap-4 pt-1">
               <a
                 href="#projects"
-                className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:bg-primary-light"
+                className="inline-flex items-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 hover:bg-primary-light"
               >
                 View Projects
-                <ArrowRight size={16} />
               </a>
               <a
                 href="#contact"
-                className="inline-flex items-center gap-2 rounded-full border border-primary/50 px-6 py-3 text-sm font-semibold text-primary-light transition-all hover:-translate-y-0.5 hover:bg-primary/10"
+                className="inline-flex items-center rounded-full border border-primary/50 px-6 py-3 text-sm font-semibold text-primary-light transition-all hover:-translate-y-0.5 hover:bg-primary/10"
               >
                 Get In Touch
               </a>
@@ -160,21 +138,17 @@ const About = () => {
           viewport={{ once: true }}
           className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-14"
         >
-          {stats.map((stat) => {
-            const Icon = stat.icon;
-            return (
-              <motion.div
-                key={stat.label}
-                variants={item}
-                whileHover={{ y: -4 }}
-                className="rounded-xl border border-border bg-bg-card/80 p-6 text-center shadow-lg backdrop-blur-sm transition-colors hover:border-primary/50"
-              >
-                <Icon size={28} className="text-primary-light mx-auto mb-3" />
-                <p className="text-3xl font-bold text-text-primary">{stat.value}</p>
-                <p className="text-sm text-text-secondary mt-1">{stat.label}</p>
-              </motion.div>
-            );
-          })}
+          {stats.map((stat) => (
+            <motion.div
+              key={stat.label}
+              variants={item}
+              whileHover={{ y: -4 }}
+              className="rounded-xl border border-border bg-bg-card/80 p-6 text-center shadow-lg backdrop-blur-sm transition-colors hover:border-primary/50"
+            >
+              <p className="text-3xl font-bold text-text-primary">{stat.value}</p>
+              <p className="text-sm text-text-secondary mt-1">{stat.label}</p>
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>

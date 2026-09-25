@@ -89,9 +89,8 @@ const Contact = () => {
             </div>
             <button
               type="submit"
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-light text-white px-8 py-3 rounded-lg font-medium transition-all shadow-lg shadow-primary/30 w-full justify-center"
+              className="inline-flex items-center justify-center bg-primary hover:bg-primary-light text-white px-8 py-3 rounded-lg font-medium transition-all shadow-lg shadow-primary/30 w-full"
             >
-              <Mail size={20} />
               Send via Gmail
             </button>
             <p className="text-xs text-text-secondary mt-3 text-center">

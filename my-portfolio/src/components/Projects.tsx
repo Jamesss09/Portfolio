@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion';
-import { FolderOpen, Construction } from 'lucide-react';
 
 const Projects = () => {
   return (
@@ -12,10 +11,7 @@ const Projects = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-text-primary mb-4 flex items-center justify-center gap-3">
-            <FolderOpen className="text-primary-light" />
-            Projects
-          </h2>
+          <h2 className="text-4xl font-bold text-text-primary mb-4">Projects</h2>
         </motion.div>
 
         <motion.div
@@ -28,7 +24,6 @@ const Projects = () => {
           <div className="absolute -top-40 -left-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl"></div>
           <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-primary/10 rounded-full blur-3xl"></div>
           <div className="relative">
-            <Construction size={64} className="text-primary-light mx-auto mb-6" />
             <h3 className="text-3xl font-bold text-text-primary mb-4">CURRENTLY BUILDING</h3>
             <p className="text-2xl text-primary-soft mb-6">PROJECTS COMING SOON</p>
             <p className="text-text-secondary text-lg mb-8">
