@@ -7,7 +7,7 @@ const projects = [
   {
     name: 'TMC Entrance Examination: Answer Sheet Recognition and Scoring System',
     description:
-      'An automated system that scans shaded multiple-choice answer sheets using an Android phone camera or uploaded images, recognizes the answers with AI/OMR, scores them automatically against the official answer key (Passed/Failed), and manages results through a web platform.',
+      'Scans answer sheets with an Android camera or upload, recognizes answers via AI/OMR, scores against the official key (Passed/Failed), and manages results in a web platform.',
     tech: ['Python', 'PyTorch', 'OpenCV', 'React', 'Tailwind', 'Laravel', 'MySQL'],
     repo: 'https://github.com/Jamesss09/Capstone',
     status: 'Ongoing',
@@ -40,41 +40,43 @@ const Projects = () => {
               className="bg-bg-card border border-border rounded-2xl shadow-xl overflow-hidden relative max-w-2xl mx-auto"
             >
               <div className="grid md:grid-cols-2">
-                {/* Project image — fills the left half, whole screenshot scaled to fit */}
+                {/* Project image — fixed height so the card stays compact like the image */}
                 <a
                   href={project.repo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group relative overflow-hidden bg-bg-dark"
+                  className="group relative block overflow-hidden bg-bg-dark aspect-video md:aspect-auto md:h-56"
                   aria-label={`View ${project.name} on GitHub`}
                 >
                   <img
                     src={project.image}
                     alt={`${project.name} — screenshot`}
-                    className="h-full w-full object-contain max-md:aspect-video transition-transform duration-500 group-hover:scale-105"
+                    className="h-full w-full object-contain p-3 transition-transform duration-500 group-hover:scale-105"
                   />
                   <span className="absolute inset-0 bg-bg-primary/0 group-hover:bg-bg-primary/20 transition-colors" />
                 </a>
 
-                {/* Project details */}
-                <div className="p-6 sm:p-8 relative">
+                {/* Project details — compact so it fits beside the image */}
+                <div className="p-5 sm:p-6 flex flex-col justify-center relative">
                   <div className="absolute -top-32 -right-32 w-72 h-72 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-                  <div className="relative">
-                    <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-                      <h3 className="text-2xl font-bold text-text-primary">{project.name}</h3>
-                      <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3 py-1 text-xs font-medium text-primary-soft">
-                        <span className="size-2 rounded-full bg-green-400 animate-pulse" />
+                  <div className="relative space-y-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <h3 className="text-lg sm:text-xl font-bold text-text-primary leading-snug">
+                        {project.name}
+                      </h3>
+                      <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary-soft whitespace-nowrap">
+                        <span className="size-1.5 rounded-full bg-green-400 animate-pulse" />
                         {project.status}
                       </span>
                     </div>
-                    <p className="text-text-secondary leading-relaxed mb-5">
+                    <p className="text-sm text-text-secondary leading-relaxed line-clamp-3">
                       {project.description}
                     </p>
-                    <div className="flex flex-wrap gap-2 mb-6">
+                    <div className="flex flex-wrap gap-1.5">
                       {project.tech.map((tech) => (
                         <span
                           key={tech}
-                          className="rounded-full bg-primary/10 border border-primary/30 px-3 py-1 text-sm text-text-primary"
+                          className="rounded-full bg-primary/10 border border-primary/30 px-2.5 py-0.5 text-xs text-text-primary"
                         >
                           {tech}
                         </span>
@@ -84,9 +86,9 @@ const Projects = () => {
                       href={project.repo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-primary-light hover:text-primary-soft transition-colors font-medium"
+                      className="inline-flex items-center gap-2 text-sm text-primary-light hover:text-primary-soft transition-colors font-medium"
                     >
-                      <GithubIcon width={20} height={20} />
+                      <GithubIcon width={16} height={16} />
                       View on GitHub
                     </a>
                   </div>
