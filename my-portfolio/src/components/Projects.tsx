@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { GithubIcon } from './SocialIcons';
-import capstoneImage from '../assets/capstone.png';
+import capstoneImage from '../assets/Capstone.jpg';
 
 // Real, verifiable projects — data pulled from the GitHub repo.
 const projects = [
