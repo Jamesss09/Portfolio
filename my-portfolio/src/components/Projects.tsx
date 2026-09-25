@@ -5,15 +5,35 @@ import capstoneImage from '../assets/Capstone.jpg';
 // Real, verifiable projects — data pulled from the GitHub repo.
 const projects = [
   {
-    name: 'Code Nexus — Capstone',
-    description:
-      'My ongoing capstone project — a web application built with Laravel and PHP, where I work on Blade templates, routing, and Docker containerization.',
-    tech: ['Laravel', 'PHP', 'Blade', 'JavaScript', 'Docker'],
+    name: 'TMC Entrance Examination: Answer Sheet Recognition and Scoring System',
+    intro: 'An automated system that:',
+    features: [
+      '**Scans** a single-page shaded multiple-choice answer sheet using an **Android phone camera** (staff) or uploaded image',
+      '**Recognizes** the shaded answers per item using **AI/OMR** (Python, PyTorch, OpenCV)',
+      '**Scores** automatically — compares to the official answer key, computes score, and decides **Passed / Failed**',
+      '**Manages** answer keys, results, folders, users, settings via a **web platform** (React.js + Tailwind + Laravel + MySQL)',
+    ],
+    tech: ['Python', 'PyTorch', 'OpenCV', 'React', 'Tailwind', 'Laravel', 'MySQL'],
     repo: 'https://github.com/Jamesss09/Capstone',
     status: 'Ongoing',
     image: capstoneImage,
   },
 ];
+
+// Renders **bold** segments from a plain-text feature string
+const FeatureText = ({ text }: { text: string }) => (
+  <>
+    {text.split('**').map((part, index) =>
+      index % 2 === 1 ? (
+        <strong key={index} className="font-semibold text-text-primary">
+          {part}
+        </strong>
+      ) : (
+        <span key={index}>{part}</span>
+      ),
+    )}
+  </>
+);
 
 const Projects = () => {
   return (
@@ -67,9 +87,19 @@ const Projects = () => {
                         {project.status}
                       </span>
                     </div>
-                    <p className="text-text-secondary leading-relaxed mb-5">
-                      {project.description}
-                    </p>
+                    <p className="text-text-secondary leading-relaxed mb-4">{project.intro}</p>
+                    <ol className="space-y-2.5 mb-6">
+                      {project.features.map((feature, i) => (
+                        <li key={i} className="flex gap-3 text-text-secondary leading-relaxed">
+                          <span className="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-xs font-semibold text-primary-light">
+                            {i + 1}
+                          </span>
+                          <span>
+                            <FeatureText text={feature} />
+                          </span>
+                        </li>
+                      ))}
+                    </ol>
                     <div className="flex flex-wrap gap-2 mb-6">
                       {project.tech.map((tech) => (
                         <span

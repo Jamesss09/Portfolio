@@ -88,7 +88,8 @@ const About = () => {
               I'm James Carl, a 4th-year IT student who enjoys building clean, responsive web
               apps. I started with frontend development in React and TypeScript, and I'm now
               learning the backend side with PHP and Laravel so I can build complete products.
-              I'm also exploring how AI will fit into those products.
+              I use AI tools to speed up how I build, and I'm exploring how AI fits into the
+              products themselves.
             </motion.p>
 
             {/* Quick facts */}
