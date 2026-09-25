@@ -18,7 +18,7 @@ const BUBBLE_KEY = 'jamelet-bubble-seen';
  * floating 400px window.
  */
 const ChatWidget = ({ controller }: ChatWidgetProps) => {
-  const { open, messages, typing, toggle, send } = controller;
+  const { open, messages, typing, toggle, send, suggestionsVisible } = controller;
   const [draft, setDraft] = useState('');
   const [showBubble, setShowBubble] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
@@ -41,7 +41,7 @@ const ChatWidget = ({ controller }: ChatWidgetProps) => {
     toggle();
   };
 
-  const showSuggestions = messages.length <= 1; // greeting present, nothing asked yet
+  const showSuggestions = suggestionsVisible || messages.length <= 1; // greeting or /suggest
 
   // Autoscroll on new messages / typing.
   useEffect(() => {

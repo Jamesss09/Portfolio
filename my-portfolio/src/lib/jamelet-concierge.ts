@@ -7,8 +7,8 @@ import type { JameletAction } from '../../shared/jamelet-concierge';
  * (Phase 3 offline fallback) and the Vercel function (Phase 4) use the exact
  * same logic. The link map below is UI-only (rendering whitelisted actions).
  */
-export { jameletRespond, fallbackReply, GREETING } from '../../shared/jamelet-concierge';
-export type { ConciergeReply, JameletAction } from '../../shared/jamelet-concierge';
+export { jameletRespond, fallbackReply, topicReply, GREETING } from '../../shared/jamelet-concierge';
+export type { ConciergeReply, JameletAction, Topic } from '../../shared/jamelet-concierge';
 
 export const ACTION_LINKS: Record<
   JameletAction,

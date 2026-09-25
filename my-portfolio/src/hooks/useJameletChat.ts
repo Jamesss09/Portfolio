@@ -2,7 +2,9 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   GREETING,
   type JameletAction,
+  type Topic,
   jameletRespond,
+  topicReply,
 } from '../lib/jamelet-concierge';
 
 export interface ChatMessageData {
@@ -16,6 +18,8 @@ export interface JameletChatController {
   open: boolean;
   messages: ChatMessageData[];
   typing: boolean;
+  /** True while the suggested-question chips should stay visible (e.g /suggest). */
+  suggestionsVisible: boolean;
   openChat: () => void;
   close: () => void;
   toggle: () => void;
@@ -30,9 +34,20 @@ const REQUEST_TIMEOUT_MS = 12_000;
 
 /** Client-side slash commands — handled locally, never sent to the server. */
 const COMMANDS: ReadonlyArray<{ name: string; description: string }> = [
+  { name: '/projects', description: 'Shows James\u2019s projects with buttons.' },
+  { name: '/skills', description: 'Summarizes the skills stack.' },
+  { name: '/contact', description: 'Shows how to reach James.' },
+  { name: '/suggest', description: 'Re-shows the suggested questions.' },
   { name: '/clear', description: 'Clears the conversation and starts fresh.' },
   { name: '/help', description: 'Shows this list of commands.' },
 ] as const;
+
+/** Command token → topic reply for commands that reuse the grounded answers. */
+const COMMAND_TOPIC: Record<string, Topic> = {
+  '/projects': 'capstone',
+  '/skills': 'skills',
+  '/contact': 'contact',
+};
 
 /**
  * Chat state + lifecycle (Phase 4).
@@ -44,6 +59,7 @@ export function useJameletChat(): JameletChatController {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessageData[]>([]);
   const [typing, setTyping] = useState(false);
+  const [forceSuggestions, setForceSuggestions] = useState(false);
 
   const messagesRef = useRef<ChatMessageData[]>([]);
   const typingRef = useRef(false);
@@ -81,7 +97,18 @@ export function useJameletChat(): JameletChatController {
         abortRef.current?.abort();
         abortRef.current = null;
         setTyping(false);
+        setForceSuggestions(false);
         setMessages([{ id: nextId(), role: 'assistant', text: GREETING }]);
+      } else if (token === '/suggest') {
+        setForceSuggestions(true);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: nextId(),
+            role: 'assistant',
+            text: 'Here are some things you can ask me — or type /help for commands.',
+          },
+        ]);
       } else if (token === '/help') {
         const list = COMMANDS.map((c) => `${c.name} — ${c.description}`).join('\n');
         setMessages((prev) => [
@@ -89,14 +116,23 @@ export function useJameletChat(): JameletChatController {
           { id: nextId(), role: 'assistant', text: `Here's what I can do:\n${list}` },
         ]);
       } else {
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: nextId(),
-            role: 'assistant',
-            text: `I don't know that command — try /help to see what I can do.`,
-          },
-        ]);
+        const topic = COMMAND_TOPIC[token];
+        if (topic) {
+          const reply = topicReply(topic);
+          setMessages((prev) => [
+            ...prev,
+            { id: nextId(), role: 'assistant', text: reply.text, actions: reply.actions },
+          ]);
+        } else {
+          setMessages((prev) => [
+            ...prev,
+            {
+              id: nextId(),
+              role: 'assistant',
+              text: `I don't know that command — try /help to see what I can do.`,
+            },
+          ]);
+        }
       }
     },
     []
@@ -113,6 +149,7 @@ export function useJameletChat(): JameletChatController {
       }
       if (typingRef.current) return;
 
+      setForceSuggestions(false); // a real question dismisses the chips
       setMessages((prev) => [...prev, { id: nextId(), role: 'user', text }]);
       setTyping(true);
       const myGen = genRef.current;
@@ -230,5 +267,14 @@ export function useJameletChat(): JameletChatController {
     [appendAssistant, runCommand]
   );
 
-  return { open, messages, typing, openChat, close, toggle, send };
+  return {
+    open,
+    messages,
+    typing,
+    suggestionsVisible: forceSuggestions,
+    openChat,
+    close,
+    toggle,
+    send,
+  };
 }

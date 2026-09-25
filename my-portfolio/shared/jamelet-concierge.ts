@@ -107,7 +107,7 @@ export function overrideReply(input: string): ConciergeReply | null {
   return m ? { text: m.answer, actions: OVERRIDE_ACTIONS[m.id] ?? [] } : null;
 }
 
-type Topic =
+export type Topic =
   | 'greeting'
   | 'who'
   | 'skills'
@@ -152,6 +152,11 @@ export function topicActions(topic: Topic): JameletAction[] {
 
 export function matchTopicPublic(input: string): Topic | null {
   return matchTopic(input.trim().toLowerCase());
+}
+
+/** Full deterministic reply for a topic — used by the UI slash commands. */
+export function topicReply(topic: Topic): ConciergeReply {
+  return { text: EN[topic], actions: topicActions(topic) };
 }
 
 /* ------------------------------------------------------------------ */
