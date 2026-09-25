@@ -36,16 +36,18 @@ const GitHubContributions = () => {
           transition={{ duration: 0.6, delay: 0.15 }}
           className="bg-bg-card border border-border rounded-xl p-6 sm:p-8 shadow-lg overflow-x-auto"
         >
-          <GitHubCalendar
-            username={GITHUB_USERNAME}
-            colorScheme="dark"
-            theme={{ dark: ['#2a1740', '#6d28d9', '#8b5cf6', '#a78bfa', '#e9d5ff'] }}
-            blockSize={11}
-            blockMargin={3}
-            blockRadius={2}
-            fontSize={12}
-            errorMessage="Couldn't load contributions right now — try again later."
-          />
+          <div className="text-text-primary">
+            <GitHubCalendar
+              username={GITHUB_USERNAME}
+              colorScheme="dark"
+              theme={{ dark: ['#2a1740', '#6d28d9', '#8b5cf6', '#a78bfa', '#e9d5ff'] }}
+              blockSize={11}
+              blockMargin={3}
+              blockRadius={2}
+              fontSize={12}
+              errorMessage="Couldn't load contributions right now — try again later."
+            />
+          </div>
         </motion.div>
       </div>
     </section>
