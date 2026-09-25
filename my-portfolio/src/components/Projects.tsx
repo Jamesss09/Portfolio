@@ -2,6 +2,8 @@ import { motion } from 'framer-motion';
 import { GithubIcon } from './SocialIcons';
 import capstoneImage from '../assets/Capstone.jpg';
 
+// Card is intentionally compact — sized close to the screenshot, text condensed to fit.
+
 // Real, verifiable projects — data pulled from the GitHub repo.
 const projects = [
   {
