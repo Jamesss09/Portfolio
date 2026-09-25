@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { Button } from "@/components/ui/button";
 
 interface HeroProps {
@@ -8,6 +9,8 @@ interface HeroProps {
   subtitle: string;
   ctaLabel?: string;
   ctaHref?: string;
+  /** Extra content rendered inside the hero (e.g. the Jamelet mascot). */
+  children?: ReactNode;
 }
 
 export function Hero({
@@ -16,6 +19,7 @@ export function Hero({
   subtitle,
   ctaLabel = "Explore Now",
   ctaHref = "#",
+  children,
 }: HeroProps) {
   return (
     <section
@@ -84,6 +88,8 @@ export function Hero({
         after:absolute after:inset-0 after:z-50
         after:[background:linear-gradient(to_top,rgba(16,7,24,0.8)_8%,transparent)]"
       />
+
+      {children}
     </section>
   );
 }

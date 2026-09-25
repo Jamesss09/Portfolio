@@ -103,3 +103,14 @@
     background-position: 0% 50%;
   }
 }
+
+/* Smooth anchor navigation (also used by Jamelet's action links) */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
