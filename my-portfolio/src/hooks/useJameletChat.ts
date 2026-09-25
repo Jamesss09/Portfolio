@@ -120,6 +120,7 @@ export function useJameletChat(): JameletChatController {
             let buffer = '';
             let accumulated = '';
             let failed = false;
+            let streamActions: JameletAction[] | undefined;
             for (;;) {
               const { done, value } = await reader.read();
               if (done) break;
@@ -133,6 +134,8 @@ export function useJameletChat(): JameletChatController {
                   const chunk = JSON.parse(line) as {
                     text?: string;
                     error?: string;
+                    done?: boolean;
+                    actions?: JameletAction[];
                   };
                   if (chunk.error) failed = true;
                   if (chunk.text) {
@@ -141,13 +144,16 @@ export function useJameletChat(): JameletChatController {
                       prev.map((m) => (m.id === tempId ? { ...m, text: accumulated } : m))
                     );
                   }
+                  if (Array.isArray(chunk.actions)) streamActions = chunk.actions;
                 } catch {
                   /* ignore */
                 }
               }
             }
             if (accumulated.trim() && !failed) {
-              setMessages((prev) => prev.map((m) => (m.id === tempId ? { ...m, text: accumulated } : m)));
+              setMessages((prev) =>
+                prev.map((m) => (m.id === tempId ? { ...m, text: accumulated, actions: streamActions } : m))
+              );
             } else {
               // Empty/errored stream → remove placeholder and fall back locally.
               setMessages((prev) => prev.filter((m) => m.id !== tempId));

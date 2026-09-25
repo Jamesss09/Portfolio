@@ -48,7 +48,7 @@ const EN = {
     .map((l) => `${l.name} (${l.percent}%) — ${l.note}`)
     .join('; ')}.`,
   fallback:
-    "I don't have that detail yet, but I can show you James's project, summarize his skills, or help you contact him.",
+    "I don't have that detail yet, but I can show you James's projects, summarize his skills, or help you contact him.",
 };
 
 const TL = {
@@ -116,8 +116,8 @@ type Topic =
   | 'github'
   | 'learning';
 
-function matchTopic(q: string): Topic {
-  if (/\b(hi|hello|hey|uy|hoy|kumusta|musta|good (morning|afternoon|evening))\b/.test(q)) return 'greeting';
+function matchTopic(q: string): Topic | null {
+  if (/\b(hi|hello|hey|uy|hoy|kumusta|musta|how are you|kamusta ka|musta ka|good (morning|afternoon|evening))\b/.test(q)) return 'greeting';
   if (/\b(sino si james|who is james|introduce|background|about james)\b/.test(q)) return 'who';
   if (/\b(skills|stack|tech|ano ang skills|anong skills|skills niya)\b/.test(q)) return 'skills';
   if (/\b(capstone|thesis|project|omr|answer sheet|entrance exam)\b/.test(q)) return 'capstone';
@@ -125,7 +125,7 @@ function matchTopic(q: string): Topic {
   if (/\b(github|repo|repository|code)\b/.test(q)) return 'github';
   if (/\b(available|availability|open to|internship|internships|collab|collaboration|collaborations|hiring|kailan ka)\b/.test(q)) return 'availability';
   if (/\b(contact|email|gmail|reach|message|paano maka|saan ako)\b/.test(q)) return 'contact';
-  return 'who'; // default to "who is James" rather than the fallback on ambiguous input
+  return null; // no known topic matched — caller decides (off-topic vs intro)
 }
 
 /** Expected action for a topic — used locally AND on the server for the AI path. */
@@ -149,20 +149,59 @@ export function topicActions(topic: Topic): JameletAction[] {
   }
 }
 
-export function matchTopicPublic(q: string): Topic {
-  return matchTopic(q);
+export function matchTopicPublic(input: string): Topic | null {
+  return matchTopic(input.trim().toLowerCase());
+}
+
+/* ------------------------------------------------------------------ */
+/* Off-topic detection — clearly NOT about the portfolio               */
+/* ------------------------------------------------------------------ */
+
+const OFF_TOPIC =
+  /\b(weather|forecast|temperature|umbrella|sunny|rainy)\b|\b(politics|president|election|government|senator|headline)\b|\b(movie|movies|film|song|songs|music|anime|manga|series|netflix)\b|\b(how much is|how much does|price of|cost of|pricing)\b|\b(recipe|cook|cooking|bake|baking)\b|\b(equation|calculate|calculator|physics|chemistry|biology)\b|\b(football|basketball|volleyball|badminton|soccer|world cup)\b|\b(tell me a joke|joke|jokes|funny|riddle)\b|\b(what time|what day|current date|today's date)\b|\b(capital of|population of|meaning of life|who sings|who wrote)\b|\b(bitcoin|crypto|blockchain|nft)\b|\b(legal|lawyer|medical advice|cure|symptoms)\b|\b(translate|ibig sabihin)\b|\b(my girlfriend|my boyfriend|my wife|my husband|my crush)\b|\b(chess|dota|valorant|pubg|minecraft)\b|\b(lottery|lotto|horoscope|zodiac|astrology)\b/i;
+
+function isOffTopic(q: string): boolean {
+  return OFF_TOPIC.test(q);
+}
+
+/**
+ * Honest "I don't have that detail yet" + redirect for clearly off-topic
+ * input (weather, prices, general knowledge, other people…). Shared by the
+ * local responder and api/chat.ts (which short-circuits the AI for these).
+ */
+export function offTopicReply(input: string): ConciergeReply | null {
+  return isOffTopic(input.trim().toLowerCase()) ? fallbackReply() : null;
+}
+
+/** Whitelisted action buttons for any input — used by the AI stream path. */
+export function actionsForInput(input: string): JameletAction[] {
+  const override = overrideReply(input);
+  if (override) return override.actions;
+  const q = input.trim().toLowerCase();
+  const topic = matchTopic(q);
+  if (topic !== null) return topic === 'greeting' ? [] : topicActions(topic);
+  if (isOffTopic(q)) return fallbackReply().actions;
+  return topicActions('who');
 }
 
 export function jameletRespond(input: string): ConciergeReply {
   const override = overrideReply(input);
   if (override) return override;
+
   const q = input.trim().toLowerCase();
   const taglish = TAGLISH.test(q);
   const L = taglish ? TL : EN;
   const topic = matchTopic(q);
+  if (topic !== null) {
+    const text = L[topic === 'greeting' ? 'greeting' : topic];
+    return { text, actions: topic === 'greeting' ? [] : topicActions(topic) };
+  }
 
-  const text = L[topic === 'greeting' ? 'greeting' : topic];
-  return { text, actions: topic === 'greeting' ? [] : topicActions(topic) };
+  const off = offTopicReply(input);
+  if (off) return off;
+
+  // Ambiguous but James-ish input → friendly intro + tour instead of a dead end.
+  return { text: L.who, actions: topicActions('who') };
 }
 
 export function fallbackReply(): ConciergeReply {

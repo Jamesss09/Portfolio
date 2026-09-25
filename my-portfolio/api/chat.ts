@@ -1,6 +1,12 @@
 import { getProvider, openCompletion } from './provider';
 import { buildSystemPrompt } from './system-prompt';
-import { jameletRespond, overrideReply } from '../shared/jamelet-concierge';
+import {
+  actionsForInput,
+  jameletRespond,
+  matchTopicPublic,
+  offTopicReply,
+  overrideReply,
+} from '../shared/jamelet-concierge';
 
 /**
  * POST /api/chat
@@ -81,6 +87,14 @@ export async function handleChatRequest(req: Request): Promise<Response> {
     return json(200, { source: 'local', text: override.text, actions: override.actions });
   }
 
+  // Clearly off-topic AND no known topic → same honest fallback as local mode,
+  // so it never burns an AI call. (Known topics win, matching jameletRespond.)
+  const topic = matchTopicPublic(message);
+  const offTopic = offTopicReply(message);
+  if (offTopic && topic === null) {
+    return json(200, { source: 'local', text: offTopic.text, actions: offTopic.actions });
+  }
+
   const provider = getProvider();
 
   // No provider configured yet → grounded reply from the shared portfolio data.
@@ -92,6 +106,7 @@ export async function handleChatRequest(req: Request): Promise<Response> {
 
   // Provider configured → stream a real model answer.
   const systemPrompt = buildSystemPrompt();
+  const suggestedActions = actionsForInput(message);
   const messages = [
     { role: 'system' as const, content: systemPrompt },
     ...history.map((h) => ({ role: h.role, content: h.text })),
@@ -145,7 +160,7 @@ export async function handleChatRequest(req: Request): Promise<Response> {
             }
           }
         }
-        controller.enqueue(encoder.encode(`${JSON.stringify({ done: true })}\n`));
+        controller.enqueue(encoder.encode(`${JSON.stringify({ done: true, actions: suggestedActions })}\n`));
       } catch {
         controller.enqueue(encoder.encode(`${JSON.stringify({ error: 'stream interrupted' })}\n`));
       } finally {
