@@ -7,14 +7,10 @@ import { GithubIcon } from './SocialIcons';
 const EMAIL = 'jamescarlenquig26@gmail.com';
 
 /**
- * 🔑 Web3Forms access key (free) — 2-minute setup:
- *   1. Go to https://web3forms.com
- *   2. Enter this email: jamescarlenquig26@gmail.com
- *   3. Copy the access key it gives you and paste it below
- * Once set, the form sends straight to your Gmail inbox.
- * Leave it as `''` and the form falls back to opening the visitor's email app (mailto).
+ * 🔑 Web3Forms access key — set and verified. Form submissions now go
+ * straight to jamescarlenquig26@gmail.com.
  */
-const WEB3FORMS_ACCESS_KEY = '';
+const WEB3FORMS_ACCESS_KEY = 'bdb2c5fc-bc85-4d8a-87f7-b361720be7e0';
 
 type Status = 'idle' | 'sending' | 'success' | 'error';
 
