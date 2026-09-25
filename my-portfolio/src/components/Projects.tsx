@@ -39,21 +39,23 @@ const Projects = () => {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="bg-bg-card border border-border rounded-2xl shadow-xl overflow-hidden relative max-w-4xl mx-auto"
             >
-              {/* Project image — full width on top, fixed 16:9 so it always fits */}
-              <a
-                href={project.repo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative block overflow-hidden"
-                aria-label={`View ${project.name} on GitHub`}
-              >
-                <img
-                  src={project.image}
-                  alt={`${project.name} — screenshot`}
-                  className="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <span className="absolute inset-0 bg-bg-primary/0 group-hover:bg-bg-primary/20 transition-colors" />
-              </a>
+              {/* Project image — centered, smaller preview so it fits the card */}
+              <div className="px-6 pt-6 sm:px-8 sm:pt-8">
+                <a
+                  href={project.repo}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative block overflow-hidden rounded-xl border border-border/60 max-w-xl mx-auto"
+                  aria-label={`View ${project.name} on GitHub`}
+                >
+                  <img
+                    src={project.image}
+                    alt={`${project.name} — screenshot`}
+                    className="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <span className="absolute inset-0 bg-bg-primary/0 group-hover:bg-bg-primary/20 transition-colors" />
+                </a>
+              </div>
 
               {/* Project details */}
               <div className="p-8 relative">

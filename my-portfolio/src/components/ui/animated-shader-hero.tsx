@@ -285,6 +285,10 @@ void main(){gl_Position=position;}`;
   useEffect(() => {
     if (!canvasRef.current) return;
 
+    // Skip the GPU-heavy WebGL renderer entirely on small screens — the static
+    // gradient fallback in ShaderBackground keeps mobile scrolling smooth.
+    if (!window.matchMedia('(min-width: 768px)').matches) return;
+
     const canvas = canvasRef.current;
     const dpr = Math.max(1, 0.5 * window.devicePixelRatio);
 
