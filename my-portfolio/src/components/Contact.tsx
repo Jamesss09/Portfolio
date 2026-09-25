@@ -3,21 +3,63 @@ import { motion } from 'framer-motion';
 import { Mail } from 'lucide-react';
 import { GithubIcon } from './SocialIcons';
 
-/** ✏️ Your Gmail address — messages from the contact form go here. */
+/** ✏️ Your Gmail address — messages land here. */
 const EMAIL = 'jamescarlenquig26@gmail.com';
+
+/**
+ * 🔑 Web3Forms access key (free) — 2-minute setup:
+ *   1. Go to https://web3forms.com
+ *   2. Enter this email: jamescarlenquig26@gmail.com
+ *   3. Copy the access key it gives you and paste it below
+ * Once set, the form sends straight to your Gmail inbox.
+ * Leave it as `''` and the form falls back to opening the visitor's email app (mailto).
+ */
+const WEB3FORMS_ACCESS_KEY = '';
+
+type Status = 'idle' | 'sending' | 'success' | 'error';
 
 const Contact = () => {
   const [name, setName] = useState('');
   const [senderEmail, setSenderEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [status, setStatus] = useState<Status>('idle');
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`[Portfolio] Message from ${name}`);
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${senderEmail}\n\n${message}`
-    );
-    window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+
+    // Fallback: no access key configured yet → open the visitor's email app addressed to you
+    if (!WEB3FORMS_ACCESS_KEY) {
+      const subject = encodeURIComponent(`[Portfolio] Message from ${name}`);
+      const body = encodeURIComponent(`Name: ${name}\nEmail: ${senderEmail}\n\n${message}`);
+      window.location.href = `mailto:${EMAIL}?subject=${subject}&body=${body}`;
+      return;
+    }
+
+    setStatus('sending');
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_ACCESS_KEY,
+          name,
+          email: senderEmail,
+          message,
+          subject: `[Portfolio] Message from ${name}`,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStatus('success');
+        setName('');
+        setSenderEmail('');
+        setMessage('');
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   };
 
   return (
@@ -38,7 +80,7 @@ const Contact = () => {
             I'm always open to learning, collaborating and connecting.
           </p>
 
-          {/* Contact form — opens Gmail with your message */}
+          {/* Contact form — sends your name, email and message straight to Gmail */}
           <form
             onSubmit={handleSubmit}
             className="max-w-xl mx-auto bg-bg-card border border-border rounded-2xl p-8 shadow-xl text-left mb-10"
@@ -89,13 +131,28 @@ const Contact = () => {
             </div>
             <button
               type="submit"
-              className="inline-flex items-center justify-center bg-primary hover:bg-primary-light text-white px-8 py-3 rounded-lg font-medium transition-all shadow-lg shadow-primary/30 w-full"
+              disabled={status === 'sending'}
+              className="inline-flex items-center justify-center bg-primary hover:bg-primary-light text-white px-8 py-3 rounded-lg font-medium transition-all shadow-lg shadow-primary/30 w-full disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              Send via Gmail
+              {status === 'sending' ? 'Sending…' : 'Send Message'}
             </button>
-            <p className="text-xs text-text-secondary mt-3 text-center">
-              This opens your email app addressed to me — hit send there to finish.
-            </p>
+
+            {/* Status message */}
+            {status === 'success' && (
+              <p className="text-sm text-green-400 mt-3 text-center">
+                Sent! Thanks for reaching out — I'll get back to you soon.
+              </p>
+            )}
+            {status === 'error' && (
+              <p className="text-sm text-red-400 mt-3 text-center">
+                Something went wrong. Please try again, or use the email link below.
+              </p>
+            )}
+            {status === 'idle' && (
+              <p className="text-xs text-text-secondary mt-3 text-center">
+                Your name, email and message go straight to my inbox — I'll reply as soon as I can.
+              </p>
+            )}
           </form>
 
           {/* Direct links */}

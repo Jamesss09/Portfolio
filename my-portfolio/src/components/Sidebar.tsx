@@ -8,7 +8,7 @@ interface SidebarProps {
 
 const Sidebar = ({ collapsed, onToggle }: SidebarProps) => {
   const navItems = [
-    { name: 'Home', href: '#home', icon: Home },
+    { name: 'Home', href: '#hero', icon: Home },
     { name: 'About', href: '#about', icon: User },
     { name: 'Skills', href: '#skills', icon: Code },
     { name: 'Projects', href: '#projects', icon: FolderOpen },

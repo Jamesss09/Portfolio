@@ -5,7 +5,6 @@ import profilePic from '../assets/Profile.webp';
 const quickFacts = [
   { label: 'Location', value: 'Philippines' },
   { label: 'Education', value: '4th Year IT Student' },
-  { label: 'Currently', value: 'Building this portfolio' },
   { label: 'Open to', value: 'Internships & collabs' },
 ];
 
@@ -86,11 +85,10 @@ const About = () => {
           {/* Text column */}
           <div className="space-y-6">
             <motion.p variants={item} className="text-text-secondary leading-relaxed">
-              Hi, I'm James Carl — a 4th-year IT student who likes turning ideas into clean,
-              responsive web apps. What started as curiosity about how websites work grew into a
-              focus on React, TypeScript, and UI/UX thinking. Right now I'm deepening my backend
-              skills (PHP/Laravel) and exploring AI so I can build complete products — not just
-              pretty frontends.
+              I'm James Carl, a 4th-year IT student who enjoys building clean, responsive web
+              apps. I started with frontend development in React and TypeScript, and I'm now
+              learning the backend side with PHP and Laravel so I can build complete products.
+              I'm also exploring how AI will fit into those products.
             </motion.p>
 
             {/* Quick facts */}

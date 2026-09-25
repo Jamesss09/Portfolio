@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion';
 
+// Skill levels graded honestly against the work shown in this portfolio —
+// adjust the percentages anytime you feel they've moved up.
 const learningItems = [
-  { name: 'Web Development', level: 5 },
-  { name: 'Backend Development', level: 4 },
-  { name: 'UI/UX Design', level: 3 },
-  { name: 'AI / Models', level: 2 },
+  { name: 'Web Development', percent: 85, note: 'React, TypeScript, Tailwind, deployment' },
+  { name: 'UI/UX Design', percent: 65, note: 'Design systems, layouts, user flows' },
+  { name: 'Backend Development', percent: 55, note: 'Laravel, PHP, Blade, Docker' },
+  { name: 'AI / Models', percent: 30, note: 'Exploring what’s possible' },
 ];
 
 const Learning = () => {
@@ -32,17 +34,18 @@ const Learning = () => {
         >
           {learningItems.map((item, index) => (
             <div key={item.name}>
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-1">
                 <h3 className="text-lg font-medium text-text-primary">{item.name}</h3>
                 <span className="text-sm font-medium text-primary-soft">
-                  {item.level * 20}%
+                  {item.percent}%
                 </span>
               </div>
+              <p className="text-xs text-text-secondary mb-2">{item.note}</p>
               <div className="h-2.5 bg-primary/10 rounded-full overflow-hidden border border-primary/20">
                 <motion.div
                   className="h-full rounded-full bg-gradient-to-r from-primary to-primary-light"
                   initial={{ width: 0 }}
-                  whileInView={{ width: `${item.level * 20}%` }}
+                  whileInView={{ width: `${item.percent}%` }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.9, delay: index * 0.12, ease: 'easeOut' }}
                 />
