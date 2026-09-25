@@ -182,7 +182,7 @@ const ChatWidget = ({ controller }: ChatWidgetProps) => {
                 type="text"
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
-                placeholder="Ask about James's skills, projects…"
+                placeholder="Ask about James's skills, projects… (try /help)"
                 autoComplete="off"
                 className="h-10 min-w-0 flex-1 rounded-full border border-border bg-bg-primary/70 px-4 text-sm text-text-primary placeholder:text-text-secondary/50 focus:border-primary-light focus:outline-none"
               />

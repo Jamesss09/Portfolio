@@ -28,6 +28,12 @@ const nextId = () => `m-${++seq}`;
 const HISTORY_LIMIT = 6;
 const REQUEST_TIMEOUT_MS = 12_000;
 
+/** Client-side slash commands — handled locally, never sent to the server. */
+const COMMANDS: ReadonlyArray<{ name: string; description: string }> = [
+  { name: '/clear', description: 'Clears the conversation and starts fresh.' },
+  { name: '/help', description: 'Shows this list of commands.' },
+] as const;
+
 /**
  * Chat state + lifecycle (Phase 4).
  * Sends to the Vercel function POST /api/chat. Whenever that endpoint is
@@ -41,6 +47,8 @@ export function useJameletChat(): JameletChatController {
 
   const messagesRef = useRef<ChatMessageData[]>([]);
   const typingRef = useRef(false);
+  const abortRef = useRef<AbortController | null>(null);
+  const genRef = useRef(0);
   useEffect(() => {
     messagesRef.current = messages;
   }, [messages]);
@@ -62,19 +70,59 @@ export function useJameletChat(): JameletChatController {
     setMessages((prev) => [...prev, { id: nextId(), role: 'assistant', text, actions }]);
   }, []);
 
+  const runCommand = useCallback(
+    (command: string) => {
+      // Commands are handled locally — they never reach /api/chat.
+      setMessages((prev) => [...prev, { id: nextId(), role: 'user', text: command }]);
+      const token = command.toLowerCase().split(/\s+/)[0] ?? '';
+
+      if (token === '/clear') {
+        genRef.current += 1; // invalidate any in-flight request
+        abortRef.current?.abort();
+        abortRef.current = null;
+        setTyping(false);
+        setMessages([{ id: nextId(), role: 'assistant', text: GREETING }]);
+      } else if (token === '/help') {
+        const list = COMMANDS.map((c) => `${c.name} — ${c.description}`).join('\n');
+        setMessages((prev) => [
+          ...prev,
+          { id: nextId(), role: 'assistant', text: `Here's what I can do:\n${list}` },
+        ]);
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: nextId(),
+            role: 'assistant',
+            text: `I don't know that command — try /help to see what I can do.`,
+          },
+        ]);
+      }
+    },
+    []
+  );
+
   const send = useCallback(
     (raw: string) => {
       const text = raw.trim();
-      if (!text || typingRef.current) return;
+      if (!text) return;
+
+      if (text.startsWith('/')) {
+        runCommand(text);
+        return;
+      }
+      if (typingRef.current) return;
 
       setMessages((prev) => [...prev, { id: nextId(), role: 'user', text }]);
       setTyping(true);
+      const myGen = genRef.current;
 
       const history = messagesRef.current
         .slice(-HISTORY_LIMIT)
         .map((m) => ({ role: m.role, text: m.text.slice(0, 500) }));
 
       const controller = new AbortController();
+      abortRef.current = controller;
       const timer = window.setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
       let settled = false;
 
@@ -82,6 +130,7 @@ export function useJameletChat(): JameletChatController {
         if (settled) return;
         settled = true;
         window.clearTimeout(timer);
+        abortRef.current = null;
         setTyping(false);
       };
 
@@ -96,8 +145,9 @@ export function useJameletChat(): JameletChatController {
           });
           if (!res.ok) throw new Error(`api ${res.status}`);
         } catch {
-          // Endpoint missing (dev server), timed out, or provider error →
-          // always give a grounded local answer with useful links.
+          // Endpoint missing (dev server), timed out, superseded by /clear, or
+          // provider error → always give a grounded local answer with links.
+          if (genRef.current !== myGen) return; // chat was cleared — drop reply
           console.debug('[jamelet] api unavailable — local reply');
           const local = jameletRespond(text);
           appendAssistant(local.text, local.actions);
@@ -105,11 +155,13 @@ export function useJameletChat(): JameletChatController {
           return;
         }
 
+        if (genRef.current !== myGen) return; // chat was cleared while waiting
+
         const contentType = res.headers.get('content-type') ?? '';
         try {
           if (contentType.includes('json')) {
             const data = (await res.json()) as { text?: string; actions?: JameletAction[] };
-            appendAssistant(data.text ?? '', data.actions);
+            if (genRef.current === myGen) appendAssistant(data.text ?? '', data.actions);
           } else {
             // NDJSON stream: {"text":"…"} | {"done":true} | {"error":"…"}
             const reader = res.body?.getReader();
@@ -150,27 +202,32 @@ export function useJameletChat(): JameletChatController {
                 }
               }
             }
-            if (accumulated.trim() && !failed) {
-              setMessages((prev) =>
-                prev.map((m) => (m.id === tempId ? { ...m, text: accumulated, actions: streamActions } : m))
-              );
-            } else {
+            if (!accumulated.trim() || failed) {
               // Empty/errored stream → remove placeholder and fall back locally.
               setMessages((prev) => prev.filter((m) => m.id !== tempId));
-              const local = jameletRespond(text);
-              appendAssistant(local.text, local.actions);
+              if (genRef.current === myGen) {
+                const local = jameletRespond(text);
+                appendAssistant(local.text, local.actions);
+              }
+            } else if (genRef.current === myGen) {
+              setMessages((prev) =>
+                prev.map((m) =>
+                  m.id === tempId ? { ...m, text: accumulated, actions: streamActions } : m
+                )
+              );
             }
           }
         } catch {
+          if (genRef.current !== myGen) return;
           console.debug('[jamelet] stream parse failed — local reply');
           const local = jameletRespond(text);
           appendAssistant(local.text, local.actions);
         } finally {
-          settle();
+          if (genRef.current === myGen) settle();
         }
       })();
     },
-    [appendAssistant]
+    [appendAssistant, runCommand]
   );
 
   return { open, messages, typing, openChat, close, toggle, send };
