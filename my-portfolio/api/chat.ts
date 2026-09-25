@@ -1,6 +1,6 @@
 import { getProvider, openCompletion } from './provider';
 import { buildSystemPrompt } from './system-prompt';
-import { jameletRespond } from '../shared/jamelet-concierge';
+import { jameletRespond, overrideReply } from '../shared/jamelet-concierge';
 
 /**
  * POST /api/chat
@@ -74,6 +74,12 @@ export async function handleChatRequest(req: Request): Promise<Response> {
       text: typeof h.text === 'string' ? h.text.slice(0, MESSAGE_MAX) : '',
     }))
     .filter((h) => h.text.length > 0);
+
+  // User-approved verbatim answers win — never sent to the AI, so it can't improvise.
+  const override = overrideReply(message);
+  if (override) {
+    return json(200, { source: 'local', text: override.text, actions: override.actions });
+  }
 
   const provider = getProvider();
 

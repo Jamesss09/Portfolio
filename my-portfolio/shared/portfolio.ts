@@ -46,6 +46,105 @@ export const stats = [
 ] as const;
 
 /* ------------------------------------------------------------------ */
+/* Personal facts — Jamelet "verbatim" overrides                       */
+/* User-approved answers. The AI must use these word-for-word (it may  */
+/* translate EN ⇄ Taglish but never alter facts); the local responder  */
+/* matches them by regex before topic matching.                        */
+/* ------------------------------------------------------------------ */
+
+export interface PortfolioOverride {
+  id: string;
+  /** Canonical question (what a visitor would ask). */
+  question: string;
+  /** Regex-source phrases (lowercased input, EN + light Taglish). */
+  patterns: string[];
+  /** Verbatim answer. */
+  answer: string;
+}
+
+export const overrides: PortfolioOverride[] = [
+  {
+    id: 'full-name',
+    question: "What is James's full name?",
+    patterns: ['full name', 'complete name', 'buong pangalan', 'ano ang pangalan', 'pangalan ni james'],
+    answer: 'James Carl Enquig.',
+  },
+  {
+    id: 'age',
+    question: 'How old is James?',
+    patterns: ['how old', 'his age', 'age of james', '\\bage\\b', 'ilang taon', 'edad', 'taon na si james'],
+    answer: 'James is 22 years old.',
+  },
+  {
+    id: 'location',
+    question: 'Where does James live?',
+    patterns: [
+      'where does james live',
+      'where is james from',
+      'where.*live',
+      'where.*from',
+      'taga saan',
+      'taga-saan',
+      'saang lugar',
+      'saang bayan',
+      'tirahan',
+      'location',
+    ],
+    answer: 'James lives in Ubay, Bohol, Philippines.',
+  },
+  {
+    id: 'school',
+    question: 'Where does James study?',
+    patterns: [
+      'where does james study',
+      'where.*study',
+      'studying',
+      'trinidad municipal',
+      '\\btmc\\b',
+      'anong school',
+      'anong college',
+      'saang school',
+      'saang paaralan',
+      'nag-aaral',
+      'pag-aaral',
+    ],
+    answer: 'James is studying at Trinidad Municipal College — a 4th-year IT student.',
+  },
+  {
+    id: 'relationship',
+    question: 'Is James in a relationship?',
+    patterns: [
+      'girlfriend',
+      'boyfriend',
+      'relationship',
+      'is james single',
+      'dating',
+      'jowa',
+      'kasintahan',
+      'sunduan',
+      'honeylet',
+    ],
+    answer: 'James is in a relationship with Honeylet.',
+  },
+  {
+    id: 'hobby-ml',
+    question: "What are James's hobbies?",
+    patterns: [
+      'hobby',
+      'hobbies',
+      'libangan',
+      'mobile legends',
+      'games',
+      'gaming',
+      'naglalaro',
+      'anong laro',
+      'pastime',
+    ],
+    answer: 'James loves playing Mobile Legends in his free time.',
+  },
+];
+
+/* ------------------------------------------------------------------ */
 /* Skills (mirrors Skills.tsx)                                         */
 /* ------------------------------------------------------------------ */
 

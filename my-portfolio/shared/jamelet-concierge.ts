@@ -3,6 +3,7 @@ import {
   identity,
   learningJourney,
   links,
+  overrides,
   projects,
   skillCategories,
 } from './portfolio';
@@ -72,6 +73,39 @@ const TL = {
 /** Loose Taglish detection — only triggers on distinctive Tagalog words. */
 const TAGLISH = /sino|ano ang|paano|kayang|pwede|pwedeng|niya|gusto|saan|magkano|kailan|wala|meron|ito|dito|nga ba|po\b|ano ba/i;
 
+/* Verbatim overrides (user-approved answers) win over topic matching. */
+const overrideMatchers = overrides.map((o) => ({
+  id: o.id,
+  answer: o.answer,
+  regex: new RegExp(o.patterns.join('|'), 'i'),
+}));
+
+const OVERRIDE_ACTIONS: Record<string, JameletAction[]> = {
+  'full-name': ['view-about'],
+  age: ['view-about'],
+  location: ['view-about'],
+  school: ['view-about'],
+  relationship: ['view-about'],
+  'hobby-ml': [],
+};
+
+function matchOverride(q: string): (typeof overrideMatchers)[number] | null {
+  for (const m of overrideMatchers) {
+    if (m.regex.test(q)) return m;
+  }
+  return null;
+}
+
+/**
+ * Returns the locked verbatim answer for a question, or null.
+ * Shared by the local responder AND api/chat.ts (which short-circuits the
+ * AI for these so the model can never improvise on them).
+ */
+export function overrideReply(input: string): ConciergeReply | null {
+  const m = matchOverride(input.trim().toLowerCase());
+  return m ? { text: m.answer, actions: OVERRIDE_ACTIONS[m.id] ?? [] } : null;
+}
+
 type Topic =
   | 'greeting'
   | 'who'
@@ -120,6 +154,8 @@ export function matchTopicPublic(q: string): Topic {
 }
 
 export function jameletRespond(input: string): ConciergeReply {
+  const override = overrideReply(input);
+  if (override) return override;
   const q = input.trim().toLowerCase();
   const taglish = TAGLISH.test(q);
   const L = taglish ? TL : EN;
