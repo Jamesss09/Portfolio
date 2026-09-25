@@ -145,6 +145,52 @@ export const overrides: PortfolioOverride[] = [
 ];
 
 /* ------------------------------------------------------------------ */
+/* Curated knowledge facts (Tier 1 RAG-lite)                           */
+/* Broader than overrides: injected into the prompt for the AI and      */
+/* keyword-matched by the local responder when no standard topic        */
+/* applies. Only facts listed here may be stated.                       */
+/* ------------------------------------------------------------------ */
+
+export interface PortfolioFact {
+  id: string;
+  /** Canonical question (what a visitor would ask). */
+  question: string;
+  /** Regex-source phrases (lowercased input, EN + light Taglish). */
+  keywords: string[];
+  /** The fact — English by default; the AI translates when enabled. */
+  answer: string;
+}
+
+export const facts: PortfolioFact[] = [
+  {
+    id: 'current-focus',
+    question: 'What is James currently focused on?',
+    keywords: [
+      'currently focused',
+      'current focus',
+      'focusing on',
+      'focused on',
+      'ano ang focus',
+      'kasalukuyang pinagtutuunan',
+    ],
+    answer: 'James is currently focused on AI Assisted Development.',
+  },
+  {
+    id: 'student-status',
+    question: 'Is James a student?',
+    keywords: ['is james a student', 'student ba', 'estudyante ba'],
+    answer: 'Yes — James is a 4th-year IT student at Trinidad Municipal College.',
+  },
+  {
+    id: 'stack-overview',
+    question: 'What languages does James use?',
+    keywords: ['programming language', 'anong language', 'anong languages', 'wika ng code'],
+    answer:
+      'James works with JavaScript, TypeScript, React, PHP, Laravel, MySQL, PostgreSQL, and more — his Skills section has the full list.',
+  },
+];
+
+/* ------------------------------------------------------------------ */
 /* Skills (mirrors Skills.tsx)                                         */
 /* ------------------------------------------------------------------ */
 

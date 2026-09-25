@@ -2,6 +2,7 @@ import { getProvider, openCompletion } from './provider';
 import { buildSystemPrompt } from './system-prompt';
 import {
   actionsForInput,
+  factReply,
   jameletRespond,
   matchTopicPublic,
   offTopicReply,
@@ -87,9 +88,14 @@ export async function handleChatRequest(req: Request): Promise<Response> {
     return json(200, { source: 'local', text: override.text, actions: override.actions });
   }
 
-  // Clearly off-topic AND no known topic → same honest fallback as local mode,
-  // so it never burns an AI call. (Known topics win, matching jameletRespond.)
+  // Deterministic local answers when no known topic matched:
+  // curated facts win, then the generic off-topic fallback. (Known topics
+  // always win first, matching jameletRespond.)
   const topic = matchTopicPublic(message);
+  const fact = factReply(message);
+  if (fact && topic === null) {
+    return json(200, { source: 'local', text: fact.text, actions: fact.actions });
+  }
   const offTopic = offTopicReply(message);
   if (offTopic && topic === null) {
     return json(200, { source: 'local', text: offTopic.text, actions: offTopic.actions });

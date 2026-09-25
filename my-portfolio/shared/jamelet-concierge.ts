@@ -1,5 +1,6 @@
 import {
   availabilityAnswer,
+  facts,
   identity,
   learningJourney,
   links,
@@ -180,8 +181,35 @@ export function actionsForInput(input: string): JameletAction[] {
   const q = input.trim().toLowerCase();
   const topic = matchTopic(q);
   if (topic !== null) return topic === 'greeting' ? [] : topicActions(topic);
+  const fact = factReply(input);
+  if (fact) return fact.actions;
   if (isOffTopic(q)) return fallbackReply().actions;
   return topicActions('who');
+}
+
+/* ------------------------------------------------------------------ */
+/* Curated knowledge facts (Tier 1) — matched when no topic applies    */
+/* ------------------------------------------------------------------ */
+
+const factMatchers = facts.map((f) => ({
+  id: f.id,
+  answer: f.answer,
+  regex: new RegExp(f.keywords.join('|'), 'i'),
+}));
+
+const FACT_ACTIONS: Record<string, JameletAction[]> = {};
+
+/**
+ * Returns the curated fact answer when the question matches, or null.
+ * Shared by the local responder and api/chat.ts (which short-circuits the
+ * AI for these so answers stay deterministic).
+ */
+export function factReply(input: string): ConciergeReply | null {
+  const q = input.trim().toLowerCase();
+  for (const f of factMatchers) {
+    if (f.regex.test(q)) return { text: f.answer, actions: FACT_ACTIONS[f.id] ?? ['view-about'] };
+  }
+  return null;
 }
 
 export function jameletRespond(input: string): ConciergeReply {
@@ -196,6 +224,9 @@ export function jameletRespond(input: string): ConciergeReply {
     const text = L[topic === 'greeting' ? 'greeting' : topic];
     return { text, actions: topic === 'greeting' ? [] : topicActions(topic) };
   }
+
+  const fact = factReply(input);
+  if (fact) return fact;
 
   const off = offTopicReply(input);
   if (off) return off;
