@@ -9,8 +9,8 @@ const quickFacts = [
 ];
 
 const stats = [
-  { value: '13+', label: 'Technologies in my stack' },
-  { value: '1', label: 'Live project built' },
+  { value: '14+', label: 'Technologies in my stack' },
+  { value: '2', label: 'Projects built' },
   { value: '4 yrs', label: 'Into IT & counting' },
 ];
 

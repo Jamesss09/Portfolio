@@ -33,18 +33,32 @@ export interface ConciergeReply {
 
 const GREETING = "Hi! I'm Jamelet, James's little tech sidekick. Ask me about his skills, projects, or availability.";
 
+/** Look projects up by id so replies survive a reordering of the array. */
+function byId(id: 'capstone' | 'interntrack') {
+  return projects.find((p) => p.id === id) ?? projects[0];
+}
+
+const capstoneProject = byId('capstone');
+const internTrackProject = byId('interntrack');
+
 const EN = {
   greeting: GREETING,
   who: `${identity.intro} Want a tour? I can show you his projects or skills.`,
   skills: `James's stack: ${skillCategories
     .map((c) => `${c.skills.join(', ')} (${c.title})`)
-    .join('; ')}. That's his 13+ technologies across 8 areas.`,
-  capstone: `${projects[0].name} — ${projects[0].summary} Built with ${projects[0].tech.join(
+    .join('; ')}. That's his 14+ technologies across 8 areas.`,
+  projects: `James has ${projects.length} projects on this site: ${projects
+    .map((p) => `${p.name} (${p.status})`)
+    .join('; ')}. Ask me about either one and I'll break it down.`,
+  capstone: `${capstoneProject.name} — ${capstoneProject.summary} Built with ${capstoneProject.tech.join(
     ', '
-  )}. It's marked as ${projects[0].status} on the site.`,
+  )}. It's marked as ${capstoneProject.status} on the site.`,
+  interntrack: `${internTrackProject.name} — ${internTrackProject.summary} Built with ${internTrackProject.tech.join(
+    ', '
+  )}. It's marked as ${internTrackProject.status} on the site.`,
   availability: `${availabilityAnswer} Want me to take you to the contact form?`,
   contact: `You can reach James through the contact form on this site, or email him at ${links.email}. He's also active on GitHub.`,
-  github: `James's code lives at GitHub: ${links.github}. His capstone project is up there too.`,
+  github: `James's code lives at GitHub: ${links.github}. Both of his projects are up there too — the capstone at ${links.capstoneRepo} and InternTrack at ${links.internTrackRepo}.`,
   learning: `Right now James's learning journey is: ${learningJourney
     .map((l) => `${l.name} (${l.percent}%) — ${l.note}`)
     .join('; ')}.`,
@@ -57,13 +71,19 @@ const TL = {
   who: `${identity.intro} Gusto niyo bang itour ko kayo sa projects o skills niya?`,
   skills: `Ito po ang stack ni James: ${skillCategories
     .map((c) => c.skills.join(', '))
-    .join(', ')} — 13+ technologies sa 8 na areas.`,
-  capstone: `Ito po ang capstone niya: ${projects[0].name}. Kino-scan ang answer sheets gamit ang Android camera o upload, nire-recognize ang sagot sa tulong ng AI/OMR, at ina-score laban sa official key (Passed/Failed) — tapos naka-manage sa web platform. Kasama sa tech: ${projects[0].tech.join(
+    .join(', ')} — 14+ technologies sa 8 na areas.`,
+  projects: `${projects.length} po ang projects ni James dito sa site: ${projects
+    .map((p) => `${p.name} (${p.status})`)
+    .join('; ')}. Tatanungin mo ko kahit alin sa dalawa para sa detalye.`,
+  capstone: `Ito po ang capstone niya: ${capstoneProject.name}. Kino-scan ang answer sheets gamit ang Android camera o upload, nire-recognize ang sagot sa tulong ng AI/OMR, at ina-score laban sa official key (Passed/Failed) — tapos naka-manage sa web platform. Kasama sa tech: ${capstoneProject.tech.join(
     ', '
   )}. Ongoing pa po siya.`,
+  interntrack: `Ito po ang InternTrack ni James: ${internTrackProject.name}. Mobile app para sa pag-track ng OJT hours — naka-time in/out ang intern, may progress bar laban sa required hours, at puwedeng i-export ang record sheet bilang PDF. Offline lahat, gamit ang SQLite sa mismong device. Kasama sa tech: ${internTrackProject.tech.join(
+    ', '
+  )}. Tapos na po siya.`,
   availability: `${availabilityAnswer} Gusto niyo bang dalhin ko kayo sa contact form niya?`,
   contact: `Pwede niyo pong ma-contact si James via contact form dito sa site, o i-email sa ${links.email}. Nasa GitHub din po siya.`,
-  github: `Nasa GitHub po ang code ni James: ${links.github}. Nasa-bago po roon ang capstone project niya.`,
+  github: `Nasa GitHub po ang code ni James: ${links.github}. Nasa GitHub po rin ang dalawang projects niya — ang capstone sa ${links.capstoneRepo} at ang InternTrack sa ${links.internTrackRepo}.`,
   learning: `Sa ngayon, ito po ang learning journey ni James: ${learningJourney
     .map((l) => `${l.name} (${l.percent}%) — ${l.note}`)
     .join('; ')}.`,
@@ -111,7 +131,9 @@ export type Topic =
   | 'greeting'
   | 'who'
   | 'skills'
+  | 'projects'
   | 'capstone'
+  | 'interntrack'
   | 'availability'
   | 'contact'
   | 'github'
@@ -120,19 +142,25 @@ export type Topic =
 function matchTopic(q: string): Topic | null {
   if (/\b(hi|hello|hey|uy|hoy|kumusta|musta|how are you|kamusta ka|musta ka|good (morning|afternoon|evening))\b/.test(q)) return 'greeting';
   if (/\b(sino si james|who is james|introduce|background|about james)\b/.test(q)) return 'who';
-  if (/\b(skills|stack|tech|ano ang skills|anong skills|skills niya)\b/.test(q)) return 'skills';
-  if (/\b(capstone|thesis|project|omr|answer sheet|entrance exam)\b/.test(q)) return 'capstone';
+  if (/\b(skills|stack|tech|react native|expo|ano ang skills|anong skills|skills niya)\b/.test(q)) return 'skills';
+  // InternTrack before the generic project/availability matches below, so
+  // "internship app" or "OJT tracker" doesn't fall through to those.
+  if (/\b(interntrack|intern track|ojt|on the job|on-the-job|mobile app|mobile application|hours tracker|time in)\b/.test(q)) return 'interntrack';
+  if (/\b(capstone|thesis|omr|answer sheet|entrance exam|scoring system)\b/.test(q)) return 'capstone';
   if (/\b(learning journey|currently learning|natututo|learning)\b/.test(q)) return 'learning';
   if (/\b(github|repo|repository|code)\b/.test(q)) return 'github';
   if (/\b(available|availability|open to|internship|internships|collab|collaboration|collaborations|hiring|kailan ka)\b/.test(q)) return 'availability';
   if (/\b(contact|email|gmail|reach|message|paano maka|saan ako)\b/.test(q)) return 'contact';
+  if (/\b(project|projects|app|apps|built|build|works?)\b/.test(q)) return 'projects';
   return null; // no known topic matched — caller decides (off-topic vs intro)
 }
 
 /** Expected action for a topic — used locally AND on the server for the AI path. */
 export function topicActions(topic: Topic): JameletAction[] {
   switch (topic) {
+    case 'projects':
     case 'capstone':
+    case 'interntrack':
       return ['view-projects', 'open-github'];
     case 'availability':
     case 'contact':

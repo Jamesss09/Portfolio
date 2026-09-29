@@ -40,8 +40,8 @@ export const profile = {
 } as const;
 
 export const stats = [
-  { value: '13+', label: 'Technologies in my stack' },
-  { value: '1', label: 'Live project built' },
+  { value: '14+', label: 'Technologies in my stack' },
+  { value: '2', label: 'Projects built' },
   { value: '4 yrs', label: 'Into IT & counting' },
 ] as const;
 
@@ -196,7 +196,7 @@ export const facts: PortfolioFact[] = [
 
 export const skillCategories = [
   { title: 'Frontend', skills: ['React.js', 'JavaScript', 'TypeScript'] },
-  { title: 'Mobile', skills: ['React Native'] },
+  { title: 'Mobile', skills: ['React Native', 'Expo'] },
   { title: 'Backend', skills: ['PHP', 'Laravel'] },
   { title: 'Database', skills: ['MySQL', 'PostgreSQL'] },
   { title: 'Server / Environment', skills: ['Apache', 'Docker'] },
@@ -222,12 +222,22 @@ export const learningJourney = [
 
 export const projects = [
   {
+    id: 'capstone',
     name: 'TMC Entrance Examination: Answer Sheet Recognition and Scoring System',
     summary:
       'Scans answer sheets with an Android camera or upload, recognizes answers via AI/OMR, scores against the official key (Passed/Failed), and manages results in a web platform.',
     tech: ['Python', 'PyTorch', 'OpenCV', 'React', 'Tailwind', 'Laravel', 'MySQL'],
     repo: 'https://github.com/Jamesss09/Capstone',
     status: 'Ongoing',
+  },
+  {
+    id: 'interntrack',
+    name: 'InternTrack: OJT Hours Tracker',
+    summary:
+      'A cross-platform mobile app for tracking OJT (on-the-job training) hours. Interns log time in and out, watch their progress against the required hours, and export a printable record sheet as a PDF — running fully offline on a local SQLite database.',
+    tech: ['React Native', 'Expo', 'TypeScript', 'Expo Router', 'SQLite', 'Zod'],
+    repo: 'https://github.com/Jamesss09/Intern_Track',
+    status: 'Complete',
   },
 ] as const;
 
@@ -241,6 +251,7 @@ export const projectsFooter =
 export const links = {
   github: 'https://github.com/Jamesss09',
   capstoneRepo: 'https://github.com/Jamesss09/Capstone',
+  internTrackRepo: 'https://github.com/Jamesss09/Intern_Track',
   email: 'jamescarlenquig26@gmail.com',
 } as const;
 
@@ -266,6 +277,7 @@ export const suggestedQuestions = [
   'Who is James?',
   'What are James\u2019s skills?',
   'Tell me about the capstone project.',
+  'What is InternTrack?',
   'Is James available for opportunities?',
   'How can I contact James?',
 ] as const;

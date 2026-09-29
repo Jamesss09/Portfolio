@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { GithubIcon } from './SocialIcons';
 import capstoneImage from '../assets/Capstone.jpg';
+import internTrackImage from '../assets/InternTrack.png';
 
 // Card is intentionally compact — sized close to the screenshot, text condensed to fit.
 
@@ -14,6 +15,15 @@ const projects = [
     repo: 'https://github.com/Jamesss09/Capstone',
     status: 'Ongoing',
     image: capstoneImage,
+  },
+  {
+    name: 'InternTrack: OJT Hours Tracker',
+    description:
+      'Mobile app for tracking OJT hours — log time in/out, watch progress against the required hours, and export a printable record sheet as a PDF. Runs fully offline on a local SQLite database.',
+    tech: ['React Native', 'Expo', 'TypeScript', 'Expo Router', 'SQLite', 'Zod'],
+    repo: 'https://github.com/Jamesss09/Intern_Track',
+    status: 'Complete',
+    image: internTrackImage,
   },
 ];
 

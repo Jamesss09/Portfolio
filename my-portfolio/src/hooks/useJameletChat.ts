@@ -34,7 +34,8 @@ const REQUEST_TIMEOUT_MS = 12_000;
 
 /** Client-side slash commands — handled locally, never sent to the server. */
 const COMMANDS: ReadonlyArray<{ name: string; description: string }> = [
-  { name: '/projects', description: 'Shows James\u2019s projects with buttons.' },
+  { name: '/projects', description: 'Lists James\u2019s projects with buttons.' },
+  { name: '/interntrack', description: 'Explains the InternTrack mobile app.' },
   { name: '/skills', description: 'Summarizes the skills stack.' },
   { name: '/contact', description: 'Shows how to reach James.' },
   { name: '/suggest', description: 'Re-shows the suggested questions.' },
@@ -44,7 +45,8 @@ const COMMANDS: ReadonlyArray<{ name: string; description: string }> = [
 
 /** Command token → topic reply for commands that reuse the grounded answers. */
 const COMMAND_TOPIC: Record<string, Topic> = {
-  '/projects': 'capstone',
+  '/projects': 'projects',
+  '/interntrack': 'interntrack',
   '/skills': 'skills',
   '/contact': 'contact',
 };

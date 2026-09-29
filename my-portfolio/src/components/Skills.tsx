@@ -14,6 +14,7 @@ import {
   siGit,
   siGithub,
   siFigma,
+  siExpo,
 } from 'simple-icons';
 import TechLogo, { type IconSource } from './TechLogo';
 
@@ -33,7 +34,10 @@ const skillCategories: { title: string; skills: Skill[] }[] = [
   },
   {
     title: 'Mobile',
-    skills: [{ name: 'React Native', icon: { kind: 'simple', icon: siReact } }],
+    skills: [
+      { name: 'React Native', icon: { kind: 'simple', icon: siReact } },
+      { name: 'Expo', icon: { kind: 'simple', icon: siExpo } },
+    ],
   },
   {
     title: 'Backend',
