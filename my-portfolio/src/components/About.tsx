@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import profilePic from '../assets/Profile.webp';
+import ResumeCard from './ResumeCard';
 
 // Quick facts shown in the About grid — edit freely
 const quickFacts = [
@@ -107,6 +108,11 @@ const About = () => {
                   </span>
                 </motion.div>
               ))}
+            </motion.div>
+
+            {/* Resume download */}
+            <motion.div variants={item}>
+              <ResumeCard />
             </motion.div>
 
             {/* CTA buttons */}
