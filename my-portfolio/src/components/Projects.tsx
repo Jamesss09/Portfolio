@@ -4,6 +4,12 @@ import { ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import { GithubIcon } from './SocialIcons';
 import ProjectDetailModal from './ProjectDetailModal';
 import capstoneImage from '../assets/Capstone.jpg';
+import capstoneWebDashboard from '../assets/capstone/web-admin-dashboard.png';
+import capstoneWebAnswerKeys from '../assets/capstone/web-answer-keys.png';
+import capstoneWebResults from '../assets/capstone/web-exam-results.png';
+import capstoneMobileHome from '../assets/capstone/mobile-scanner-home.png';
+import capstoneMobileProcessing from '../assets/capstone/mobile-processing.png';
+import capstoneMobileResult from '../assets/capstone/mobile-view-result.png';
 import internTrackImage from '../assets/InternTrack.png';
 import internTrackShot1 from '../assets/interntrack/InternTrack-1.jpg';
 import internTrackShot2 from '../assets/interntrack/InternTrack-2.jpg';
@@ -15,10 +21,21 @@ import { projects as sharedProjects, projectsFooter } from '../../shared/portfol
 /**
  * Artwork per project. The copy, tech, status, repo and long-form details all
  * come from `shared/portfolio` so the site and the Jamelet chatbot stay in sync.
- * The capstone is shown on its existing image only.
+ * Gallery images live in `src/assets/capstone/` (web + mobile prototypes)
+ * and `src/assets/interntrack/`.
  */
 const artwork: Record<string, { image: string; images: string[] }> = {
-  capstone: { image: capstoneImage, images: [] },
+  capstone: {
+    image: capstoneImage,
+    images: [
+      capstoneWebDashboard,
+      capstoneWebAnswerKeys,
+      capstoneWebResults,
+      capstoneMobileHome,
+      capstoneMobileProcessing,
+      capstoneMobileResult,
+    ],
+  },
   interntrack: { image: internTrackImage, images: [internTrackShot1, internTrackShot2] },
 };
 
