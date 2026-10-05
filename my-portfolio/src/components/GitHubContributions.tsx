@@ -1,10 +1,13 @@
 import { motion } from 'framer-motion';
 import { GitHubCalendar } from 'react-github-calendar';
 import { GithubIcon } from './SocialIcons';
+import { useTheme } from '../hooks/useTheme';
 
 const GITHUB_USERNAME = 'Jamesss09';
 
 const GitHubContributions = () => {
+  const { isMinimalist } = useTheme();
+
   return (
     <section id="github" className="py-20 px-6 bg-bg-primary/75">
       <div className="max-w-4xl mx-auto">
@@ -39,8 +42,12 @@ const GitHubContributions = () => {
           <div className="text-text-primary">
             <GitHubCalendar
               username={GITHUB_USERNAME}
-              colorScheme="dark"
-              theme={{ dark: ['#2a1740', '#6d28d9', '#8b5cf6', '#a78bfa', '#e9d5ff'] }}
+              colorScheme={isMinimalist ? 'light' : 'dark'}
+              theme={
+                isMinimalist
+                  ? { light: ['#f5f5f4', '#d6d3d1', '#a8a29e', '#57534e', '#1c1917'] }
+                  : { dark: ['#2a1740', '#6d28d9', '#8b5cf6', '#a78bfa', '#e9d5ff'] }
+              }
               blockSize={11}
               blockMargin={3}
               blockRadius={2}

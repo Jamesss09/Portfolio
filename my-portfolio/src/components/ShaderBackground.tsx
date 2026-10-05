@@ -1,4 +1,5 @@
 import { useShaderBackground } from './ui/animated-shader-hero';
+import { useTheme } from '../hooks/useTheme';
 
 /**
  * Fixed, full-viewport background behind all page content.
@@ -6,9 +7,21 @@ import { useShaderBackground } from './ui/animated-shader-hero';
  * movement. Mobile: the WebGL renderer is skipped entirely (GPU-heavy) and a
  * static gradient with the same dark-purple mood is shown instead, so small
  * devices scroll smoothly.
+ * Minimalist theme: plain light background, no WebGL/canvas — clean paper look.
  */
 const ShaderBackground = () => {
   const canvasRef = useShaderBackground();
+  const { isMinimalist } = useTheme();
+
+  if (isMinimalist) {
+    return (
+      <div
+        aria-hidden="true"
+        className="fixed inset-0 z-0 bg-bg-primary"
+        style={{ background: '#fafaf9' }}
+      />
+    );
+  }
 
   return (
     <>

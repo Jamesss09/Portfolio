@@ -82,11 +82,11 @@ export function Hero({
         </div>
       )}
 
-      {/* Bottom Fade */}
+      {/* Bottom Fade — uses theme bg so it blends in both vibrant + minimalist */}
       <div
         className="animate-fade-up relative mt-32 opacity-0 [perspective:2000px]
         after:absolute after:inset-0 after:z-50
-        after:[background:linear-gradient(to_top,rgba(16,7,24,0.8)_8%,transparent)]"
+        after:[background:linear-gradient(to_top,var(--color-bg-primary)_8%,transparent)]"
       />
 
       {children}

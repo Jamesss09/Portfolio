@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import ShaderBackground from './components/ShaderBackground';
+import ThemeToggle from './components/ThemeToggle';
 import { Hero } from './components/ui/hero-1';
 import About from './components/About';
 import Skills from './components/Skills';
@@ -11,17 +12,24 @@ import Contact from './components/Contact';
 import JameletHero from './components/mascot/JameletHero';
 import ChatWidget from './components/chat/ChatWidget';
 import { useJameletChat } from './hooks/useJameletChat';
+import { useTheme } from './hooks/useTheme';
 import { cn } from '@/lib/utils';
 import './App.css';
 
 function App() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const jamelet = useJameletChat();
+  // Applies the persisted theme (vibrant / minimalist) on load.
+  useTheme();
 
   return (
     <>
       <div className="relative flex min-h-screen">
         <ShaderBackground />
+        {/* Floating theme switcher — always reachable, incl. mobile (no sidebar) */}
+        <div className="fixed right-4 top-4 z-50 md:right-6 md:top-6">
+          <ThemeToggle />
+        </div>
         <Sidebar
           collapsed={sidebarCollapsed}
           onToggle={() => setSidebarCollapsed((c) => !c)}
