@@ -7,6 +7,7 @@ import {
   siTypescript,
   siPhp,
   siLaravel,
+  siExpress,
   siMysql,
   siPostgresql,
   siApache,
@@ -44,8 +45,9 @@ const skillCategories: { title: string; skills: Skill[] }[] = [
   {
     title: 'Backend',
     skills: [
-      { name: 'PHP', icon: { kind: 'simple', icon: siPhp }, level: 3 },
-      { name: 'Laravel', icon: { kind: 'simple', icon: siLaravel }, level: 3 },
+      { name: 'PHP', icon: { kind: 'simple', icon: siPhp }, level: 4 },
+      { name: 'Laravel', icon: { kind: 'simple', icon: siLaravel }, level: 4 },
+      { name: 'Express.js', icon: { kind: 'simple', icon: siExpress }, level: 3 },
     ],
   },
   {

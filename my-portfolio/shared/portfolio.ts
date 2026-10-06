@@ -198,7 +198,7 @@ export const facts: PortfolioFact[] = [
 export const skillCategories = [
   { title: 'Frontend', skills: ['React.js', 'JavaScript', 'TypeScript'] },
   { title: 'Mobile', skills: ['React Native', 'Expo'] },
-  { title: 'Backend', skills: ['PHP', 'Laravel'] },
+  { title: 'Backend', skills: ['PHP', 'Laravel', 'Express.js'] },
   { title: 'Database', skills: ['MySQL', 'PostgreSQL'] },
   { title: 'Server / Environment', skills: ['Apache', 'Docker'] },
   { title: 'Version Control', skills: ['Git', 'GitHub'] },
