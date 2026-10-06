@@ -12,7 +12,7 @@ const LINKEDIN_URL = 'https://www.linkedin.com/in/james-carl-enquig-a6932843b';
  * Web3Forms access key — verified. Form submissions go
  * straight to jamescarlenquig26@gmail.com.
  */
-const WEB3FORMS_ACCESS_KEY = 'bdb2c5fc-bc85-4d8a-87f7-b361720be7e0';
+const WEB3FORMS_ACCESS_KEY = '0bface83-8003-4449-852b-682755464861';
 
 const PURPOSES = [
   'Internship opportunity',
@@ -32,6 +32,7 @@ const Contact = () => {
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [formError, setFormError] = useState('');
+  const [apiError, setApiError] = useState('');
   const [copied, setCopied] = useState(false);
 
   const copyEmail = async () => {
@@ -48,6 +49,7 @@ const Contact = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormError('');
+    setApiError('');
 
     const trimmedName = name.trim();
     const trimmedEmail = senderEmail.trim();
@@ -88,10 +90,13 @@ const Contact = () => {
           message: trimmedMessage,
           // Deliverability: explicit sender identity + reply-to keeps
           // Gmail from filing Web3Forms mail as spam.
+          // Note: `email` is already used as reply-to by default;
+          // `replyto` here is just explicit. `botcheck` must be
+          // boolean false (empty string fails validation).
           from_name: `Portfolio Contact — ${trimmedName}`,
           replyto: trimmedEmail,
           subject: `Portfolio contact [${purpose}] — ${trimmedName}`,
-          botcheck: '',
+          botcheck: false,
         }),
       });
       const data = await res.json();
@@ -101,9 +106,15 @@ const Contact = () => {
         setSenderEmail('');
         setMessage('');
       } else {
+        const reason =
+          data?.message || data?.body?.message || `Request failed (HTTP ${res.status}).`;
+        console.error('Web3Forms error:', reason, data);
+        setApiError(String(reason));
         setStatus('error');
       }
-    } catch {
+    } catch (err) {
+      console.error('Web3Forms network error:', err);
+      setApiError('Network error — check your connection or adblocker and try again.');
       setStatus('error');
     }
   };
@@ -334,7 +345,9 @@ const Contact = () => {
                 )}
                 {status === 'error' && !formError && (
                   <p className="text-sm text-red-400 mt-3 text-center">
-                    Something went wrong. Please try again, or email me directly at {EMAIL}.
+                    {apiError
+                      ? `Send failed: ${apiError}`
+                      : `Something went wrong. Please try again, or email me directly at ${EMAIL}.`}
                   </p>
                 )}
                 {status === 'idle' && !formError && (
