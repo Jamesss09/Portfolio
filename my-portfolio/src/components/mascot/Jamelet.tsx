@@ -160,6 +160,7 @@ const Jamelet = ({
 
   const blinks = !reduced && (state === 'idle' || state === 'responding');
   const cursorBlinks = !reduced;
+  const interactive = !reduced;
 
   return (
     <motion.div
@@ -169,6 +170,8 @@ const Jamelet = ({
       initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.85 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
+      whileHover={interactive ? { rotate: 5, scale: 1.06 } : undefined}
+      whileTap={interactive ? { scale: 0.9, rotate: -5 } : undefined}
     >
       <motion.div className="h-full w-full" animate={poseFor(state, reduced)}>
         <svg viewBox="0 0 120 136" className="h-full w-full" aria-hidden="true">
@@ -187,8 +190,21 @@ const Jamelet = ({
             </linearGradient>
           </defs>
 
-          {/* Ground shadow */}
-          <ellipse cx={60} cy={128} rx={24} ry={5} fill="#000000" opacity={0.35} />
+          {/* Ground shadow — breathes in sync with the idle float */}
+          <motion.ellipse
+            cx={60}
+            cy={128}
+            rx={24}
+            ry={5}
+            fill="#000000"
+            style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
+            animate={reduced ? undefined : { scaleX: [1, 0.82, 1], opacity: [0.35, 0.2, 0.35] }}
+            transition={
+              reduced
+                ? undefined
+                : { duration: 5.5, repeat: Infinity, ease: 'easeInOut' }
+            }
+          />
 
           {/* Terminal-cursor antenna */}
           <rect x={57} y={10} width={6} height={13} rx={2.5} fill="#8B5CF6" />
@@ -258,7 +274,7 @@ const Jamelet = ({
             <Eyes state={state} />
           </motion.g>
 
-          {/* Terminal prompt motif on the chest */}
+          {/* Terminal prompt motif on the chest — cursor blinks like a live terminal */}
           <path
             d="M54 97 L60 101 L54 105"
             fill="none"
@@ -267,7 +283,17 @@ const Jamelet = ({
             strokeLinecap="round"
             strokeLinejoin="round"
           />
-          <rect x={64} y={99} width={3.2} height={4.5} fill="#A78BFA" opacity={0.85} />
+          <motion.rect
+            x={64}
+            y={99}
+            width={3.2}
+            height={4.5}
+            fill="#A78BFA"
+            animate={cursorBlinks ? { opacity: [0.9, 0.1, 0.9] } : { opacity: 0.85 }}
+            transition={
+              cursorBlinks ? { duration: 1.1, repeat: Infinity, ease: 'easeInOut' } : undefined
+            }
+          />
         </svg>
       </motion.div>
     </motion.div>

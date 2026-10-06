@@ -63,7 +63,9 @@ const EN = {
     .map((l) => `${l.name} (${l.percent}%) — ${l.note}`)
     .join('; ')}.`,
   fallback:
-    "I don't have that detail yet, but I can show you James's projects, summarize his skills, or help you contact him.",
+    "I'm sorry, I don't have any information about that yet — ask me anything about James and this portfolio.",
+  courtesy:
+    "You're welcome! Ask me anything about James and this portfolio. ✨",
 };
 
 const TL = {
@@ -88,7 +90,9 @@ const TL = {
     .map((l) => `${l.name} (${l.percent}%) — ${l.note}`)
     .join('; ')}.`,
   fallback:
-    "Wala po akong detalye nito sa ngayon, pero kaya kong ipakita ang projects ni James, i-summarize ang skills niya, o tulungan kayong ma-contact siya.",
+    "Pasensya na, wala pa akong impormasyon tungkol diyan — tanungin mo ako kahit ano tungkol kay James at sa portfolio na ito.",
+  courtesy:
+    "Walang anuman! Tanungin mo ako kahit ano tungkol kay James at sa portfolio na ito. ✨",
 };
 
 /** Loose Taglish detection — only triggers on distinctive Tagalog words. */
@@ -204,7 +208,8 @@ function isOffTopic(q: string): boolean {
  * local responder and api/chat.ts (which short-circuits the AI for these).
  */
 export function offTopicReply(input: string): ConciergeReply | null {
-  return isOffTopic(input.trim().toLowerCase()) ? fallbackReply() : null;
+  const q = input.trim().toLowerCase();
+  return isOffTopic(q) ? fallbackReply(TAGLISH.test(q)) : null;
 }
 
 /** Whitelisted action buttons for any input — used by the AI stream path. */
@@ -264,12 +269,24 @@ export function jameletRespond(input: string): ConciergeReply {
   const off = offTopicReply(input);
   if (off) return off;
 
-  // Ambiguous but James-ish input → friendly intro + tour instead of a dead end.
-  return { text: L.who, actions: topicActions('who') };
+  // Courtesy (thanks / bye / ok) is not a request for information — a short
+  // acknowledgment, never the out-of-scope fallback.
+  if (/\b(thank|thanks|tnx|salamat|bye|goodbye|good night|see you|paalam)\b/.test(q) || /^(ok|okay|cool|nice|great|awesome)\.?$/.test(q)) {
+    return { text: taglish ? TL.courtesy : EN.courtesy, actions: [] };
+  }
+
+  // Anything else matched no topic, fact, or override — it is outside the
+  // portfolio script, so answer the strict fallback instead of improvising.
+  return fallbackReply(taglish);
 }
 
-export function fallbackReply(): ConciergeReply {
-  return { text: EN.fallback, actions: ['view-projects', 'contact-james'] };
+/**
+ * Strict out-of-scope reply: anything not in the portfolio gets this exact
+ * message (English or Tagalog to match the visitor). Shared by the local
+ * responder and api/chat.ts.
+ */
+export function fallbackReply(taglish = false): ConciergeReply {
+  return { text: taglish ? TL.fallback : EN.fallback, actions: ['view-projects', 'contact-james'] };
 }
 
 export { GREETING };

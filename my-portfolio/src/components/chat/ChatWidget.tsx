@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Send, X } from 'lucide-react';
 import Jamelet from '../mascot/Jamelet';
 import ChatMessage from './ChatMessage';
@@ -10,30 +10,22 @@ interface ChatWidgetProps {
   controller: JameletChatController;
 }
 
-const BUBBLE_KEY = 'jamelet-bubble-seen';
-
 /**
- * Floating companion: circular launcher (80px), once-per-session invitation
- * bubble, and a glass chat panel. Mobile gets a bottom drawer; desktop gets a
+ * Floating companion: circular launcher (80px), invitation bubble on every
+ * visit, and a glass chat panel. Mobile gets a bottom drawer; desktop gets a
  * floating 400px window.
  */
 const ChatWidget = ({ controller }: ChatWidgetProps) => {
   const { open, messages, typing, toggle, send, suggestionsVisible } = controller;
   const [draft, setDraft] = useState('');
-  const [showBubble, setShowBubble] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false;
-    return !sessionStorage.getItem(BUBBLE_KEY);
-  });
+  // Greet on every visit — the bubble shows each time the portfolio loads.
+  const [showBubble, setShowBubble] = useState(true);
+  const reduced = useReducedMotion() ?? false;
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const dismissBubble = () => {
     setShowBubble(false);
-    try {
-      sessionStorage.setItem(BUBBLE_KEY, '1');
-    } catch {
-      /* private mode — bubble just won't persist */
-    }
   };
 
   const onLauncher = () => {
@@ -94,15 +86,25 @@ const ChatWidget = ({ controller }: ChatWidgetProps) => {
           )}
         </AnimatePresence>
 
-        <button
+        <motion.button
           type="button"
           onClick={onLauncher}
           aria-label={open ? 'Close chat with Jamelet' : 'Open chat with Jamelet'}
           aria-expanded={open}
-          className="grid h-20 w-20 shrink-0 place-items-center rounded-full border border-primary/50 bg-bg-card/90 shadow-xl shadow-primary/25 backdrop-blur transition-transform hover:scale-105 active:scale-95"
+          animate={
+            !open && !reduced ? { rotate: [0, -10, 10, -6, 6, 0], y: [0, -7, 0] } : { rotate: 0, y: 0 }
+          }
+          transition={
+            !open && !reduced
+              ? { duration: 1.6, repeat: Infinity, repeatDelay: 3.2, ease: 'easeInOut' }
+              : { duration: 0.2 }
+          }
+          whileHover={reduced ? undefined : { scale: 1.08 }}
+          whileTap={reduced ? undefined : { scale: 0.92 }}
+          className="grid h-20 w-20 shrink-0 place-items-center rounded-full border border-primary/50 bg-bg-card/90 shadow-xl shadow-primary/25 backdrop-blur"
         >
           <Jamelet state={open || typing ? 'responding' : showBubble ? 'greeting' : 'idle'} className="h-14 w-14" />
-        </button>
+        </motion.button>
       </div>
 
       {/* Panel */}

@@ -390,7 +390,7 @@ export const boundaries = {
     'Specific availability dates',
     'Qualifications not listed above',
   ],
-  note: 'Jamelet states facts only from this file. Anything else → honest "I don\u2019t have that detail yet" + redirect.',
+  note: 'Jamelet states facts only from this file. Anything else → "I\'m sorry, I don\'t have any information about that yet — ask me anything about James and this portfolio."',
 } as const;
 
 /* ------------------------------------------------------------------ */
