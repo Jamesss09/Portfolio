@@ -30,7 +30,7 @@ const Learning = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="bg-bg-card border border-border rounded-xl p-8 shadow-lg space-y-7"
+          className="bg-bg-card border border-border rounded-xl p-6 sm:p-8 shadow-lg space-y-7"
         >
           {learningItems.map((item, index) => (
             <div key={item.name}>

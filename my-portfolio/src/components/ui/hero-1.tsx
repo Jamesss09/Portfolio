@@ -53,7 +53,7 @@ export function Hero({
       <h1
         className="animate-fade-in -translate-y-4 text-balance
         bg-gradient-to-br from-white from-30% to-white/40
-        bg-clip-text py-6 text-5xl font-semibold leading-none tracking-tighter
+        bg-clip-text py-6 text-4xl font-semibold leading-none tracking-tighter
         text-transparent opacity-0 sm:text-6xl md:text-7xl lg:text-8xl
         drop-shadow-[0_0_40px_rgba(139,92,246,0.4)]"
       >

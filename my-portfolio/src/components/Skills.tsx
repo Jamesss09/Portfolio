@@ -79,7 +79,7 @@ const skillCategories: { title: string; skills: Skill[] }[] = [
 
 function CategoryCard({ category }: { category: (typeof skillCategories)[number] }) {
   return (
-    <div className="w-80 shrink-0 bg-bg-card border border-border rounded-xl p-6 shadow-lg hover:shadow-primary/20 transition-shadow group">
+    <div className="w-[270px] sm:w-80 shrink-0 bg-bg-card border border-border rounded-xl p-6 shadow-lg hover:shadow-primary/20 transition-shadow group">
       <h3 className="text-xl font-semibold text-primary-light mb-4 group-hover:text-primary-soft transition-colors">
         {category.title}
       </h3>
@@ -130,11 +130,11 @@ const Skills = () => {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="relative"
+        className="relative overflow-hidden"
       >
         {/* Edge fades so cards appear/disappear smoothly */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-bg-dark to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-bg-dark to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 sm:w-24 bg-gradient-to-r from-bg-dark to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 sm:w-24 bg-gradient-to-l from-bg-dark to-transparent" />
 
         <motion.div
           animate={controls}

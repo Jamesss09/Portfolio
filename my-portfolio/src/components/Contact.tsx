@@ -129,7 +129,7 @@ const Contact = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-5xl font-bold text-text-primary mb-4 text-center">
+          <h2 className="text-4xl sm:text-5xl font-bold text-text-primary mb-4 text-center">
             LET'S BUILD SOMETHING
             <span className="text-primary-light block">TOGETHER</span>
           </h2>

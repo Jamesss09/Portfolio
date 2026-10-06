@@ -9,7 +9,6 @@ import Projects from './components/Projects';
 import Learning from './components/Learning';
 import GitHubContributions from './components/GitHubContributions';
 import Contact from './components/Contact';
-import JameletHero from './components/mascot/JameletHero';
 import ChatWidget from './components/chat/ChatWidget';
 import { useJameletChat } from './hooks/useJameletChat';
 import { useTheme } from './hooks/useTheme';
@@ -46,9 +45,7 @@ function App() {
             subtitle="4th Year IT Student · Aspiring Web Developer"
             ctaLabel="Get In Touch"
             ctaHref="#contact"
-          >
-            <JameletHero onOpen={jamelet.openChat} />
-          </Hero>
+          />
           <About />
           <Skills />
           <Projects />
