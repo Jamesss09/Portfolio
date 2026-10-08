@@ -221,7 +221,7 @@ const Contact = () => {
               </ul>
 
               <p className="text-sm text-text-secondary">
-                Usually replies within 1–2 days.
+                I'll reply as soon as I read your message.
                 {copied && <span className="text-green-400 ml-2">Email copied!</span>}
               </p>
             </div>
@@ -253,7 +253,7 @@ const Contact = () => {
                     minLength={2}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="John Doe"
+                    placeholder="James"
                     autoComplete="name"
                     className="w-full bg-bg-primary border border-border rounded-lg px-4 py-2.5 text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-primary-light transition-colors"
                   />
@@ -268,7 +268,7 @@ const Contact = () => {
                     required
                     value={senderEmail}
                     onChange={(e) => setSenderEmail(e.target.value)}
-                    placeholder="john@example.com"
+                    placeholder="james@example.com"
                     autoComplete="email"
                     className="w-full bg-bg-primary border border-border rounded-lg px-4 py-2.5 text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-primary-light transition-colors"
                   />

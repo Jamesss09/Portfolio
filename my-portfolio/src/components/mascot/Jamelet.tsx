@@ -13,8 +13,8 @@ import jameletNew from '../../assets/jamelet-new.webp';
  * Two visual variants share one motion system:
  * - `new` (default): 3D Gen-Z companion — blue pill body, purple knit beanie
  *   with smiley pin + TikTok tag, pink heart glasses, lavender hoodie,
- *   gold-rose bouquet. Sourced from `src/assets/jamelet-new.png`
- *   (transparent cutout of `Jamelet.png`). Face is covered, so states are
+ *   gold-rose bouquet. Sourced from `src/assets/jamelet-new.webp`
+ *   (512px optimized cutout of `Jamelet.png`). Face is covered, so states are
  *   expressed with motion (float / rock / nod / tilt), not eye morphs.
  * - `classic`: original vector egg (purple shell, visor, terminal antenna).
  *   Kept for tiny sizes, tests, and reduced-motion fallbacks.
@@ -149,6 +149,79 @@ function poseFor(state: JameletState, reduced: boolean): TargetAndTransition | u
   }
 }
 
+/**
+ * Richer motion for the `new` (3D image) variant — squash-and-stretch plus
+ * travel, since the flat PNG can't morph its face. Static when reduced motion.
+ */
+function poseForNew(state: JameletState, reduced: boolean): TargetAndTransition | undefined {
+  if (reduced) return undefined;
+  switch (state) {
+    case 'idle':
+      return {
+        y: [0, -10, 0],
+        scaleX: [1, 1.03, 1],
+        scaleY: [1, 0.97, 1],
+        transition: { duration: 4.2, ease: 'easeInOut' as const, repeat: Infinity },
+      };
+    case 'greeting':
+      return {
+        rotate: [0, 10, -8, 6, 0],
+        y: [0, -10, -2, -8, 0],
+        scaleX: [1, 1.06, 0.96, 1.04, 1],
+        scaleY: [1, 0.94, 1.04, 0.97, 1],
+        transition: { duration: 2.2, ease: 'easeInOut' as const, repeat: Infinity },
+      };
+    case 'thinking':
+      return {
+        rotate: [-4, -1, -4],
+        y: [0, -6, 0],
+        scaleY: [1, 1.02, 1],
+        transition: { duration: 3.4, ease: 'easeInOut' as const, repeat: Infinity },
+      };
+    case 'responding':
+      // Talking bob: quick bounce with squash so replies feel spoken.
+      return {
+        y: [0, -7, 0, -5, 0],
+        scaleX: [1, 1.04, 0.98, 1.03, 1],
+        scaleY: [1, 0.96, 1.02, 0.97, 1],
+        transition: { duration: 1.6, ease: 'easeInOut' as const, repeat: Infinity },
+      };
+    case 'fallback':
+      return {
+        x: [0, -7, 6, -4, 0],
+        rotate: [-6, -10, -3, -7, -6],
+        transition: { duration: 2.4, ease: 'easeInOut' as const, repeat: Infinity },
+      };
+  }
+}
+
+/** Twinkling 4-point star overlay for the `new` variant (decorative). */
+function Sparkle({
+  className = '',
+  duration = 2.4,
+  delay = 0,
+}: {
+  className?: string;
+  duration?: number;
+  delay?: number;
+}) {
+  return (
+    <motion.span
+      aria-hidden="true"
+      className={`pointer-events-none absolute ${className}`}
+      animate={{ opacity: [0.2, 1, 0.2], scale: [0.7, 1.15, 0.7], rotate: [0, 20, 0] }}
+      transition={{ duration, delay, repeat: Infinity, ease: 'easeInOut' }}
+    >
+      <svg viewBox="0 0 24 24" className="h-full w-full drop-shadow-[0_0_6px_rgba(255,214,107,0.9)]">
+        <path
+          d="M12 1c1.2 5.5 4.5 8.8 10 10-5.5 1.2-8.8 4.5-10 10-1.2-5.5-4.5-8.8-10-10 5.5-1.2 8.8-4.5 10-10z"
+          fill="#FFD66B"
+        />
+      </svg>
+    </motion.span>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /* Mascot                                                              */
 /* ------------------------------------------------------------------ */
@@ -169,6 +242,7 @@ const Jamelet = ({
   const blinks = !reduced && (state === 'idle' || state === 'responding');
   const cursorBlinks = !reduced;
   const interactive = !reduced;
+  const isNew = variant === 'new';
 
   return (
     <motion.div
@@ -179,9 +253,13 @@ const Jamelet = ({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: 'easeOut' }}
       whileHover={interactive ? { rotate: 5, scale: 1.06 } : undefined}
-      whileTap={interactive ? { scale: 0.9, rotate: -5 } : undefined}
+      whileTap={interactive ? { scaleX: 1.12, scaleY: 0.86, rotate: -5 } : undefined}
     >
-      <motion.div className="h-full w-full" animate={poseFor(state, reduced)}>
+      <motion.div
+        className="h-full w-full"
+        style={{ transformOrigin: '50% 90%' }}
+        animate={isNew ? poseForNew(state, reduced) : poseFor(state, reduced)}
+      >
         {variant === 'new' ? (
           <>
             {/* Soft glow tying the blue/pink art into the purple theme */}
@@ -196,6 +274,20 @@ const Jamelet = ({
               draggable={false}
               className="h-full w-full select-none object-contain drop-shadow-[0_10px_24px_rgba(109,40,217,0.35)]"
             />
+            {!reduced && (
+              <>
+                {/* Glasses shine sweep */}
+                <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+                  <motion.span
+                    className="absolute left-0 top-[18%] h-[38%] w-1/3 rotate-12 bg-gradient-to-r from-transparent via-white/60 to-transparent blur-[2px]"
+                    animate={{ x: ['-160%', '420%'], opacity: [0, 1, 0] }}
+                    transition={{ duration: 3.4, repeat: Infinity, repeatDelay: 1.8, ease: 'easeInOut' }}
+                  />
+                </div>
+                <Sparkle className="left-[1%] top-[30%] w-[13%]" duration={2.4} delay={0} />
+                <Sparkle className="right-[0%] top-[25%] w-[16%]" duration={2.9} delay={0.9} />
+              </>
+            )}
           </>
         ) : (
         <svg viewBox="0 0 120 136" className="h-full w-full" aria-hidden="true">
