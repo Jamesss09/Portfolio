@@ -22,7 +22,7 @@ const JameletHero = ({ onOpen }: JameletHeroProps) => {
           Ask me about James&rsquo;s projects!
         </span>
         <span className="block transition-transform duration-300 group-hover:scale-105 group-active:scale-95">
-          <Jamelet state="idle" className="h-24 w-24 md:h-28 md:w-28" />
+          <Jamelet state="idle" className="h-32 w-32 md:h-40 md:w-40" />
         </span>
       </button>
     </div>

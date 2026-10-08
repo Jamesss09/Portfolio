@@ -101,9 +101,9 @@ const ChatWidget = ({ controller }: ChatWidgetProps) => {
           }
           whileHover={reduced ? undefined : { scale: 1.08 }}
           whileTap={reduced ? undefined : { scale: 0.92 }}
-          className="grid h-20 w-20 shrink-0 place-items-center rounded-full border border-primary/50 bg-bg-card/90 shadow-xl shadow-primary/25 backdrop-blur"
+          className="grid h-20 w-20 shrink-0 place-items-center overflow-hidden rounded-full border border-primary/50 bg-gradient-to-b from-[#2E9BFF]/25 via-bg-card/90 to-[#FF9EBB]/25 shadow-xl shadow-primary/25 backdrop-blur"
         >
-          <Jamelet state={open || typing ? 'responding' : showBubble ? 'greeting' : 'idle'} className="h-14 w-14" />
+          <Jamelet state={open || typing ? 'responding' : showBubble ? 'greeting' : 'idle'} className="h-16 w-16" />
         </motion.button>
       </div>
 
@@ -121,7 +121,9 @@ const ChatWidget = ({ controller }: ChatWidgetProps) => {
           >
             {/* Header */}
             <div className="flex items-center gap-3 border-b border-border bg-bg-dark/80 px-4 py-3">
-              <Jamelet state={typing ? 'thinking' : 'responding'} className="h-10 w-10 shrink-0" />
+              <span className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full border border-primary/30 bg-gradient-to-b from-[#2E9BFF]/30 to-[#FF9EBB]/30">
+                <Jamelet state={typing ? 'thinking' : 'responding'} className="h-9 w-9" />
+              </span>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-text-primary">Jamelet</p>
                 <p className="text-xs text-text-secondary">AI concierge · answers from the portfolio</p>

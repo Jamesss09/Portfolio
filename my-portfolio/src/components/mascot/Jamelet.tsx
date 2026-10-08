@@ -5,16 +5,21 @@ import {
   useReducedMotion,
   type TargetAndTransition,
 } from 'framer-motion';
+import jameletNew from '../../assets/jamelet-new.webp';
 
 /**
  * Jamelet — James's little tech sidekick.
  *
- * Phase 2 deliverable: original vector mascot with five expression states.
- * Visual direction (see vault/Jamelet/00):
- * - Rounded compact egg body, no limbs; terminal-cursor antenna; black-glass visor.
- * - Palette reuses portfolio tokens (#1A0B24, #6D28D9, #8B5CF6, #A78BFA).
- * - Eyes are the only facial animation surface.
- * - All loops respect prefers-reduced-motion (static pose fallback).
+ * Two visual variants share one motion system:
+ * - `new` (default): 3D Gen-Z companion — blue pill body, purple knit beanie
+ *   with smiley pin + TikTok tag, pink heart glasses, lavender hoodie,
+ *   gold-rose bouquet. Sourced from `src/assets/jamelet-new.png`
+ *   (transparent cutout of `Jamelet.png`). Face is covered, so states are
+ *   expressed with motion (float / rock / nod / tilt), not eye morphs.
+ * - `classic`: original vector egg (purple shell, visor, terminal antenna).
+ *   Kept for tiny sizes, tests, and reduced-motion fallbacks.
+ *
+ * All loops respect prefers-reduced-motion (static pose fallback).
  */
 
 export type JameletState = 'idle' | 'greeting' | 'thinking' | 'responding' | 'fallback';
@@ -24,8 +29,10 @@ const SHELL_TOP = '#7C3AED';
 const SHELL_BOTTOM = '#5B21B6';
 
 interface JameletProps {
-  /** Current expression state. */
+  /** Current expression state (drives motion; `classic` also morphs eyes). */
   state?: JameletState;
+  /** `new` = 3D image (default), `classic` = original vector egg. */
+  variant?: 'new' | 'classic';
   /** Sizing / layout classes (defaults to w-24 h-24). */
   className?: string;
   'aria-label'?: string;
@@ -148,6 +155,7 @@ function poseFor(state: JameletState, reduced: boolean): TargetAndTransition | u
 
 const Jamelet = ({
   state = 'idle',
+  variant = 'new',
   className = 'w-24 h-24',
   'aria-label': ariaLabel = "Jamelet — James's AI portfolio sidekick",
 }: JameletProps) => {
@@ -164,7 +172,7 @@ const Jamelet = ({
 
   return (
     <motion.div
-      className={className}
+      className={`relative ${className}`}
       role="img"
       aria-label={ariaLabel}
       initial={reduced ? { opacity: 0 } : { opacity: 0, scale: 0.85 }}
@@ -174,6 +182,22 @@ const Jamelet = ({
       whileTap={interactive ? { scale: 0.9, rotate: -5 } : undefined}
     >
       <motion.div className="h-full w-full" animate={poseFor(state, reduced)}>
+        {variant === 'new' ? (
+          <>
+            {/* Soft glow tying the blue/pink art into the purple theme */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-[8%] -z-10 rounded-full bg-[radial-gradient(circle_at_50%_35%,rgba(46,155,255,0.35),rgba(255,158,187,0.25)_55%,transparent_75%)] blur-md"
+            />
+            <img
+              src={jameletNew}
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+              className="h-full w-full select-none object-contain drop-shadow-[0_10px_24px_rgba(109,40,217,0.35)]"
+            />
+          </>
+        ) : (
         <svg viewBox="0 0 120 136" className="h-full w-full" aria-hidden="true">
           <defs>
             <linearGradient id={shellGrad} x1="0.2" y1="0" x2="0.85" y2="1">
@@ -295,6 +319,7 @@ const Jamelet = ({
             }
           />
         </svg>
+        )}
       </motion.div>
     </motion.div>
   );
