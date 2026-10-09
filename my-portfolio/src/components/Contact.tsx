@@ -129,7 +129,7 @@ const Contact = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl sm:text-5xl font-bold text-text-primary mb-4 text-center">
+          <h2 className="font-display text-5xl sm:text-6xl font-medium tracking-tight text-text-primary mb-4 text-center">
             LET'S BUILD SOMETHING
             <span className="text-primary-light block">TOGETHER</span>
           </h2>
@@ -148,7 +148,7 @@ const Contact = () => {
                 Available for internships &amp; collaboration
               </span>
 
-              <h3 className="text-2xl font-semibold text-text-primary mb-3">Let's connect</h3>
+              <h3 className="font-display text-3xl font-medium tracking-tight text-text-primary mb-3">Let's connect</h3>
               <p className="text-text-secondary mb-8">
                 The fastest way to reach me is the form — it lands straight in my inbox.
                 Prefer email or socials? Use the links below.

@@ -18,7 +18,7 @@ const GitHubContributions = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold text-text-primary mb-4 flex flex-wrap items-center justify-center gap-3">
+          <h2 className="font-display text-4xl sm:text-5xl font-medium tracking-tight text-text-primary mb-4 flex flex-wrap items-center justify-center gap-3">
             <GithubIcon width={30} height={30} className="text-primary-light" />
             Live GitHub Contributions
           </h2>

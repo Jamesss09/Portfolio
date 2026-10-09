@@ -141,7 +141,7 @@ const Skills = () => {
           transition={{ duration: 0.6 }}
           className="text-center"
         >
-          <h2 className="text-4xl font-bold text-text-primary mb-4">Tech Stack</h2>
+          <h2 className="font-display text-5xl font-medium tracking-tight text-text-primary mb-4">Tech Stack</h2>
           <p className="text-sm text-text-secondary">
             Dots show self-rated proficiency out of 5.
           </p>

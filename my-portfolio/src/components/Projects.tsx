@@ -89,7 +89,7 @@ const Projects = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-text-primary mb-4">Projects</h2>
+          <h2 className="font-display text-5xl font-medium tracking-tight text-text-primary mb-4">Projects</h2>
         </motion.div>
 
         {/* Carousel — a region so screen readers announce slide changes. */}

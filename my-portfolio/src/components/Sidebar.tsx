@@ -27,7 +27,7 @@ const Sidebar = ({ collapsed, onToggle }: SidebarProps) => {
       <div className={cn('flex flex-col h-full transition-all duration-300', collapsed ? 'p-3' : 'p-6')}>
         <div className={cn('mb-10 flex items-start gap-2', collapsed ? 'flex-col items-center' : 'flex-row justify-between')}>
           <div className={cn(collapsed && 'flex flex-col items-center gap-1')}>
-            <h1 className="text-3xl font-bold text-primary-light">JC</h1>
+            <h1 className="font-display text-3xl font-medium tracking-tight text-primary-light">JC</h1>
             {!collapsed && <p className="text-sm text-text-secondary mt-1">James Carl Enquig</p>}
           </div>
           <button

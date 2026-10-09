@@ -37,7 +37,7 @@ const About = () => {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-text-primary mb-4">About Me</h2>
+          <h2 className="font-display text-5xl font-medium tracking-tight text-text-primary mb-4">About Me</h2>
           {/* Animated gradient underline */}
           <motion.div
             animate={{ backgroundPositionX: ['0%', '200%'] }}
@@ -148,7 +148,7 @@ const About = () => {
               whileHover={{ y: -4 }}
               className="rounded-xl border border-border bg-bg-card/80 p-6 text-center shadow-lg backdrop-blur-sm transition-colors hover:border-primary/50"
             >
-              <p className="text-3xl font-bold text-text-primary">{stat.value}</p>
+              <p className="font-display text-4xl font-medium text-text-primary">{stat.value}</p>
               <p className="text-sm text-text-secondary mt-1">{stat.label}</p>
             </motion.div>
           ))}

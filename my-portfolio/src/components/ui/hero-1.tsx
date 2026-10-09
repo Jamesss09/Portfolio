@@ -111,7 +111,7 @@ export function Hero({
               aria-hidden
               className="inline-block h-1.5 w-1.5 rounded-full bg-[#c4a76a]"
             />
-            Based in Philippines · Open to internships
+            Based in Philippines · Ready to build projects
           </p>
         </div>
 
@@ -156,7 +156,7 @@ export function Hero({
                   </dt>
                   <dd className="flex items-center gap-2 text-sm font-light text-text-primary">
                     <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#c4a76a]" />
-                    Open to internships
+                    Ready to build projects
                   </dd>
                 </div>
               </dl>

@@ -188,6 +188,11 @@
   }
 }
 
+/* Portfolio type — Inter body, Cormorant Garamond display (matches Hero) */
+body {
+  font-family: var(--font-sans);
+}
+
 /* Smooth anchor navigation (also used by Jamelet's action links) */
 html {
   scroll-behavior: smooth;

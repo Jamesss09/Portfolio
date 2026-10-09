@@ -20,7 +20,7 @@ const Learning = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold text-text-primary mb-4">
+          <h2 className="font-display text-5xl font-medium tracking-tight text-text-primary mb-4">
             Learning Journey
           </h2>
         </motion.div>
