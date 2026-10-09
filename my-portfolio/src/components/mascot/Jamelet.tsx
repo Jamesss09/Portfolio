@@ -5,7 +5,8 @@ import {
   useReducedMotion,
   type TargetAndTransition,
 } from 'framer-motion';
-import jameletNew from '../../assets/jamelet-new.webp';
+import jameletBody from '../../assets/jamelet-body.webp';
+import jameletArm from '../../assets/jamelet-arm.webp';
 
 /**
  * Jamelet — James's little tech sidekick.
@@ -13,9 +14,10 @@ import jameletNew from '../../assets/jamelet-new.webp';
  * Two visual variants share one motion system:
  * - `new` (default): 3D Gen-Z companion — blue pill body, purple knit beanie
  *   with smiley pin + TikTok tag, pink heart glasses, lavender hoodie,
- *   gold-rose bouquet. Sourced from `src/assets/jamelet-new.webp`
- *   (512px optimized cutout of `Jamelet.png`). Face is covered, so states are
- *   expressed with motion (float / rock / nod / tilt), not eye morphs.
+ *   gold-rose bouquet. Rendered as two layers (`jamelet-body.webp` +
+ *   `jamelet-arm.webp`, 512px cutouts of `Jamelet.png`) so the free arm can
+ *   wave from its shoulder pivot while the body floats / rocks / nods.
+ *   Face is covered, so states are expressed with motion, not eye morphs.
  * - `classic`: original vector egg (purple shell, visor, terminal antenna).
  *   Kept for tiny sizes, tests, and reduced-motion fallbacks.
  *
@@ -195,6 +197,34 @@ function poseForNew(state: JameletState, reduced: boolean): TargetAndTransition 
   }
 }
 
+/** Shoulder hinge of the free-arm layer, as % of the 1166x1349 art. */
+const ARM_PIVOT = '16.3% 68.9%';
+
+/** Independent free-arm motion per state (negative = outward wave). Static when reduced. */
+function armPoseFor(state: JameletState, reduced: boolean): TargetAndTransition | undefined {
+  if (reduced) return undefined;
+  switch (state) {
+    case 'greeting':
+      return {
+        rotate: [0, -22, 10, -16, 0],
+        transition: { duration: 2, ease: 'easeInOut' as const, repeat: Infinity },
+      };
+    case 'idle':
+      return {
+        rotate: [0, -4, 0],
+        transition: { duration: 5, ease: 'easeInOut' as const, repeat: Infinity },
+      };
+    case 'responding':
+      return {
+        rotate: [0, -6, 0],
+        transition: { duration: 1.6, ease: 'easeInOut' as const, repeat: Infinity },
+      };
+    case 'thinking':
+    case 'fallback':
+      return undefined;
+  }
+}
+
 /** Twinkling 4-point star overlay for the `new` variant (decorative). */
 function Sparkle({
   className = '',
@@ -261,18 +291,28 @@ const Jamelet = ({
         animate={isNew ? poseForNew(state, reduced) : poseFor(state, reduced)}
       >
         {variant === 'new' ? (
-          <>
+          <div className="relative mx-auto aspect-[512/592] h-full">
             {/* Soft glow tying the blue/pink art into the purple theme */}
             <div
               aria-hidden="true"
-              className="absolute inset-[8%] -z-10 rounded-full bg-[radial-gradient(circle_at_50%_35%,rgba(46,155,255,0.35),rgba(255,158,187,0.25)_55%,transparent_75%)] blur-md"
+              className="absolute inset-[8%] rounded-full bg-[radial-gradient(circle_at_50%_35%,rgba(46,155,255,0.35),rgba(255,158,187,0.25)_55%,transparent_75%)] blur-md"
             />
             <img
-              src={jameletNew}
+              src={jameletBody}
               alt=""
               aria-hidden="true"
               draggable={false}
-              className="h-full w-full select-none object-contain drop-shadow-[0_10px_24px_rgba(109,40,217,0.35)]"
+              className="absolute inset-0 h-full w-full select-none drop-shadow-[0_10px_24px_rgba(109,40,217,0.35)]"
+            />
+            {/* Free arm on its own layer — waves from the shoulder pivot */}
+            <motion.img
+              src={jameletArm}
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+              className="absolute inset-0 h-full w-full select-none"
+              style={{ transformOrigin: ARM_PIVOT }}
+              animate={armPoseFor(state, reduced)}
             />
             {!reduced && (
               <>
@@ -288,7 +328,7 @@ const Jamelet = ({
                 <Sparkle className="right-[0%] top-[25%] w-[16%]" duration={2.9} delay={0.9} />
               </>
             )}
-          </>
+          </div>
         ) : (
         <svg viewBox="0 0 120 136" className="h-full w-full" aria-hidden="true">
           <defs>
