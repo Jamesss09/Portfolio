@@ -210,14 +210,21 @@ function armPoseFor(state: JameletState, reduced: boolean): TargetAndTransition 
         transition: { duration: 2, ease: 'easeInOut' as const, repeat: Infinity },
       };
     case 'idle':
+      // Mostly at rest, with a friendly wave burst every loop so the
+      // limb motion is actually seen (idle is the dominant launcher state).
       return {
-        rotate: [0, -4, 0],
-        transition: { duration: 5, ease: 'easeInOut' as const, repeat: Infinity },
+        rotate: [0, 0, 0, -22, 12, -14, 0, 0, 0],
+        transition: {
+          duration: 9,
+          times: [0, 0.55, 0.62, 0.7, 0.76, 0.82, 0.88, 0.94, 1],
+          ease: 'easeInOut' as const,
+          repeat: Infinity,
+        },
       };
     case 'responding':
       return {
-        rotate: [0, -6, 0],
-        transition: { duration: 1.6, ease: 'easeInOut' as const, repeat: Infinity },
+        rotate: [0, -9, 5, -7, 0],
+        transition: { duration: 1.8, ease: 'easeInOut' as const, repeat: Infinity },
       };
     case 'thinking':
     case 'fallback':
