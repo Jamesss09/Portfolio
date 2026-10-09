@@ -44,9 +44,15 @@ function applyTheme(theme: Theme) {
 export function useTheme() {
   const [theme, setThemeState] = useState<Theme>(getInitialTheme);
 
-  // Apply on mount + whenever this instance changes.
+  // Apply, persist and broadcast whenever this instance's theme changes
+  // (including mount). Side effects live here — never inside a state
+  // updater. Updaters run during render and React may discard that work,
+  // which previously dropped the toggle's update entirely (the event
+  // dispatched mid-render set state on other instances while ThemeToggle
+  // was still rendering).
   useEffect(() => {
     applyTheme(theme);
+    window.dispatchEvent(new CustomEvent<Theme>(THEME_EVENT, { detail: theme }));
   }, [theme]);
 
   // Stay in sync when another instance changes the theme.
@@ -61,22 +67,10 @@ export function useTheme() {
 
   const setTheme = useCallback((next: Theme) => {
     setThemeState(next);
-    applyTheme(next);
-    window.dispatchEvent(new CustomEvent<Theme>(THEME_EVENT, { detail: next }));
   }, []);
 
   const toggle = useCallback(() => {
-    setThemeState((prev) => {
-      const next: Theme = prev === 'vibrant' ? 'minimalist' : 'vibrant';
-      applyTheme(next);
-      try {
-        window.localStorage.setItem(STORAGE_KEY, next);
-      } catch {
-        /* ignore */
-      }
-      window.dispatchEvent(new CustomEvent<Theme>(THEME_EVENT, { detail: next }));
-      return next;
-    });
+    setThemeState((prev) => (prev === 'vibrant' ? 'minimalist' : 'vibrant'));
   }, []);
 
   return { theme, setTheme, toggle, isMinimalist: theme === 'minimalist' };
