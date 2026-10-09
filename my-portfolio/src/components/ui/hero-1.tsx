@@ -111,7 +111,7 @@ export function Hero({
               aria-hidden
               className="inline-block h-1.5 w-1.5 rounded-full bg-[#c4a76a]"
             />
-            Based in Philippines · Ready to build projects
+            Build Projects With Me
           </p>
         </div>
 
