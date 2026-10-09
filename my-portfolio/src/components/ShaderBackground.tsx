@@ -3,8 +3,9 @@ import { useTheme } from '../hooks/useTheme';
 /**
  * Fixed, full-viewport background behind all page content.
  * Static only — the animated WebGL violet nebula was removed per request,
- * so this now renders a calm dark-purple gradient on desktop/mobile.
- * Minimalist theme: plain light background, clean paper look.
+ * so this now renders a calm royal-purple gradient on desktop/mobile.
+ * Minimalist theme (secondary): plain light background, clean paper look.
+ * Royal Purple is the primary theme and the default.
  */
 const ShaderBackground = () => {
   const { isMinimalist } = useTheme();

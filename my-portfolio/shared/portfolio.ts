@@ -230,7 +230,7 @@ export interface ProjectLink {
 }
 
 /**
- * Long-form detail behind each carousel card's "View More".
+ * Long-form detail behind each project card's "View Case Study".
  *
  * Text only — no asset imports, because `api/system-prompt.ts` imports this
  * file into the Vercel function where Vite asset resolution doesn't apply.

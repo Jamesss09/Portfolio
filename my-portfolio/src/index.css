@@ -2,10 +2,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-/* Force dark mode (portfolio is dark-only) so `dark:` variants always apply */
+/* Royal Purple is the primary (default) dark theme, so `dark:` variants
+   always apply unless `.theme-minimalist` (secondary, light) is active. */
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  color-scheme: dark;
   --background: 262 79% 6%;
   --foreground: 262 100% 98%;
   --card: 262 48% 12%;
@@ -29,7 +31,7 @@
 }
 
 @theme {
-  /* Portfolio palette */
+  /* Portfolio palette — Royal Purple (primary dark theme) */
   --color-bg-primary: #100718;
   --color-bg-dark: #1a0b24;
   --color-bg-card: #21102e;
@@ -120,7 +122,7 @@
 
 /* Luxury hero uses solid theme-aware text — no gradient override needed. */
 
-/* Bottom fade over the hero is dark-tinted for vibrant — match the light bg */
+/* Bottom fade over the hero is dark-tinted for royal purple — match the light bg */
 .theme-minimalist #hero .after\:absolute::after,
 .theme-minimalist #hero [class*='after:']::after {
   background: linear-gradient(to top, rgba(250, 250, 249, 0.95) 8%, transparent) !important;
@@ -151,6 +153,25 @@
 .theme-minimalist textarea::placeholder {
   color: #78716c !important;
   opacity: 1;
+}
+
+/* Featured project cards — lift white cards off the cream page */
+.theme-minimalist .project-card {
+  box-shadow: 0 16px 40px -16px rgb(28 25 23 / 0.18);
+}
+
+/* Status hues tuned for the dark theme need darker equivalents on white */
+.theme-minimalist .bg-amber-400 {
+  background-color: #d97706 !important;
+}
+.theme-minimalist .text-amber-200 {
+  color: #92400e !important;
+}
+.theme-minimalist .bg-emerald-400 {
+  background-color: #059669 !important;
+}
+.theme-minimalist .text-emerald-200 {
+  color: #065f46 !important;
 }
 
 @keyframes fade-in {

@@ -9,21 +9,24 @@ interface ThemeToggleProps {
 }
 
 /**
- * Theme switcher: vibrant (dark purple nebula) <-> minimalist (light, clean).
- * Self-contained — reads shared theme state via `useTheme()`, so any number
- * of instances (sidebar footer + mobile floating button) stay in sync.
+ * Theme switcher: royal purple (dark, primary/default) <-> minimalist
+ * (light, secondary). Self-contained — reads shared theme state via
+ * `useTheme()`, so any number of instances (sidebar footer + mobile floating
+ * button) stay in sync. The underlying theme ids (`vibrant`/`minimalist`)
+ * are unchanged so stored preferences keep working.
  */
 const ThemeToggle = ({ collapsed = false, className }: ThemeToggleProps) => {
-  const { theme, toggle, isMinimalist } = useTheme();
-  const next = isMinimalist ? 'vibrant' : 'minimalist';
+  const { toggle, isMinimalist } = useTheme();
+  const currentLabel = isMinimalist ? 'minimalist' : 'royal purple';
+  const nextLabel = isMinimalist ? 'royal purple' : 'minimalist';
   const Icon = isMinimalist ? Moon : Sun;
 
   return (
     <button
       type="button"
       onClick={toggle}
-      aria-label={`Switch to ${next} theme (currently ${theme})`}
-      title={`Switch to ${next} theme`}
+      aria-label={`Switch to ${nextLabel} theme (currently ${currentLabel})`}
+      title={`Switch to ${nextLabel} theme`}
       aria-pressed={isMinimalist}
       className={cn(
         'inline-flex items-center gap-2 rounded-full border border-border bg-bg-card/90 px-3 py-2 text-sm font-medium text-text-secondary shadow-sm backdrop-blur-sm transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:text-text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
@@ -34,7 +37,7 @@ const ThemeToggle = ({ collapsed = false, className }: ThemeToggleProps) => {
       <Icon size={16} aria-hidden="true" className="shrink-0" />
       {!collapsed && (
         <span className="whitespace-nowrap">
-          {isMinimalist ? 'Vibrant' : 'Minimalist'}
+          {isMinimalist ? 'Royal Purple' : 'Minimalist'}
         </span>
       )}
     </button>

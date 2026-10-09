@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
+/** `vibrant` = Royal Purple (primary, default); `minimalist` = light secondary. */
 export type Theme = 'vibrant' | 'minimalist';
 
 const STORAGE_KEY = 'portfolio-theme';
