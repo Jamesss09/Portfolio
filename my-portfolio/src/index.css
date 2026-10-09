@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -36,6 +37,10 @@
   --color-primary-soft: #a78bfa;
   --color-text-primary: #f5f3ff;
   --color-text-secondary: #a9a1b5;
+
+  /* Luxury editorial type */
+  --font-display: "Cormorant Garamond", "Times New Roman", Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 
   /* Animations used by hero-1 */
   --animate-fade-in: fade-in 1s ease forwards;
@@ -113,20 +118,7 @@
   color: #1c1917;
 }
 
-/* Hero title uses a white gradient for the vibrant theme — unreadable on
-   light backgrounds, so render it as solid near-black instead. */
-.theme-minimalist #hero h1 {
-  background: none !important;
-  -webkit-text-fill-color: #1c1917 !important;
-  color: #1c1917 !important;
-  text-shadow: none !important;
-  filter: none !important;
-}
-
-/* Hide the purple nebula glow over the hero in minimalist mode */
-.theme-minimalist #hero > div[aria-hidden].absolute {
-  display: none;
-}
+/* Luxury hero uses solid theme-aware text — no gradient override needed. */
 
 /* Bottom fade over the hero is dark-tinted for vibrant — match the light bg */
 .theme-minimalist #hero .after\:absolute::after,

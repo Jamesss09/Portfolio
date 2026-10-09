@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Button } from "@/components/ui/button";
+import profile from "@/assets/Profile.webp";
 
 interface HeroProps {
   eyebrow?: string;
@@ -24,69 +24,108 @@ export function Hero({
   return (
     <section
       id="hero"
-      className="relative mx-auto w-full pt-40 px-6 text-center md:px-8
-      min-h-[calc(100vh-40px)] overflow-hidden"
+      className="relative mx-auto flex min-h-[calc(100vh-40px)] w-full max-w-6xl items-center px-6 pb-20 pt-32 md:px-10 md:pt-40"
     >
-      {/* Soft centered glow so the text pops over the animated nebula */}
+      <div className="grid w-full items-center gap-14 text-left md:grid-cols-[1.1fr_0.9fr] md:gap-12">
+        {/* ——— Editorial copy ——— */}
+        <div>
+          {eyebrow && (
+            <div
+              className="animate-fade-in flex items-center gap-4 opacity-0"
+              style={{ animationDelay: "0ms" }}
+            >
+              <span
+                aria-hidden
+                className="h-px w-10 bg-text-secondary/50"
+              />
+              <span className="text-[11px] font-medium uppercase tracking-[0.32em] text-text-secondary">
+                {eyebrow}
+              </span>
+            </div>
+          )}
+
+          <h1
+            className="animate-fade-in mt-6 font-display text-5xl font-medium leading-[0.95] tracking-tight text-text-primary opacity-0 sm:text-7xl lg:text-8xl"
+            style={{ animationDelay: "120ms" }}
+          >
+            {title}
+          </h1>
+
+          <p
+            className="animate-fade-in mt-6 max-w-md text-base font-light leading-relaxed text-text-secondary opacity-0 md:text-lg"
+            style={{ animationDelay: "240ms" }}
+          >
+            {subtitle}
+          </p>
+
+          <div
+            aria-hidden
+            className="animate-fade-in mt-8 h-px w-full max-w-md bg-border opacity-0"
+            style={{ animationDelay: "320ms" }}
+          />
+
+          {ctaLabel && (
+            <div
+              className="animate-fade-in mt-8 flex flex-wrap items-center gap-8 opacity-0"
+              style={{ animationDelay: "400ms" }}
+            >
+              <a
+                href={ctaHref}
+                className="bg-text-primary px-8 py-3.5 text-[12px] font-medium uppercase tracking-[0.22em] text-bg-primary transition-opacity duration-300 hover:opacity-85"
+              >
+                {ctaLabel}
+              </a>
+              <a
+                href="#projects"
+                className="text-[12px] font-medium uppercase tracking-[0.22em] text-text-primary underline underline-offset-8 decoration-text-secondary/50 transition-colors hover:decoration-text-primary"
+              >
+                View Work
+              </a>
+            </div>
+          )}
+
+          <p
+            className="animate-fade-in mt-10 flex items-center gap-3 text-[11px] font-medium uppercase tracking-[0.24em] text-text-secondary opacity-0"
+            style={{ animationDelay: "520ms" }}
+          >
+            <span
+              aria-hidden
+              className="inline-block h-1.5 w-1.5 rounded-full bg-[#c4a76a]"
+            />
+            Based in Philippines · Open to internships
+          </p>
+        </div>
+
+        {/* ——— Framed portrait ——— */}
+        <figure
+          className="animate-fade-in mx-auto w-full max-w-sm opacity-0 md:mx-0 md:ml-auto"
+          style={{ animationDelay: "300ms" }}
+        >
+          <div className="relative">
+            <div
+              aria-hidden
+              className="absolute -right-3 -top-3 h-full w-full border border-border"
+            />
+            <div className="relative border border-border bg-bg-card p-2">
+              <img
+                src={profile}
+                alt="Portrait of James Carl Enquig"
+                className="aspect-[3/4] w-full object-cover"
+                loading="eager"
+              />
+            </div>
+          </div>
+          <figcaption className="mt-5 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.25em] text-text-secondary">
+            <span>Portrait — 2026</span>
+            <span>N°01</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      {/* Bottom fade — uses theme bg so it blends in both vibrant + minimalist */}
       <div
         aria-hidden
-        className="absolute -z-10 inset-0
-        bg-[radial-gradient(ellipse_65%_55%_at_50%_45%,rgba(109,40,217,0.28),transparent_70%)]"
-      />
-
-      {/* Eyebrow */}
-      {eyebrow && (
-        <a href="#" className="group">
-          <span
-            className="text-sm text-gray-600 dark:text-purple-100 font-geist mx-auto px-5 py-2
-            bg-gradient-to-tr from-zinc-300/5 via-gray-400/5 to-transparent
-            border-[2px] border-gray-300/20 dark:border-white/15
-            rounded-3xl w-fit tracking-tight uppercase flex items-center justify-center
-            backdrop-blur-sm"
-          >
-            {eyebrow}
-          </span>
-        </a>
-      )}
-
-      {/* Title */}
-      <h1
-        className="animate-fade-in -translate-y-4 text-balance
-        bg-gradient-to-br from-white from-30% to-white/40
-        bg-clip-text py-6 text-4xl font-semibold leading-none tracking-tighter
-        text-transparent opacity-0 sm:text-6xl md:text-7xl lg:text-8xl
-        drop-shadow-[0_0_40px_rgba(139,92,246,0.4)]"
-      >
-        {title}
-      </h1>
-
-      {/* Subtitle */}
-      <p
-        className="animate-fade-in mb-12 -translate-y-4 text-balance
-        text-lg tracking-tight text-gray-600 dark:text-purple-100/80
-        opacity-0 md:text-xl"
-      >
-        {subtitle}
-      </p>
-
-      {/* CTA */}
-      {ctaLabel && (
-        <div className="flex justify-center">
-          <Button
-            asChild
-            className="mt-[-20px] w-fit md:w-52 z-20 font-geist tracking-tighter text-center text-lg
-            shadow-lg shadow-primary/30"
-          >
-            <a href={ctaHref}>{ctaLabel}</a>
-          </Button>
-        </div>
-      )}
-
-      {/* Bottom Fade — uses theme bg so it blends in both vibrant + minimalist */}
-      <div
-        className="animate-fade-up relative mt-32 opacity-0 [perspective:2000px]
-        after:absolute after:inset-0 after:z-50
-        after:[background:linear-gradient(to_top,var(--color-bg-primary)_8%,transparent)]"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-24 [background:linear-gradient(to_top,var(--color-bg-primary)_8%,transparent)]"
       />
 
       {children}
