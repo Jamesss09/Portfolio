@@ -1,5 +1,4 @@
 import { Home, User, Code, FolderOpen, BookOpen, Mail, ChevronsLeft, ChevronsRight } from 'lucide-react';
-import ThemeToggle from './ThemeToggle';
 import { cn } from '@/lib/utils';
 
 interface SidebarProps {
@@ -62,11 +61,6 @@ const Sidebar = ({ collapsed, onToggle }: SidebarProps) => {
             );
           })}
         </nav>
-
-        {/* Theme switcher — vibrant <-> minimalist */}
-        <div className={cn('pt-4 w-full', collapsed && 'flex justify-center')}>
-          <ThemeToggle collapsed={collapsed} className={cn(!collapsed && 'w-full justify-center')} />
-        </div>
       </div>
     </aside>
   );
