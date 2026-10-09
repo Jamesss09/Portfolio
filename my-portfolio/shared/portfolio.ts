@@ -346,6 +346,9 @@ export const projectsFooter =
 
 export const links = {
   github: 'https://github.com/Jamesss09',
+  githubHandle: 'Jamesss09',
+  linkedin: 'https://www.linkedin.com/in/james-carl-enquig-a6932843b',
+  linkedinHandle: 'james-carl-enquig',
   capstoneRepo: 'https://github.com/Jamesss09/Capstone',
   internTrackRepo: 'https://github.com/Jamesss09/Intern_Track',
   email: 'jamescarlenquig26@gmail.com',

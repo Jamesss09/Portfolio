@@ -11,8 +11,8 @@ interface ThemeToggleProps {
 /**
  * Theme switcher: royal purple (dark, primary/default) <-> minimalist
  * (light, secondary). Self-contained — reads shared theme state via
- * `useTheme()`, so any number of instances (sidebar footer + mobile floating
- * button) stay in sync. The underlying theme ids (`vibrant`/`minimalist`)
+ * `useTheme()`, so the floating button stays in sync with the rest of the
+ * app. The underlying theme ids (`vibrant`/`minimalist`)
  * are unchanged so stored preferences keep working.
  */
 const ThemeToggle = ({ collapsed = false, className }: ThemeToggleProps) => {

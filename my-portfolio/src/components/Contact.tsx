@@ -2,11 +2,14 @@ import { useState, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Copy, Loader2, Mail, Send } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
+import { links, profile } from '../../shared/portfolio';
 
-/** Your Gmail address — messages land here. */
-const EMAIL = 'jamescarlenquig26@gmail.com';
-const GITHUB_URL = 'https://github.com/Jamesss09';
-const LINKEDIN_URL = 'https://www.linkedin.com/in/james-carl-enquig-a6932843b';
+/** Contact endpoints — single-sourced from `shared/portfolio` (also feeds Jamelet). */
+const EMAIL = links.email;
+const GITHUB_URL = links.github;
+const GITHUB_HANDLE = links.githubHandle;
+const LINKEDIN_URL = links.linkedin;
+const LINKEDIN_HANDLE = links.linkedinHandle;
 
 /**
  * Web3Forms access key — verified. Form submissions go
@@ -134,7 +137,7 @@ const Contact = () => {
             <span className="text-primary-light block">TOGETHER</span>
           </h2>
           <p className="text-xl text-text-secondary mb-12 text-center">
-            I'm always open to learning, collaborating and connecting.
+            {profile.tagline}
           </p>
 
           <div className="grid gap-8 lg:grid-cols-5 lg:gap-10 items-start">
@@ -145,7 +148,7 @@ const Contact = () => {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-60"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-green-400"></span>
                 </span>
-                Available for internships &amp; collaboration
+                {profile.statusBadge}
               </span>
 
               <h3 className="font-display text-3xl font-medium tracking-tight text-text-primary mb-3">Let's connect</h3>
@@ -193,7 +196,7 @@ const Contact = () => {
                         LinkedIn
                       </span>
                       <span className="block text-sm text-text-primary group-hover:text-primary-light transition-colors truncate">
-                        james-carl-enquig
+                        {LINKEDIN_HANDLE}
                       </span>
                     </span>
                   </a>
@@ -213,17 +216,18 @@ const Contact = () => {
                         GitHub
                       </span>
                       <span className="block text-sm text-text-primary group-hover:text-primary-light transition-colors truncate">
-                        Jamesss09
+                        {GITHUB_HANDLE}
                       </span>
                     </span>
                   </a>
                 </li>
               </ul>
 
-              <p className="text-sm text-text-secondary">
-                I'll reply as soon as I read your message.
-                {copied && <span className="text-green-400 ml-2">Email copied!</span>}
-              </p>
+              {copied && (
+                <p className="text-sm text-green-400" role="status">
+                  Email copied!
+                </p>
+              )}
             </div>
 
             {/* Right: form card */}
@@ -253,7 +257,7 @@ const Contact = () => {
                     minLength={2}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="James"
+                    placeholder="Jane Doe"
                     autoComplete="name"
                     className="w-full bg-bg-primary border border-border rounded-lg px-4 py-2.5 text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-primary-light transition-colors"
                   />
@@ -268,7 +272,7 @@ const Contact = () => {
                     required
                     value={senderEmail}
                     onChange={(e) => setSenderEmail(e.target.value)}
-                    placeholder="james@example.com"
+                    placeholder="jane@example.com"
                     autoComplete="email"
                     className="w-full bg-bg-primary border border-border rounded-lg px-4 py-2.5 text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-primary-light transition-colors"
                   />
@@ -348,11 +352,6 @@ const Contact = () => {
                     {apiError
                       ? `Send failed: ${apiError}`
                       : `Something went wrong. Please try again, or email me directly at ${EMAIL}.`}
-                  </p>
-                )}
-                {status === 'idle' && !formError && (
-                  <p className="text-xs text-text-secondary mt-3 text-center">
-                    Your name, email and message go straight to my inbox — I'll reply as soon as I can.
                   </p>
                 )}
               </div>

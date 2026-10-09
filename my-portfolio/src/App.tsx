@@ -12,6 +12,7 @@ import Contact from './components/Contact';
 import ChatWidget from './components/chat/ChatWidget';
 import { useJameletChat } from './hooks/useJameletChat';
 import { useTheme } from './hooks/useTheme';
+import { profile } from '../shared/portfolio';
 import { cn } from '@/lib/utils';
 import './App.css';
 
@@ -42,7 +43,7 @@ function App() {
           <Hero
             eyebrow="Welcome to my portfolio"
             title="JAMES CARL ENQUIG"
-            subtitle="4th Year IT Student · Aspiring Web Developer"
+            subtitle={`${profile.education} · Aspiring Web Developer`}
             ctaLabel="Get In Touch"
             ctaHref="#contact"
           />

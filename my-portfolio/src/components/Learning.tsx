@@ -1,13 +1,8 @@
 import { motion } from 'framer-motion';
+import { learningJourney } from '../../shared/portfolio';
 
-// Skill levels graded honestly against the work shown in this portfolio —
-// adjust the percentages anytime you feel they've moved up.
-const learningItems = [
-  { name: 'Web Development', percent: 85, note: 'React, TypeScript, Tailwind, deployment' },
-  { name: 'UI/UX Design', percent: 65, note: 'Design systems, layouts, user flows' },
-  { name: 'Backend Development', percent: 55, note: 'Laravel, PHP, Blade, Docker' },
-  { name: 'AI / Models', percent: 30, note: 'Exploring what’s possible' },
-];
+// Levels are graded honestly against the work shown in this portfolio —
+// adjust them in `shared/portfolio` (single source of truth, also feeds Jamelet).
 
 const Learning = () => {
   return (
@@ -32,7 +27,7 @@ const Learning = () => {
           transition={{ duration: 0.6 }}
           className="bg-bg-card border border-border rounded-xl p-6 sm:p-8 shadow-lg space-y-7"
         >
-          {learningItems.map((item, index) => (
+          {learningJourney.map((item, index) => (
             <div key={item.name}>
               <div className="flex items-center justify-between mb-1">
                 <h3 className="text-lg font-medium text-text-primary">{item.name}</h3>

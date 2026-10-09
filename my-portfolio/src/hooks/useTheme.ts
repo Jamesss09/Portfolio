@@ -38,7 +38,7 @@ function applyTheme(theme: Theme) {
 
 /**
  * Shared theme state. Multiple hook instances stay in sync through a
- * window event, so Sidebar, ShaderBackground, GitHub calendar and the
+ * window event, so ShaderBackground, GitHub calendar and the
  * floating toggle can each call `useTheme()` without prop drilling.
  */
 export function useTheme() {

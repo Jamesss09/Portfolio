@@ -1,18 +1,14 @@
 import { motion } from 'framer-motion';
 import profilePic from '../assets/Profile.webp';
 import ResumeCard from './ResumeCard';
+import { identity, profile, stats } from '../../shared/portfolio';
 
-// Quick facts shown in the About grid — edit freely
+// Quick facts shown in the About grid — single-sourced from
+// `shared/portfolio` so the site and Jamelet stay in sync.
 const quickFacts = [
-  { label: 'Location', value: 'Philippines' },
-  { label: 'Education', value: '4th Year IT Student' },
-  { label: 'Open to', value: 'Internships & collabs' },
-];
-
-const stats = [
-  { value: '14+', label: 'Technologies in my stack' },
-  { value: '2', label: 'Projects built' },
-  { value: '4 yrs', label: 'Into IT & counting' },
+  { label: 'Location', value: profile.location },
+  { label: 'Education', value: profile.education },
+  { label: 'Open to', value: profile.openTo },
 ];
 
 const container = {
@@ -78,7 +74,7 @@ const About = () => {
                   <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
                   <span className="relative inline-flex size-2.5 rounded-full bg-green-500" />
                 </span>
-                <span className="text-xs font-medium text-text-primary">Open to collaborate</span>
+                <span className="text-xs font-medium text-text-primary">{profile.statusBadge}</span>
               </div>
             </motion.div>
           </motion.div>
@@ -86,9 +82,7 @@ const About = () => {
           {/* Text column */}
           <div className="space-y-6">
             <motion.p variants={item} className="text-text-secondary leading-relaxed">
-              I'm James Carl, a 4th-year IT student who enjoys building clean, responsive web
-              apps. I work across the frontend (React, TypeScript) and backend (PHP, Laravel)
-              — with a focus on AI Assisted Development.
+              {identity.intro}
             </motion.p>
 
             {/* Quick facts */}

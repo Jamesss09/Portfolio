@@ -18,6 +18,7 @@ import {
   siExpo,
 } from 'simple-icons';
 import TechLogo, { type IconSource } from './TechLogo';
+import { skillCategories as sharedSkillCategories } from '../../shared/portfolio';
 
 type Skill = {
   name: string;
@@ -26,60 +27,42 @@ type Skill = {
   level: 1 | 2 | 3 | 4 | 5;
 };
 
-const skillCategories: { title: string; skills: Skill[] }[] = [
-  {
-    title: 'Frontend',
-    skills: [
-      { name: 'React.js', icon: { kind: 'simple', icon: siReact }, level: 4 },
-      { name: 'JavaScript', icon: { kind: 'simple', icon: siJavascript }, level: 4 },
-      { name: 'TypeScript', icon: { kind: 'simple', icon: siTypescript }, level: 4 },
-    ],
-  },
-  {
-    title: 'Mobile',
-    skills: [
-      { name: 'React Native', icon: { kind: 'simple', icon: siReact }, level: 4 },
-      { name: 'Expo', icon: { kind: 'simple', icon: siExpo }, level: 4 },
-    ],
-  },
-  {
-    title: 'Backend',
-    skills: [
-      { name: 'PHP', icon: { kind: 'simple', icon: siPhp }, level: 4 },
-      { name: 'Laravel', icon: { kind: 'simple', icon: siLaravel }, level: 4 },
-      { name: 'Express.js', icon: { kind: 'simple', icon: siExpress }, level: 3 },
-    ],
-  },
-  {
-    title: 'Database',
-    skills: [
-      { name: 'MySQL', icon: { kind: 'simple', icon: siMysql }, level: 3 },
-      { name: 'PostgreSQL', icon: { kind: 'simple', icon: siPostgresql }, level: 2 },
-    ],
-  },
-  {
-    title: 'Server / Environment',
-    skills: [
-      { name: 'Apache', icon: { kind: 'simple', icon: siApache }, level: 2 },
-      { name: 'Docker', icon: { kind: 'simple', icon: siDocker }, level: 2 },
-    ],
-  },
-  {
-    title: 'Version Control',
-    skills: [
-      { name: 'Git', icon: { kind: 'simple', icon: siGit }, level: 4 },
-      { name: 'GitHub', icon: { kind: 'simple', icon: siGithub }, level: 4 },
-    ],
-  },
-  {
-    title: 'Design',
-    skills: [{ name: 'Figma', icon: { kind: 'simple', icon: siFigma }, level: 3 }],
-  },
-  {
-    title: 'AI / ML',
-    skills: [{ name: 'AI / ML', icon: { kind: 'lucide', icon: BrainCircuit }, level: 2 }],
-  },
-];
+/**
+ * Presentation data per skill (icon + self-rating). Names and categories come
+ * from `shared/portfolio` so the site and Jamelet stay in sync — a skill
+ * added there without meta here falls back to the generic entry below.
+ */
+const skillMeta: Record<string, { icon: IconSource; level: Skill['level'] }> = {
+  'React.js': { icon: { kind: 'simple', icon: siReact }, level: 4 },
+  JavaScript: { icon: { kind: 'simple', icon: siJavascript }, level: 4 },
+  TypeScript: { icon: { kind: 'simple', icon: siTypescript }, level: 4 },
+  'React Native': { icon: { kind: 'simple', icon: siReact }, level: 4 },
+  Expo: { icon: { kind: 'simple', icon: siExpo }, level: 4 },
+  PHP: { icon: { kind: 'simple', icon: siPhp }, level: 4 },
+  Laravel: { icon: { kind: 'simple', icon: siLaravel }, level: 4 },
+  'Express.js': { icon: { kind: 'simple', icon: siExpress }, level: 3 },
+  MySQL: { icon: { kind: 'simple', icon: siMysql }, level: 3 },
+  PostgreSQL: { icon: { kind: 'simple', icon: siPostgresql }, level: 2 },
+  Apache: { icon: { kind: 'simple', icon: siApache }, level: 2 },
+  Docker: { icon: { kind: 'simple', icon: siDocker }, level: 2 },
+  Git: { icon: { kind: 'simple', icon: siGit }, level: 4 },
+  GitHub: { icon: { kind: 'simple', icon: siGithub }, level: 4 },
+  Figma: { icon: { kind: 'simple', icon: siFigma }, level: 3 },
+  'AI / ML': { icon: { kind: 'lucide', icon: BrainCircuit }, level: 2 },
+};
+
+const skillCategories: { title: string; skills: Skill[] }[] = sharedSkillCategories.map(
+  (category) => ({
+    title: category.title,
+    skills: category.skills.map((name) => ({
+      name,
+      ...(skillMeta[name] ?? {
+        icon: { kind: 'lucide', icon: BrainCircuit },
+        level: 3 as const,
+      }),
+    })),
+  })
+);
 
 function CategoryCard({ category }: { category: (typeof skillCategories)[number] }) {
   return (

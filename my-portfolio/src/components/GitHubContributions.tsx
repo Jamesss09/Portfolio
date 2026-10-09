@@ -2,8 +2,9 @@ import { motion } from 'framer-motion';
 import { GitHubCalendar } from 'react-github-calendar';
 import { GithubIcon } from './SocialIcons';
 import { useTheme } from '../hooks/useTheme';
+import { links } from '../../shared/portfolio';
 
-const GITHUB_USERNAME = 'Jamesss09';
+const GITHUB_USERNAME = links.githubHandle;
 
 const GitHubContributions = () => {
   const { isMinimalist } = useTheme();
@@ -23,12 +24,12 @@ const GitHubContributions = () => {
             Live GitHub Contributions
           </h2>
           <a
-            href="https://github.com/Jamesss09"
+            href={links.github}
             target="_blank"
             rel="noopener noreferrer"
             className="text-primary-soft hover:text-primary-light transition-colors"
           >
-            github.com/Jamesss09
+            {links.github.replace('https://', '')}
           </a>
         </motion.div>
 
