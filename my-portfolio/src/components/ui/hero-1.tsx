@@ -28,7 +28,7 @@ function ManilaTime() {
 }
 
 const currentlyRows = [
-  { label: "Location", value: "Philippines · UTC+8" },
+  { label: "Location", value: "Philippines" },
   { label: "Focus", value: "React · Laravel" },
 ] as const;
 
@@ -98,7 +98,7 @@ export function Hero({
                 href="#projects"
                 className="text-[12px] font-medium uppercase tracking-[0.22em] text-text-primary underline underline-offset-8 decoration-text-secondary/50 transition-colors hover:decoration-text-primary"
               >
-                View Work
+                View Projects
               </a>
             </div>
           )}
@@ -168,7 +168,6 @@ export function Hero({
           </div>
           <figcaption className="mt-5 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.25em] text-text-secondary">
             <span>Currently — 2026</span>
-            <span>N°01</span>
           </figcaption>
         </figure>
       </div>

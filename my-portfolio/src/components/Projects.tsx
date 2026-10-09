@@ -147,16 +147,16 @@ const Projects = () => {
                   role="group"
                   aria-roledescription="slide"
                   aria-label={`${i + 1} of ${projects.length}: ${project.name}`}
-                  className="w-[86%] sm:w-[80%] lg:w-[75%] max-w-2xl shrink-0 grow-0"
+                  className="w-[86%] sm:w-[80%] lg:w-[75%] max-w-2xl shrink-0 grow-0 flex flex-col"
                 >
                   <motion.article
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.6 }}
-                    className="bg-bg-card border border-border rounded-2xl shadow-xl overflow-hidden relative max-w-2xl mx-auto"
+                    className="bg-bg-card border border-border rounded-2xl shadow-xl overflow-hidden relative max-w-2xl mx-auto flex flex-1 flex-col"
                   >
-                    <div className="grid md:grid-cols-2">
+                    <div className="grid md:grid-cols-2 flex-1">
                       {/* Project image — fixed height so the card stays compact like the image */}
                       <a
                         href={project.repo}
@@ -177,9 +177,9 @@ const Projects = () => {
                       {/* Project details — compact so it fits beside the image */}
                       <div className="p-5 sm:p-6 flex flex-col justify-center relative">
                         <div className="absolute -top-32 -right-32 w-72 h-72 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-                        <div className="relative space-y-3">
+                        <div className="relative flex flex-1 flex-col gap-3">
                           <div className="flex flex-wrap items-center justify-between gap-2">
-                            <h3 className="text-lg sm:text-xl font-bold text-text-primary leading-snug">
+                            <h3 className="text-lg sm:text-xl font-bold text-text-primary leading-snug line-clamp-2">
                               {project.name}
                             </h3>
                             <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary-soft whitespace-nowrap">
@@ -200,7 +200,7 @@ const Projects = () => {
                               </span>
                             ))}
                           </div>
-                          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-0.5">
+                          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1 mt-auto">
                             <button
                               type="button"
                               onClick={() => setDetailId(project.id)}

@@ -257,7 +257,7 @@ const Contact = () => {
                     minLength={2}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="Jane Doe"
+                    placeholder="Jemuzu"
                     autoComplete="name"
                     className="w-full bg-bg-primary border border-border rounded-lg px-4 py-2.5 text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-primary-light transition-colors"
                   />
@@ -272,7 +272,7 @@ const Contact = () => {
                     required
                     value={senderEmail}
                     onChange={(e) => setSenderEmail(e.target.value)}
-                    placeholder="jane@example.com"
+                    placeholder="jemuzu@example.com"
                     autoComplete="email"
                     className="w-full bg-bg-primary border border-border rounded-lg px-4 py-2.5 text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:border-primary-light transition-colors"
                   />

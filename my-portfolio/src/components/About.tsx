@@ -74,7 +74,7 @@ const About = () => {
                   <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
                   <span className="relative inline-flex size-2.5 rounded-full bg-green-500" />
                 </span>
-                <span className="text-xs font-medium text-text-primary">{profile.statusBadge}</span>
+                <span className="text-xs font-medium text-text-primary">Open to collaborate</span>
               </div>
             </motion.div>
           </motion.div>

@@ -31,7 +31,7 @@ export const identity = {
 /* ------------------------------------------------------------------ */
 
 export const profile = {
-  location: 'Philippines',
+  location: 'Bohol',
   education: '4th Year IT Student',
   openTo: 'Internships & collabs',
   /** Exact badge wording used on the site. */
