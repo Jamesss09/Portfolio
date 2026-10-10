@@ -1,6 +1,16 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type KeyboardEvent,
+  type ReactNode,
+} from "react";
+import { motion, useReducedMotion } from "framer-motion";
+import heroPhoto from "../../assets/james-hero.webp";
+import { profile } from "../../../shared/portfolio";
 
 interface HeroProps {
   eyebrow?: string;
@@ -28,9 +38,36 @@ function ManilaTime() {
 }
 
 const currentlyRows = [
-  { label: "Location", value: "Philippines" },
+  { label: "Location", value: profile.location },
   { label: "Focus", value: "React · Laravel" },
-] as const;
+];
+
+/** True only on devices with a real hover pointer — gates mouseEnter so
+ *  touch taps don't get a phantom hover swap before the click swap. */
+function useHoverCapable() {
+  const [canHover, setCanHover] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      window.matchMedia("(hover: hover) and (pointer: fine)").matches
+  );
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const onChange = (e: MediaQueryListEvent) => setCanHover(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+  return canHover;
+}
+
+/** Natural ease-out curve for the swap; instant when reduced motion wins. */
+const SWAP_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+const SWAP_DURATION = 0.55;
+/** Ignores a second trigger inside the animation window so a hover
+ *  immediately followed by its click (same intent) swaps only once. */
+const SWAP_LOCK_MS = 600;
+
+const cardFocusRing =
+  "cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary rounded-sm";
 
 export function Hero({
   eyebrow = "Innovate Without Limits",
@@ -40,6 +77,42 @@ export function Hero({
   ctaHref = "#",
   children,
 }: HeroProps) {
+  // Single shared state: false = photo in front / card behind,
+  // true = card in front / photo behind.
+  const [swapped, setSwapped] = useState(false);
+  const reduceMotion = useReducedMotion();
+  const canHover = useHoverCapable();
+  const lastToggle = useRef(0);
+
+  const requestToggle = useCallback(() => {
+    const now = Date.now();
+    if (!reduceMotion && now - lastToggle.current < SWAP_LOCK_MS) return;
+    lastToggle.current = now;
+    setSwapped((s) => !s);
+  }, [reduceMotion]);
+
+  // Attached to the wrapper (not each card) so sliding the pointer between
+  // the two cards can't retrigger mid-animation. Touch devices are gated
+  // out via canHover — taps use onClick only.
+  const handleContainerMouseEnter = useCallback(() => {
+    if (!canHover) return;
+    requestToggle();
+  }, [canHover, requestToggle]);
+
+  const handleCardKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        requestToggle();
+      }
+    },
+    [requestToggle]
+  );
+
+  const transition = reduceMotion
+    ? { duration: 0 }
+    : { duration: SWAP_DURATION, ease: SWAP_EASE };
+
   return (
     <section
       id="hero"
@@ -115,61 +188,128 @@ export function Hero({
           </p>
         </div>
 
-        {/* ——— Currently card ——— */}
-        <figure
+        {/* ——— Swappable photo + Currently deck (front/back) ——— */}
+        <div
           className="animate-fade-in mx-auto w-full max-w-sm opacity-0 md:mx-0 md:ml-auto"
           style={{ animationDelay: "300ms" }}
         >
-          <div className="relative">
-            <div
-              aria-hidden
-              className="absolute -right-3 -top-3 h-full w-full border border-border"
-            />
-            <div className="relative border border-border bg-bg-card p-8">
-              <div className="flex items-center gap-4">
-                <span aria-hidden className="h-px w-8 bg-text-secondary/50" />
-                <span className="text-[11px] font-medium uppercase tracking-[0.32em] text-text-secondary">
-                  Currently
-                </span>
-              </div>
-
-              <dl className="mt-6 divide-y divide-border">
-                {currentlyRows.map((row) => (
-                  <div key={row.label} className="flex items-baseline justify-between gap-6 py-3.5">
-                    <dt className="text-[11px] font-medium uppercase tracking-[0.24em] text-text-secondary">
-                      {row.label}
-                    </dt>
-                    <dd className="text-sm font-light text-text-primary">{row.value}</dd>
+          <div
+            role="button"
+            tabIndex={0}
+            aria-pressed={swapped}
+            aria-label={
+              swapped
+                ? "Currently card is in front. Activate to bring the portrait forward."
+                : "Portrait is in front. Activate to bring the Currently card forward."
+            }
+            title="Click to swap"
+            onClick={requestToggle}
+            onKeyDown={handleCardKeyDown}
+            onMouseEnter={handleContainerMouseEnter}
+            className={`${cardFocusRing} touch-manipulation select-none`}
+          >
+            {/* Grid stack: both cards share one slot, so the deck height
+                stays fixed and the swap reads as front/back, never up/down. */}
+            <div className="grid">
+              {/* Photo card — starts in front */}
+              <motion.div
+                initial={false}
+                animate={
+                  swapped
+                    ? { scale: 0.94, x: 20, y: 20 }
+                    : { scale: 1, x: 0, y: 0 }
+                }
+                transition={transition}
+                style={{ zIndex: swapped ? 1 : 2 }}
+                className="col-start-1 row-start-1 w-full self-center"
+              >
+                <div className="relative">
+                  <div
+                    aria-hidden
+                    className="absolute -right-3 -top-3 h-full w-full border border-border"
+                  />
+                  <div className="relative border border-border bg-bg-card p-2">
+                    {/* Fixed height + crop so the photo card matches the
+                        Currently card's size instead of its tall 2:3 ratio.
+                        object-top keeps the face in frame. */}
+                    <img
+                      src={heroPhoto}
+                      alt="James Carl Enquig — portrait"
+                      className="h-[320px] w-full object-cover object-top sm:h-[340px]"
+                      loading="eager"
+                      fetchPriority="high"
+                      draggable={false}
+                    />
                   </div>
-                ))}
-                <div className="flex items-baseline justify-between gap-6 py-3.5">
-                  <dt className="text-[11px] font-medium uppercase tracking-[0.24em] text-text-secondary">
-                    Local
-                  </dt>
-                  <dd className="text-sm font-light text-text-primary">
-                    <ManilaTime />
-                  </dd>
                 </div>
-                <div className="flex items-baseline justify-between gap-6 py-3.5">
-                  <dt className="text-[11px] font-medium uppercase tracking-[0.24em] text-text-secondary">
-                    Status
-                  </dt>
-                  <dd className="flex items-center gap-2 text-sm font-light text-text-primary">
-                    <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#c4a76a]" />
-                    Ready to build projects
-                  </dd>
-                </div>
-              </dl>
+              </motion.div>
 
-              <p className="mt-6 font-display text-2xl italic text-text-secondary">
-                — J.E.
-              </p>
+              {/* Currently card — starts behind, content unchanged */}
+              <motion.div
+                initial={false}
+                animate={
+                  swapped
+                    ? { scale: 1, x: 0, y: 0 }
+                    : { scale: 0.94, x: 20, y: 20 }
+                }
+                transition={transition}
+                style={{ zIndex: swapped ? 2 : 1 }}
+                className="col-start-1 row-start-1 w-full self-center"
+              >
+                <div className="relative">
+                  <div
+                    aria-hidden
+                    className="absolute -right-3 -top-3 h-full w-full border border-border"
+                  />
+                  <div className="relative border border-border bg-bg-card p-8">
+                    <div className="flex items-center gap-4">
+                      <span aria-hidden className="h-px w-8 bg-text-secondary/50" />
+                      <span className="text-[11px] font-medium uppercase tracking-[0.32em] text-text-secondary">
+                        Currently
+                      </span>
+                    </div>
+
+                    <dl className="mt-6 divide-y divide-border">
+                      {currentlyRows.map((row) => (
+                        <div key={row.label} className="flex items-baseline justify-between gap-6 py-3.5">
+                          <dt className="text-[11px] font-medium uppercase tracking-[0.24em] text-text-secondary">
+                            {row.label}
+                          </dt>
+                          <dd className="text-sm font-light text-text-primary">{row.value}</dd>
+                        </div>
+                      ))}
+                      <div className="flex items-baseline justify-between gap-6 py-3.5">
+                        <dt className="text-[11px] font-medium uppercase tracking-[0.24em] text-text-secondary">
+                          Local
+                        </dt>
+                        <dd className="text-sm font-light text-text-primary">
+                          <ManilaTime />
+                        </dd>
+                      </div>
+                      <div className="flex items-baseline justify-between gap-6 py-3.5">
+                        <dt className="text-[11px] font-medium uppercase tracking-[0.24em] text-text-secondary">
+                          Status
+                        </dt>
+                        <dd className="flex items-center gap-2 text-sm font-light text-text-primary">
+                          <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#c4a76a]" />
+                          Ready to build projects
+                        </dd>
+                      </div>
+                    </dl>
+
+                    <p className="mt-6 font-display text-2xl italic text-text-secondary">
+                      — J.E.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </div>
-          <figcaption className="mt-5 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.25em] text-text-secondary">
-            <span>Currently — 2026</span>
-          </figcaption>
-        </figure>
+
+          <div className="mt-5 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.25em] text-text-secondary">
+            <span>{swapped ? "Currently — 2026" : " Meet James— 2026"}</span>
+          </div>
+        </div>
       </div>
 
       {/* Bottom fade — uses theme bg so it blends in both vibrant + minimalist */}

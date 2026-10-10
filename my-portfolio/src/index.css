@@ -219,6 +219,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Sticky TopBar offset — anchored sections land below the bar */
+section[id] {
+  scroll-margin-top: 4.5rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

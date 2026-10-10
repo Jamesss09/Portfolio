@@ -1,9 +1,10 @@
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { Moon, Sun } from 'lucide-react';
 import { useTheme } from '../hooks/useTheme';
 import { cn } from '@/lib/utils';
 
 interface ThemeToggleProps {
-  /** When rendered inside the collapsed sidebar, show icon only. */
+  /** Icon only, no label. */
   collapsed?: boolean;
   className?: string;
 }
@@ -11,12 +12,13 @@ interface ThemeToggleProps {
 /**
  * Theme switcher: royal purple (dark, primary/default) <-> minimalist
  * (light, secondary). Self-contained — reads shared theme state via
- * `useTheme()`, so the floating button stays in sync with the rest of the
- * app. The underlying theme ids (`vibrant`/`minimalist`)
+ * `useTheme()`, so every instance stays in sync with the rest of the app.
+ * The underlying theme ids (`vibrant`/`minimalist`)
  * are unchanged so stored preferences keep working.
  */
 const ThemeToggle = ({ collapsed = false, className }: ThemeToggleProps) => {
   const { toggle, isMinimalist } = useTheme();
+  const reduceMotion = useReducedMotion();
   const currentLabel = isMinimalist ? 'minimalist' : 'royal purple';
   const nextLabel = isMinimalist ? 'royal purple' : 'minimalist';
   const Icon = isMinimalist ? Moon : Sun;
@@ -34,9 +36,24 @@ const ThemeToggle = ({ collapsed = false, className }: ThemeToggleProps) => {
         className
       )}
     >
-      <Icon size={16} aria-hidden="true" className="shrink-0" />
+      {/* Icon morph — keyed swap so Sun rolls out as Moon rolls in.
+          Fixed-size box keeps the button width stable mid-animation. */}
+      <span className="grid size-4 shrink-0 place-items-center overflow-hidden">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span
+            key={isMinimalist ? 'moon' : 'sun'}
+            initial={{ rotate: -90, scale: 0.5, opacity: 0 }}
+            animate={{ rotate: 0, scale: 1, opacity: 1 }}
+            exit={{ rotate: 90, scale: 0.5, opacity: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.25, ease: 'easeOut' }}
+            className="col-start-1 row-start-1"
+          >
+            <Icon size={16} aria-hidden="true" />
+          </motion.span>
+        </AnimatePresence>
+      </span>
       {!collapsed && (
-        <span className="whitespace-nowrap">
+        <span className="hidden whitespace-nowrap sm:inline">
           {isMinimalist ? 'Royal Purple' : 'Minimalist'}
         </span>
       )}

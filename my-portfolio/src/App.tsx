@@ -1,7 +1,5 @@
-import { useState } from 'react';
-import Sidebar from './components/Sidebar';
+import TopBar from './components/TopBar';
 import ShaderBackground from './components/ShaderBackground';
-import ThemeToggle from './components/ThemeToggle';
 import { Hero } from './components/ui/hero-1';
 import About from './components/About';
 import Skills from './components/Skills';
@@ -13,33 +11,19 @@ import ChatWidget from './components/chat/ChatWidget';
 import { useJameletChat } from './hooks/useJameletChat';
 import { useTheme } from './hooks/useTheme';
 import { profile } from '../shared/portfolio';
-import { cn } from '@/lib/utils';
 import './App.css';
 
 function App() {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const jamelet = useJameletChat();
   // Applies the persisted theme (vibrant / minimalist) on load.
   useTheme();
 
   return (
     <>
-      <div className="relative flex min-h-screen">
+      <div className="relative min-h-screen">
         <ShaderBackground />
-        {/* Floating theme switcher — always reachable, incl. mobile (no sidebar) */}
-        <div className="fixed right-4 top-4 z-50 md:right-6 md:top-6">
-          <ThemeToggle />
-        </div>
-        <Sidebar
-          collapsed={sidebarCollapsed}
-          onToggle={() => setSidebarCollapsed((c) => !c)}
-        />
-        <main
-          className={cn(
-            'flex-1 overflow-x-hidden transition-all duration-300 relative z-10',
-            sidebarCollapsed ? 'md:ml-16' : 'md:ml-64'
-          )}
-        >
+        <TopBar />
+        <main className="relative z-10 flex-1 overflow-x-hidden">
           <Hero
             eyebrow="Welcome to my portfolio"
             title="JAMES CARL ENQUIG"
