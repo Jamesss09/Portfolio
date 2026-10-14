@@ -19,6 +19,8 @@ const WEB3FORMS_ACCESS_KEY = '0bface83-8003-4449-852b-682755464861';
 
 const PURPOSES = [
   'Internship opportunity',
+  'Part-time opportunity',
+  'Freelance project',
   'Collaboration',
   'Project help',
   'Just saying hi',
@@ -31,7 +33,7 @@ type Status = 'idle' | 'sending' | 'success' | 'error';
 const Contact = () => {
   const [name, setName] = useState('');
   const [senderEmail, setSenderEmail] = useState('');
-  const [purpose, setPurpose] = useState<(typeof PURPOSES)[number]>(PURPOSES[1]);
+  const [purpose, setPurpose] = useState<(typeof PURPOSES)[number]>('Collaboration');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [formError, setFormError] = useState('');

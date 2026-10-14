@@ -1,14 +1,13 @@
 import { motion } from 'framer-motion';
 import profilePic from '../assets/Profile.webp';
 import ResumeCard from './ResumeCard';
-import { identity, profile, stats } from '../../shared/portfolio';
+import { identity, openToCategories, profile, stats } from '../../shared/portfolio';
 
 // Quick facts shown in the About grid — single-sourced from
 // `shared/portfolio` so the site and Jamelet stay in sync.
 const quickFacts = [
   { label: 'Location', value: profile.location },
   { label: 'Education', value: profile.education },
-  { label: 'Open to', value: profile.openTo },
 ];
 
 const container = {
@@ -68,13 +67,13 @@ const About = () => {
                 alt="James Carl Enquig"
                 className="relative w-56 h-56 sm:w-64 sm:h-64 object-cover rounded-full border-4 border-primary-light shadow-xl shadow-primary/30 transition-transform duration-300 group-hover:scale-105"
               />
-              {/* Floating "open to collaborate" badge */}
+              {/* Floating status badge — active green, synced to profile.statusBadge */}
               <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-bg-card/95 border border-primary/40 rounded-full px-3 py-1.5 shadow-lg whitespace-nowrap backdrop-blur-sm">
                 <span className="relative flex size-2.5">
                   <span className="absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75 animate-ping" />
                   <span className="relative inline-flex size-2.5 rounded-full bg-green-500" />
                 </span>
-                <span className="text-xs font-medium text-text-primary">Open to collaborate</span>
+                <span className="text-xs font-medium text-text-primary">{profile.statusBadge}</span>
               </div>
             </motion.div>
           </motion.div>
@@ -102,6 +101,23 @@ const About = () => {
                   </span>
                 </motion.div>
               ))}
+            </motion.div>
+
+            {/* Open-to tag row — the six confirmed categories */}
+            <motion.div variants={item}>
+              <p className="text-xs uppercase tracking-wide text-text-secondary mb-2">
+                Open to
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {openToCategories.map((category) => (
+                  <span
+                    key={category}
+                    className="inline-flex items-center rounded-full border border-border bg-bg-card/80 px-3 py-1.5 text-sm text-text-primary"
+                  >
+                    {category}
+                  </span>
+                ))}
+              </div>
             </motion.div>
 
             {/* Resume download */}

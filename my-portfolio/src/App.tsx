@@ -27,7 +27,7 @@ function App() {
           <Hero
             eyebrow="Welcome to my portfolio"
             title="JAMES CARL ENQUIG"
-            subtitle={`${profile.education} · Aspiring Web Developer`}
+            subtitle={`${profile.education} · Aspiring Junior Web Developer`}
             ctaLabel="Get In Touch"
             ctaHref="#contact"
           />

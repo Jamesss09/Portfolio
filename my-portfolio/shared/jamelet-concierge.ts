@@ -31,7 +31,7 @@ export interface ConciergeReply {
   actions: JameletAction[];
 }
 
-const GREETING = "Hi! I'm Jamelet, James's little tech sidekick. Ask me about his skills, projects, or availability.";
+const GREETING = "Hi! I'm Jamelet, James's little tech sidekick. Ask me anything about James.";
 
 /** Look projects up by id so replies survive a reordering of the array. */
 function byId(id: 'capstone' | 'interntrack') {
@@ -41,12 +41,15 @@ function byId(id: 'capstone' | 'interntrack') {
 const capstoneProject = byId('capstone');
 const internTrackProject = byId('interntrack');
 
+const totalTechnologies = skillCategories.reduce((n, c) => n + c.skills.length, 0);
+const totalAreas = skillCategories.length;
+
 const EN = {
   greeting: GREETING,
   who: `${identity.intro} Want a tour? I can show you his projects or skills.`,
   skills: `James's stack: ${skillCategories
     .map((c) => `${c.skills.join(', ')} (${c.title})`)
-    .join('; ')}. That's his 14+ technologies across 8 areas.`,
+    .join('; ')}. That's ${totalTechnologies} technologies across ${totalAreas} areas.`,
   projects: `James has ${projects.length} projects on this site: ${projects
     .map((p) => `${p.name} (${p.status})`)
     .join('; ')}. Ask me about either one and I'll break it down.`,
@@ -60,7 +63,7 @@ const EN = {
   contact: `You can reach James through the contact form on this site, or email him at ${links.email}. He's also active on GitHub.`,
   github: `James's code lives at GitHub: ${links.github}. Both of his projects are up there too — the capstone at ${links.capstoneRepo} and InternTrack at ${links.internTrackRepo}.`,
   learning: `Right now James's learning journey is: ${learningJourney
-    .map((l) => `${l.name} (${l.percent}%) — ${l.note}`)
+    .map((l) => `${l.name} — ${l.note}`)
     .join('; ')}.`,
   fallback:
     "I'm sorry, I don't have any information about that yet — ask me anything about James and this portfolio.",
@@ -69,11 +72,11 @@ const EN = {
 };
 
 const TL = {
-  greeting: "Hi! Ako si Jamelet, ang little tech sidekick ni James. Pwede mo akong tanungin tungkol sa skills niya, projects, o kung paano siya ma-contact.",
+  greeting: "Hi! Ako si Jamelet, ang little tech sidekick ni James. Pwede mo akong tanungin tungkol kay James.",
   who: `${identity.intro} Gusto niyo bang itour ko kayo sa projects o skills niya?`,
   skills: `Ito po ang stack ni James: ${skillCategories
     .map((c) => c.skills.join(', '))
-    .join(', ')} — 14+ technologies sa 8 na areas.`,
+    .join(', ')} — ${totalTechnologies} technologies sa ${totalAreas} na areas.`,
   projects: `${projects.length} po ang projects ni James dito sa site: ${projects
     .map((p) => `${p.name} (${p.status})`)
     .join('; ')}. Tatanungin mo ko kahit alin sa dalawa para sa detalye.`,
@@ -87,7 +90,7 @@ const TL = {
   contact: `Pwede niyo pong ma-contact si James via contact form dito sa site, o i-email sa ${links.email}. Nasa GitHub din po siya.`,
   github: `Nasa GitHub po ang code ni James: ${links.github}. Nasa GitHub po rin ang dalawang projects niya — ang capstone sa ${links.capstoneRepo} at ang InternTrack sa ${links.internTrackRepo}.`,
   learning: `Sa ngayon, ito po ang learning journey ni James: ${learningJourney
-    .map((l) => `${l.name} (${l.percent}%) — ${l.note}`)
+    .map((l) => `${l.name} — ${l.note}`)
     .join('; ')}.`,
   fallback:
     "Pasensya na, wala pa akong impormasyon tungkol diyan — tanungin mo ako kahit ano tungkol kay James at sa portfolio na ito.",

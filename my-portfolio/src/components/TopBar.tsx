@@ -17,7 +17,7 @@ const navItems = [
   { name: 'About', href: '#about', icon: User },
   { name: 'Skills', href: '#skills', icon: Code },
   { name: 'Projects', href: '#projects', icon: FolderOpen },
-  { name: 'Learning', href: '#learning', icon: BookOpen },
+  { name: 'My Journey', href: '#learning', icon: BookOpen },
   { name: 'Contact', href: '#contact', icon: Mail },
 ];
 
@@ -34,9 +34,13 @@ const TopBar = () => {
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-4 px-6 md:px-10">
         {/* Brand */}
         <a href="#hero" className="flex shrink-0 items-center gap-3">
-          <span className="font-display text-2xl font-medium tracking-tight text-primary-light">
-            JC
-          </span>
+          <img
+            src="/jce-logo.svg"
+            alt="JCE logo"
+            width={32}
+            height={32}
+            className="size-8 rounded-md"
+          />
           <span className="hidden text-sm font-semibold leading-tight text-text-primary sm:block">
             James Carl Enquig
           </span>

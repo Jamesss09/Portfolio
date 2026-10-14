@@ -22,7 +22,7 @@ export const identity = {
   monogram: 'JC',
   firstName: 'James',
   intro:
-    "I'm James Carl, a 4th-year IT student who enjoys building clean, responsive web apps. I work across the frontend (React, TypeScript) and backend (PHP, Laravel) — with a focus on AI Assisted Development.",
+    "I'm James Carl, a fourth-year Information Technology student aspiring to become a Junior Web Developer. I enjoy learning how technology works and turning ideas into practical, user-friendly applications. I approach development as a continuous learning process, where every challenge is an opportunity to improve my problem-solving skills and deepen my understanding of software development. I'm looking forward to gaining real-world experience, working with others, and growing into a developer who builds useful solutions.",
   currentFocus: 'AI Assisted Development',
 } as const;
 
@@ -33,15 +33,24 @@ export const identity = {
 export const profile = {
   location: 'Bohol',
   education: '4th Year IT Student',
-  openTo: 'Internships & collabs',
+  openTo: 'Internships & junior roles',
   /** Exact badge wording used on the site. */
-  statusBadge: 'Open to collaborate',
+  statusBadge: 'Open to opportunities',
   /** Contact-section tagline. */
   tagline: "I'm always open to learning, collaborating and connecting.",
 } as const;
 
+export const openToCategories = [
+  'Internships',
+  'Junior Developer Roles',
+  'Collaboration & Team Projects',
+  'Part-time Opportunities',
+  'Freelance Projects',
+  'Web Development Projects',
+] as const;
+
 export const stats = [
-  { value: '14+', label: 'Technologies in my stack' },
+  { value: '16', label: 'Technologies in my stack' },
   { value: '2', label: 'Projects built' },
   { value: '4 yrs', label: 'Into IT & counting' },
 ] as const;
@@ -203,7 +212,7 @@ export const skillCategories = [
   { title: 'Server / Environment', skills: ['Apache', 'Docker'] },
   { title: 'Version Control', skills: ['Git', 'GitHub'] },
   { title: 'Design', skills: ['Figma'] },
-  { title: 'AI / ML', skills: ['AI / ML'] },
+  { title: 'AI / ML', skills: ['AI / ML' , 'Pytorch'] },
 ] as const;
 
 /* ------------------------------------------------------------------ */
@@ -211,10 +220,10 @@ export const skillCategories = [
 /* ------------------------------------------------------------------ */
 
 export const learningJourney = [
-  { name: 'Web Development', percent: 85, note: 'React, TypeScript, Tailwind, deployment' },
-  { name: 'UI/UX Design', percent: 65, note: 'Design systems, layouts, user flows' },
-  { name: 'Backend Development', percent: 55, note: 'Laravel, PHP, Blade, Docker' },
-  { name: 'AI / Models', percent: 30, note: "Exploring what's possible" },
+  { name: 'Web Development', note: 'React, TypeScript, Tailwind, deployment' },
+  { name: 'UI/UX Design', note: 'Design systems, layouts, user flows' },
+  { name: 'Backend Development', note: 'Laravel, PHP, Blade, Docker' },
+  { name: 'AI / ML', note: "Exploring what's possible" },
 ] as const;
 
 /* ------------------------------------------------------------------ */
@@ -362,7 +371,7 @@ export const sections = [
   { action: 'view-about', label: 'About', href: '#about' },
   { action: 'view-skills', label: 'Skills', href: '#skills' },
   { action: 'view-projects', label: 'Projects', href: '#projects' },
-  { action: 'view-learning', label: 'Learning', href: '#learning' },
+  { action: 'view-learning', label: 'My Journey', href: '#learning' },
   { action: 'contact-james', label: 'Contact', href: '#contact' },
 ] as const;
 
@@ -401,4 +410,4 @@ export const boundaries = {
 /* ------------------------------------------------------------------ */
 
 export const availabilityAnswer =
-  "James is open to internships and collaborations — that's what his portfolio says. I can take you to his contact form if you'd like to reach out. As for exact availability dates, I don't have that detail.";
+  "James is open to internships, junior developer roles, collaboration and team projects, part-time opportunities, freelance projects, and web development projects. I can take you to his contact form if you'd like to reach out. As for exact availability dates, I don't have that detail.";

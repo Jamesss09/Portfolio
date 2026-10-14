@@ -10,7 +10,7 @@ import {
 } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import heroPhoto from "../../assets/james-hero.webp";
-import { profile } from "../../../shared/portfolio";
+import { identity, profile } from "../../../shared/portfolio";
 
 interface HeroProps {
   eyebrow?: string;
@@ -22,24 +22,11 @@ interface HeroProps {
   children?: ReactNode;
 }
 
-function ManilaTime() {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => {
-    const id = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(id);
-  }, []);
-  const time = new Intl.DateTimeFormat("en-PH", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: "Asia/Manila",
-  }).format(now);
-  return <span className="tabular-nums">{time} PHT</span>;
-}
-
-const currentlyRows = [
+const opportunityRows = [
   { label: "Location", value: profile.location },
-  { label: "Focus", value: "React · Laravel" },
+  { label: "Focus", value: identity.currentFocus },
+  { label: "Open to", value: profile.openTo },
+  { label: "Status", value: profile.statusBadge, withDot: true },
 ];
 
 /** True only on devices with a real hover pointer — gates mouseEnter so
@@ -188,7 +175,7 @@ export function Hero({
           </p>
         </div>
 
-        {/* ——— Swappable photo + Currently deck (front/back) ——— */}
+        {/* ——— Swappable photo + Opportunities deck (front/back) ——— */}
         <div
           className="animate-fade-in mx-auto w-full max-w-sm opacity-0 md:mx-0 md:ml-auto"
           style={{ animationDelay: "300ms" }}
@@ -199,8 +186,8 @@ export function Hero({
             aria-pressed={swapped}
             aria-label={
               swapped
-                ? "Currently card is in front. Activate to bring the portrait forward."
-                : "Portrait is in front. Activate to bring the Currently card forward."
+                ? "Opportunities card is in front. Activate to bring the portrait forward."
+                : "Portrait is in front. Activate to bring the Opportunities card forward."
             }
             title="Click to swap"
             onClick={requestToggle}
@@ -230,7 +217,7 @@ export function Hero({
                   />
                   <div className="relative border border-border bg-bg-card p-2">
                     {/* Fixed height + crop so the photo card matches the
-                        Currently card's size instead of its tall 2:3 ratio.
+                        Opportunities card's size instead of its tall 2:3 ratio.
                         object-top keeps the face in frame. */}
                     <img
                       src={heroPhoto}
@@ -244,7 +231,7 @@ export function Hero({
                 </div>
               </motion.div>
 
-              {/* Currently card — starts behind, content unchanged */}
+              {/* Opportunities card — starts behind */}
               <motion.div
                 initial={false}
                 animate={
@@ -265,41 +252,25 @@ export function Hero({
                     <div className="flex items-center gap-4">
                       <span aria-hidden className="h-px w-8 bg-text-secondary/50" />
                       <span className="text-[11px] font-medium uppercase tracking-[0.32em] text-text-secondary">
-                        Currently
+                        Open to Opportunities
                       </span>
                     </div>
 
                     <dl className="mt-6 divide-y divide-border">
-                      {currentlyRows.map((row) => (
+                      {opportunityRows.map((row) => (
                         <div key={row.label} className="flex items-baseline justify-between gap-6 py-3.5">
                           <dt className="text-[11px] font-medium uppercase tracking-[0.24em] text-text-secondary">
                             {row.label}
                           </dt>
-                          <dd className="text-sm font-light text-text-primary">{row.value}</dd>
+                          <dd className="flex items-center gap-2 text-right text-sm font-light text-text-primary">
+                            {'withDot' in row && row.withDot && (
+                              <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#c4a76a]" />
+                            )}
+                            {row.value}
+                          </dd>
                         </div>
                       ))}
-                      <div className="flex items-baseline justify-between gap-6 py-3.5">
-                        <dt className="text-[11px] font-medium uppercase tracking-[0.24em] text-text-secondary">
-                          Local
-                        </dt>
-                        <dd className="text-sm font-light text-text-primary">
-                          <ManilaTime />
-                        </dd>
-                      </div>
-                      <div className="flex items-baseline justify-between gap-6 py-3.5">
-                        <dt className="text-[11px] font-medium uppercase tracking-[0.24em] text-text-secondary">
-                          Status
-                        </dt>
-                        <dd className="flex items-center gap-2 text-sm font-light text-text-primary">
-                          <span aria-hidden className="inline-block h-1.5 w-1.5 rounded-full bg-[#c4a76a]" />
-                          Ready to build projects
-                        </dd>
-                      </div>
                     </dl>
-
-                    <p className="mt-6 font-display text-2xl italic text-text-secondary">
-                      — J.E.
-                    </p>
                   </div>
                 </div>
               </motion.div>
@@ -307,7 +278,7 @@ export function Hero({
           </div>
 
           <div className="mt-5 flex items-center justify-between text-[11px] font-medium uppercase tracking-[0.25em] text-text-secondary">
-            <span>{swapped ? "Currently — 2026" : " Meet James— 2026"}</span>
+            <span>{swapped ? "Open to Opportunities — 2026" : " Meet James— 2026"}</span>
           </div>
         </div>
       </div>
