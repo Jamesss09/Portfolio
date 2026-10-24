@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import profilePic from '../assets/Profile.webp';
 import ResumeCard from './ResumeCard';
+import SectionHeading from './ui/SectionHeading';
 import { identity, openToCategories, profile, stats } from '../../shared/portfolio';
 
 // Quick facts shown in the About grid — single-sourced from
@@ -24,22 +25,7 @@ const About = () => {
   return (
     <section id="about" className="py-20 px-6 bg-bg-primary/75">
       <div className="max-w-6xl mx-auto">
-        {/* Heading */}
-        <motion.div
-          variants={item}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="font-display text-5xl font-medium tracking-tight text-text-primary mb-4">About Me</h2>
-          {/* Animated gradient underline */}
-          <motion.div
-            animate={{ backgroundPositionX: ['0%', '200%'] }}
-            transition={{ duration: 4, repeat: Infinity, ease: 'linear' }}
-            className="mx-auto h-1 w-24 rounded-full bg-gradient-to-r from-primary-soft via-primary-light to-primary-soft bg-[length:200%_100%]"
-          />
-        </motion.div>
+        <SectionHeading title="About Me" />
 
         <motion.div
           variants={container}

@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 import { GithubIcon } from './SocialIcons';
 import ProjectDetailModal from './ProjectDetailModal';
+import SectionHeading from './ui/SectionHeading';
 import capstoneImage from '../assets/Capstone.jpg';
 import capstoneWebDashboard from '../assets/capstone/web-admin-dashboard.png';
 import capstoneWebAnswerKeys from '../assets/capstone/web-answer-keys.png';
@@ -96,15 +97,7 @@ const Projects = () => {
   return (
     <section id="projects" className="py-20 px-6 bg-bg-primary/75">
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="font-display text-5xl font-medium tracking-tight text-text-primary mb-4">Projects</h2>
-        </motion.div>
+        <SectionHeading title="Projects" />
 
         {/* Carousel — a region so screen readers announce slide changes. */}
         <div

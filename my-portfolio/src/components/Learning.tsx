@@ -1,21 +1,12 @@
 import { motion } from 'framer-motion';
+import SectionHeading from './ui/SectionHeading';
 import { learningJourney, projects } from '../../shared/portfolio';
 
 const Learning = () => {
   return (
     <section id="learning" className="py-20 px-6 bg-bg-dark/75">
       <div className="max-w-3xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
-          <h2 className="font-display text-5xl font-medium tracking-tight text-text-primary mb-4">
-            My Journey
-          </h2>
-        </motion.div>
+        <SectionHeading title="My Journey" />
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

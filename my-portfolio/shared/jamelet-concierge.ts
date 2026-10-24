@@ -7,6 +7,7 @@ import {
   overrides,
   projects,
   skillCategories,
+  technologyCount,
 } from './portfolio';
 
 /**
@@ -41,7 +42,6 @@ function byId(id: 'capstone' | 'interntrack') {
 const capstoneProject = byId('capstone');
 const internTrackProject = byId('interntrack');
 
-const totalTechnologies = skillCategories.reduce((n, c) => n + c.skills.length, 0);
 const totalAreas = skillCategories.length;
 
 const EN = {
@@ -49,7 +49,7 @@ const EN = {
   who: `${identity.intro} Want a tour? I can show you his projects or skills.`,
   skills: `James's stack: ${skillCategories
     .map((c) => `${c.skills.join(', ')} (${c.title})`)
-    .join('; ')}. That's ${totalTechnologies} technologies across ${totalAreas} areas.`,
+    .join('; ')}. That's ${technologyCount} technologies across ${totalAreas} areas.`,
   projects: `James has ${projects.length} projects on this site: ${projects
     .map((p) => `${p.name} (${p.status})`)
     .join('; ')}. Ask me about either one and I'll break it down.`,
@@ -76,7 +76,7 @@ const TL = {
   who: `${identity.intro} Gusto niyo bang itour ko kayo sa projects o skills niya?`,
   skills: `Ito po ang stack ni James: ${skillCategories
     .map((c) => c.skills.join(', '))
-    .join(', ')} — ${totalTechnologies} technologies sa ${totalAreas} na areas.`,
+    .join(', ')} — ${technologyCount} technologies sa ${totalAreas} na areas.`,
   projects: `${projects.length} po ang projects ni James dito sa site: ${projects
     .map((p) => `${p.name} (${p.status})`)
     .join('; ')}. Tatanungin mo ko kahit alin sa dalawa para sa detalye.`,

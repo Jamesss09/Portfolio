@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Check, Copy, Loader2, Mail, Send } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
+import SectionHeading from './ui/SectionHeading';
 import { links, profile } from '../../shared/portfolio';
 
 /** Contact endpoints — single-sourced from `shared/portfolio` (also feeds Jamelet). */
@@ -125,7 +126,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-20 px-6 bg-bg-primary/75 relative overflow-hidden">
+    <section id="contact" className="py-20 px-6 bg-bg-dark/75 relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-primary/30 rounded-full blur-3xl"></div>
       <div className="max-w-6xl mx-auto relative">
         <motion.div
@@ -134,11 +135,8 @@ const Contact = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-display text-5xl sm:text-6xl font-medium tracking-tight text-text-primary mb-4 text-center">
-            LET'S BUILD SOMETHING
-            <span className="text-primary-light block">TOGETHER</span>
-          </h2>
-          <p className="text-xl text-text-secondary mb-12 text-center">
+          <SectionHeading title="Let's Build Something Together" />
+          <p className="text-xl text-text-secondary mb-12 text-center -mt-6">
             {profile.tagline}
           </p>
 

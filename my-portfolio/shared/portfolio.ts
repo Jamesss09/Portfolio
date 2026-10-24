@@ -49,12 +49,6 @@ export const openToCategories = [
   'Web Development Projects',
 ] as const;
 
-export const stats = [
-  { value: '16', label: 'Technologies in my stack' },
-  { value: '2', label: 'Projects built' },
-  { value: '4 yrs', label: 'Into IT & counting' },
-] as const;
-
 /* ------------------------------------------------------------------ */
 /* Personal facts — Jamelet "verbatim" overrides                       */
 /* User-approved answers. The AI must use these word-for-word (it may  */
@@ -212,8 +206,11 @@ export const skillCategories = [
   { title: 'Server / Environment', skills: ['Apache', 'Docker'] },
   { title: 'Version Control', skills: ['Git', 'GitHub'] },
   { title: 'Design', skills: ['Figma'] },
-  { title: 'AI / ML', skills: ['AI / ML' , 'Pytorch'] },
+  { title: 'AI / ML', skills: ['AI / ML', 'PyTorch'] },
 ] as const;
+
+/** Total skills across every category — the site's stats and Jamelet both use this. */
+export const technologyCount = skillCategories.reduce((n, c) => n + c.skills.length, 0);
 
 /* ------------------------------------------------------------------ */
 /* Learning journey (mirrors Learning.tsx — honest, self-rated)        */
@@ -348,6 +345,20 @@ export const projects = [
 
 export const projectsFooter =
   'More projects are in the works — this list will grow as I finish my current work.';
+
+/* ------------------------------------------------------------------ */
+/* Stats (About section)                                               */
+/* ------------------------------------------------------------------ */
+
+/**
+ * Counts are derived from the data above rather than typed by hand, so the
+ * About stats can never drift from the skills list or the project list.
+ */
+export const stats = [
+  { value: String(technologyCount), label: 'Technologies in my stack' },
+  { value: String(projects.length), label: 'Projects built' },
+  { value: '4 yrs', label: 'Into IT & counting' },
+] as const;
 
 /* ------------------------------------------------------------------ */
 /* Links & contact                                                     */

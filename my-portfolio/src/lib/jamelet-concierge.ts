@@ -17,7 +17,7 @@ export const ACTION_LINKS: Record<
   'view-about': { label: 'About section', href: '#about' },
   'view-skills': { label: 'Skills', href: '#skills' },
   'view-projects': { label: 'Projects', href: '#projects' },
-  'view-learning': { label: 'Learning', href: '#learning' },
+  'view-learning': { label: 'My Journey', href: '#learning' },
   'contact-james': { label: 'Contact James', href: '#contact' },
   'open-github': { label: 'Open GitHub', href: links.github, external: true },
 };

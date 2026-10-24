@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { GitHubCalendar } from 'react-github-calendar';
 import { GithubIcon } from './SocialIcons';
+import SectionHeading from './ui/SectionHeading';
 import { useTheme } from '../hooks/useTheme';
 import { links } from '../../shared/portfolio';
 
@@ -12,17 +13,10 @@ const GitHubContributions = () => {
   return (
     <section id="github" className="py-20 px-6 bg-bg-primary/75">
       <div className="max-w-4xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-8"
+        <SectionHeading
+          title="Live GitHub Contributions"
+          icon={<GithubIcon width={30} height={30} className="text-primary-light" />}
         >
-          <h2 className="font-display text-4xl sm:text-5xl font-medium tracking-tight text-text-primary mb-4 flex flex-wrap items-center justify-center gap-3">
-            <GithubIcon width={30} height={30} className="text-primary-light" />
-            Live GitHub Contributions
-          </h2>
           <a
             href={links.github}
             target="_blank"
@@ -31,7 +25,7 @@ const GitHubContributions = () => {
           >
             {links.github.replace('https://', '')}
           </a>
-        </motion.div>
+        </SectionHeading>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

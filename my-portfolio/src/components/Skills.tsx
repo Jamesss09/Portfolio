@@ -15,8 +15,10 @@ import {
   siGithub,
   siFigma,
   siExpo,
+  siPytorch,
 } from 'simple-icons';
 import TechLogo, { type IconSource } from './TechLogo';
+import SectionHeading from './ui/SectionHeading';
 import { skillCategories as sharedSkillCategories } from '../../shared/portfolio';
 
 type Skill = {
@@ -47,6 +49,7 @@ const skillMeta: Record<string, IconSource> = {
   GitHub: { kind: 'simple', icon: siGithub },
   Figma: { kind: 'simple', icon: siFigma },
   'AI / ML': { kind: 'lucide', icon: BrainCircuit },
+  PyTorch: { kind: 'simple', icon: siPytorch },
 };
 
 const skillCategories: { title: string; skills: Skill[] }[] = sharedSkillCategories.map(
@@ -83,16 +86,8 @@ function CategoryCard({ category }: { category: (typeof skillCategories)[number]
 const Skills = () => {
   return (
     <section id="skills" className="py-20 bg-bg-dark/75">
-      <div className="max-w-6xl mx-auto px-6 mb-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center"
-        >
-          <h2 className="font-display text-5xl font-medium tracking-tight text-text-primary mb-4">Tech Stack</h2>
-        </motion.div>
+      <div className="max-w-6xl mx-auto px-6">
+        <SectionHeading title="Tech Stack" />
       </div>
 
       <motion.div
