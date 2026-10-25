@@ -1,0 +1,2 @@
+:backlog
+- Make the "4 yrs Into IT & counting" stat unambiguous — recruiters may read it as professional experience, but your profile says 4th-year student. Either relabel to carry the student context (e.g. "4 Years Into IT · Student") or drop "counting" and let the Education line carry that truth.
